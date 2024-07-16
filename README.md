@@ -1,7 +1,7 @@
 # ft_irc
 
 
-# OSI MODELİ
+### OSI MODELİ
 
 OSI (Open Systems Interconnection) modeli, ağ iletişimini yedi katmana ayıran kavramsal bir çerçevedir. Bu katmanlar, en alttaki fiziksel katmandan en üstteki uygulama katmanına kadar sıralanır. İşte OSI modelinin 7 katmanı:
 
