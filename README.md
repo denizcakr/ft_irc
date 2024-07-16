@@ -81,5 +81,29 @@ int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 Bir soket oluşturulduğunda, bir isimle var olur bind(), addr tarafından belirtilen adresi sockfd dosya tanımlayıcısı tarafından belirtilen sokete atar.
 addrlen, addr tarafından işaret edilen adres yapısının boyutunu bayt cinsinden belirtir. Geleneksel olarak bu işlem “sokete isim atama” olarak adlandırılır.
 
+### connect();
+```bash
+ #include <sys/socket.h>
+int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+```
+connect() sistem çağrısı, sockfd dosya tanımlayıcısı tarafından belirtilen soketi addr tarafından belirtilen adrese bağlar.
+addrlen argümanı addr'nin boyutunu belirtir. addr içindeki adresin biçimi sockfd soketinin adres alanı tarafından belirlenir.
 
+### listen();
+```bash
+#include <sys/socket.h>
+int listen(int sockfd, int backlog);
+```
+listen(), sockfd tarafından belirtilen soketi pasif bir soket olarak, yani accept() kullanılarak gelen bağlantı isteklerini kabul etmek için kullanılacak bir soket olarak işaretler.
+sockfd bağımsız değişkeni, SOCK_STREAM veya SOCK_SEQPACKET türünde bir sokete başvuran bir dosya tanımlayıcısıdır.
+
+### accept();
+```bash
+#include <sys/socket.h>
+int accept(int sockfd, struct sockaddr *_Nullable restrict addr, socklen_t *_Nullable restrict addrlen);
+```
+accept() sistem çağrısı, bağlantı tabanlı soket türleri (SOCK_STREAM, SOCK_SEQPACKET) ile kullanılır.
+Dinleme soketi, sockfd için bekleyen bağlantılar kuyruğundaki ilk bağlantı isteğini çıkarır, yeni bir bağlı soket oluşturur ve bu sokete başvuran yeni bir dosya tanımlayıcısı döndürür.
+Yeni oluşturulan soket dinleme durumunda değildir. Orijinal sockfd soketi bu çağrıdan etkilenmez.
+sockfd argümanı, socket() ile oluşturulmuş, bind() ile yerel bir adrese bağlanmış ve bir listen() işleminden sonra bağlantıları dinleyen bir sokettir.
 
