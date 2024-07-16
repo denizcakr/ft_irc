@@ -2,7 +2,7 @@
 
 int main()
 {
-    int sockFd = createSocket(8080);
+    int sockFd = createSocket(8080);// server socket, ilk socket
     sockaddr_in cliAddr;
     socklen_t cliSize;
     int cliFd;
@@ -30,10 +30,11 @@ int main()
     FD_ZERO(&writeFdsSup);
 
 
-
+    //Sup-> yedek fd
+    //FD_SET->cuval = read cuvalina server-socket-fd'sini attik
     FD_SET(sockFd, &readFds);
     int k = -1;
-    while (1)
+    while (1)//select() ile socketlerin I/O durumu izlenir
     {
         while (state == 0)
         {
@@ -81,6 +82,7 @@ int main()
                 else
                 {
                     buffer[readed] = 0;
+                    std::cout << "buffer: " << buffer << std::endl;
                     for(std::vector<client>::iterator it = mysw.clients.begin(); it != mysw.clients.end();++it)//?
                     {
                         if (it != begin)
