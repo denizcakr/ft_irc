@@ -107,3 +107,24 @@ Dinleme soketi, sockfd için bekleyen bağlantılar kuyruğundaki ilk bağlantı
 Yeni oluşturulan soket dinleme durumunda değildir. Orijinal sockfd soketi bu çağrıdan etkilenmez.
 sockfd argümanı, socket() ile oluşturulmuş, bind() ile yerel bir adrese bağlanmış ve bir listen() işleminden sonra bağlantıları dinleyen bir sokettir.
 
+### htonl() ve htons(), ntohl() ve ntohs();
+```bash
+#include <arpa/inet.h>
+
+uint32_t htonl(uint32_t hostlong);
+uint16_t htons(uint16_t hostshort);
+uint32_t ntohl(uint32_t netlong);
+uint16_t ntohs(uint16_t netshort);
+```
+Bu işlevler 16 bit ve 32 bit büyüklükleri ağ bayt sırası ve ana bilgisayar bayt sırası arasında dönüştürmelidir.
+Bazı uygulamalarda bu işlevler makro olarak tanımlanır.
+htonl() işlevi, işaretsiz tamsayı hostlong'u ana bilgisayar bayt sırasından ağ bayt sırasına dönüştürür.
+htons() işlevi, işaretsiz kısa tamsayı hostshort'u ana bilgisayar bayt sırasından ağ bayt sırasına dönüştürür.
+ntohl() işlevi, işaretsiz tamsayı netlong'u ağ bayt sırasından ana bilgisayar bayt sırasına dönüştürür.
+ntohs() işlevi, işaretsiz kısa tamsayı netshort'u ağ bayt sırasından ana bilgisayar bayt sırasına dönüştürür.
+
+
+
+
+
+
