@@ -36,6 +36,13 @@ int socket(int domain, int type, int protocol);
   Socket, iletişim için bir endpoint(uç nokta) oluşturur ve bu endpoint'e başvuran bir file descriptor (dosya tanımlayıcısı) döndürür.
   Başarılı bir çağrı tarafından döndürülen file descriptor, işlem için o anda açık olmayan en düşük numaralı file descriptor olacaktır.
 
+### close();
+```bash
+#include <unistd.h>
+int close(int fd);
+```
+close() işlevi bir dosya tanımlayıcısını kapatır, böylece artık herhangi bir dosyaya atıfta bulunmaz ve yeniden kullanılabilir. 
+
 ### setsockopt();
 ```bash
 #include <sys/socket.h>
@@ -123,8 +130,31 @@ htons() işlevi, işaretsiz kısa tamsayı hostshort'u ana bilgisayar bayt sıra
 ntohl() işlevi, işaretsiz tamsayı netlong'u ağ bayt sırasından ana bilgisayar bayt sırasına dönüştürür.
 ntohs() işlevi, işaretsiz kısa tamsayı netshort'u ağ bayt sırasından ana bilgisayar bayt sırasına dönüştürür.
 
+### inet-ntop();
+```bash
+#include <arpa/inet.h>
+const char *inet_ntop(int af, const void *restrict src, char dst[restrict .size], socklen_t size);
+```
+Bu işlev, af adres ailesindeki src ağ adresi yapısını bir karakter dizesine dönüştürür.
+Elde edilen dize, boş olmayan bir işaretçi olması gereken dst tarafından işaret edilen buffer'a kopyalanır.
+Çağıran, size argümanında bu buffer'da bulunan bayt sayısını belirtir.
 
+### fcntl();
+```bash
+#include <fcntl.h>
+int fcntl(int fd, int op, ... /* arg */ );
+```
+fcntl(), açık dosya tanımlayıcısı fd üzerinde aşağıda açıklanan işlemlerden birini gerçekleştirir. İşlem op tarafından belirlenir.
+fcntl() isteğe bağlı üçüncü bir bağımsız değişken alabilir.
+Bu argümanın gerekli olup olmadığı op tarafından belirlenir.
+Gerekli argüman türü her op adından sonra parantez içinde belirtilir(çoğu durumda, gerekli tür int'tir ve arg adını kullanarak argümanı tanımlarız) veya argüman gerekli değilse void belirtilir.
 
+### select();
+```bash
+#include <sys/select.h>
 
+typedef /* ... */ fd_set;
 
-
+int select(int nfds, fd_set *_Nullable restrict readfds, fd_set *_Nullable restrict writefds, fd_set *_Nullable restrict exceptfds, struct timeval *_Nullable restrict timeout);
+```
+select(), bir programın birden fazla dosya tanımlayıcısını izlemesine ve dosya tanımlayıcılarından biri veya daha fazlası bazı I/O işlemleri için “hazır” hale gelene kadar beklemesine olanak tanır (örneğin, giriş mümkündür).
