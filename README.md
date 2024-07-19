@@ -13,14 +13,14 @@
 Table of Contents
 =================
 * [ft_irc](#ft-irc)
-* [TCP/IP (Transmission Control Protocol/Internet Protocol)](#tcp-ip)
-* [External functs.](#external-functs.)
+* [TCP/IP (Transmission Control Protocol/Internet Protocol)](#tcp/ip)
+* [External functs.](#external-functs)
 
-## TCP/IP (Transmission Control Protocol/Internet Protocol)
+## TCP/IP
 ---
 ### TCP/IP Nedir?
 ---
- - TCP/IP, iki ana protokolün (TCP ve IP) ve ilgili diğer protokollerin bir araya gelmesiyle oluşan bir protokol yığınıdır.
+ - TCP/IP (Transmission Control Protocol/Internet Protocol), iki ana protokolün (TCP ve IP) ve ilgili diğer protokollerin bir araya gelmesiyle oluşan bir protokol yığınıdır.
  - Ağlar arası iletişimi sağlayan standartlaştırılmış bir yöntemdir.
 ### TCP/IP Katmanları;
 ---
@@ -65,7 +65,7 @@ Table of Contents
  - Akış kontrolü ve tıkanıklık kontrolü.
  - Sıralı teslimat ve veri bütünlüğü kontrolü.
 
-## External functs.
+## External functs
 ---
 
 ### socket();
