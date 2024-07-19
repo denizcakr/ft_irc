@@ -19,60 +19,56 @@ Table of Contents
 ---
 
 ## TCP/IP (Transmission Control Protocol/Internet Protocol)
-
+---
 ### TCP/IP Nedir?
+---
  - TCP/IP, iki ana protokolün (TCP ve IP) ve ilgili diğer protokollerin bir araya gelmesiyle oluşan bir protokol yığınıdır.
  - Ağlar arası iletişimi sağlayan standartlaştırılmış bir yöntemdir.
----
 ### TCP/IP Katmanları;
+---
  - TCP/IP modeli genellikle 4 katmandan oluşur.
   - Uygulama Katmanı (Application Layer)
   - Taşıma Katmanı (Transport Layer)
   - İnternet Katmanı (Internet Layer)
   - Ağ Arayüz Katmanı (Network Interface Layer)
----
 ### Katmanların İncelenmesi;
+---
  `Uygulama Katmanı;`
  - Kullanıcı uygulamalarıyla iletişime girer.
  - Protokoller; HTTP, FTP, SMTP, DNS, SSH, Telnet vb.
  - Veriyi kullanıcı için anlamlı formatta sunar.
-   
- =================
-
+---
  `Taşıma Katmanı;`
  - Uç noktalar arası iletişimi sağlar.
  - Ana protokoller: TCP (Transmission Control Protocol), UDP (User Datagram Protocol)
-   
-=================
-
+---
  `İnternet Katmanı;`
  - Paketlerin yönlendirilmesini sağlar.
  - Ana protokol: IP (Internet Protocol) - IPv4: 32-bit adres sistemi, IPv6: 128-bit adres sistemi-
  - Diğer protokoller: ICMP, ARP, IGMP
-   
-=================
-
+---
  `Ağ Arayüzü Katmanı;`
  - Fiziksel ağ bağlantısını yönetir.
  - Ethernet, Wi-Fi, PPP gibi teknolojileri kapsar.
  - Veriyi fiziksel ortama uygun biçimde kodlar ve iletir.
----
 ### TCP/IP Çalışma Prensibi;
+---
  - Veri, uygulama katmanından başlayarak aşağı doğru iner.
  - Her katman, kendi başlığını (header) ekler.
  - Alıcı tarafta, veri yukarı doğru çıkarken her katman ilgili başlığı çıkarır.
----
 ### IP Adresleme;
+---
  - Her cihaza benzersiz bir IP adresi atanır.
  - IPv4: 192.168.1.1 gibi noktalı ondalık gösterim.
  - IPv6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334 gibi hexadecimal gösterim.
----
 ### TCP'nin Önemli Özellikleri;
+---
  - Üç aşamalı el sıkışma (Three-way handshake).
  - Akış kontrolü ve tıkanıklık kontrolü.
  - Sıralı teslimat ve veri bütünlüğü kontrolü.
----
+
 ## External functs.
+---
 
 ### socket();
 ```bash
