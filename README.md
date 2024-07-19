@@ -1,5 +1,11 @@
 # ft_irc
 
+Table of Contents
+=================
+
+* [Osi Modeli](#osi-modeli)
+* [External functs.](#external-functs.)
+
 
 ### OSI MODELİ
 
