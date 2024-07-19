@@ -1,7 +1,7 @@
 # ft_irc
 
 ## GİRİŞ
- - Bu projeyi ve repoyu arkadaşlarım @eymenhafsalbayrak ve @prettysavagex ile geliştirmekteyiz. Repo gelişme sürecindedir. Kampüs kuralları gereği projede herhangi bir değişiklik yapmadan clone ve push yapmayınız.
+ - Bu projeyi ve repoyu arkadaşlarım [@eymenhafsalbayrak](https://github.com/eymenhafsalbayrak) ve [@prettysavagex](https://github.com/prettysavagex) ile geliştirmekteyiz. Repo gelişme sürecindedir. Kampüs kuralları gereği projede herhangi bir değişiklik yapmadan clone ve push yapmayınız.
 ---
  - IRC (Internet Relay Chat), internet üzerinde metin tabanlı bir iletişim protokolüdür.
  - Genel veya özel olabilen gerçek zamanlı mesajlaşma imkanı sunar.
