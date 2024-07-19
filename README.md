@@ -37,7 +37,7 @@ Table of Contents
  - Protokoller; HTTP, FTP, SMTP, DNS, SSH, Telnet vb.
  - Veriyi kullanıcı için anlamlı formatta sunar.
    
-=================
+ =================
 
  `Taşıma Katmanı;`
  - Uç noktalar arası iletişimi sağlar.
