@@ -1,5 +1,10 @@
 # ft_irc
 
+## GİRİŞ
+
+ - Bu projeyi ve repoyu arkadaşlarım @eymenhafsalbayrak ve @prettysavagex ile geliştirmekteyiz. Repo gelişme sürecindedir. Kampüs kuralları gereği projede herhangi bir değişiklik yapmadan clone ve push yapmayınız.
+
+
 Table of Contents
 =================
 
