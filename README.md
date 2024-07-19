@@ -157,11 +157,11 @@ typedef /* ... */ fd_set;
 
 int select(int nfds, fd_set *_Nullable restrict readfds, fd_set *_Nullable restrict writefds, fd_set *_Nullable restrict exceptfds, struct timeval *_Nullable restrict timeout);
 ```
-nfds: İzlenecek en yüksek dosya tanımlayıcı numarası + 1.
-readfds: Okunabilir dosya tanımlayıcıları kümesi.
-writefds: Yazılabilir dosya tanımlayıcıları kümesi.
-exceptfds: İstisnai durum için izlenecek dosya tanımlayıcıları kümesi.
-timeout: Bekleme süresi.
+ - nfds: İzlenecek en yüksek dosya tanımlayıcı numarası + 1.
+ - readfds: Okunabilir dosya tanımlayıcıları kümesi.
+ - writefds: Yazılabilir dosya tanımlayıcıları kümesi.
+ - exceptfds: İstisnai durum için izlenecek dosya tanımlayıcıları kümesi.
+ - timeout: Bekleme süresi.
 
 select(), bir programın birden fazla dosya tanımlayıcısını izlemesine ve dosya tanımlayıcılarından biri veya daha fazlası bazı I/O işlemleri için “hazır” hale gelene kadar beklemesine olanak tanır (örneğin, giriş mümkündür).
 Birden fazla dosya tanımlayıcısını (file descriptor) eş zamanlı olarak izler.
