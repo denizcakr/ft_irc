@@ -15,6 +15,7 @@ Table of Contents
 * [ft_irc](#ft-irc)
 * [TCP/IP](#tcp/ip)
 * [External functs](#external-functs)
+* [HexChat](#HexChat)
 
 ## TCP/IP
 ---
@@ -209,4 +210,32 @@ int select(int nfds, fd_set *_Nullable restrict readfds, fd_set *_Nullable restr
  - Okuma, yazma veya istisnai durum olaylarını bekler.
  - Çoklu I/O işlemlerini tek bir thread'de yönetebilir.
  - Zaman aşımı mekanizması sayesinde bloke olmayan I/O işlemleri gerçekleştirilebilir.
+
+## HexChat
+---
+ ### HexChat Nedir?
+ - HexChat, açık kaynaklı bir IRC (Internet Relay Chat) istemcisidir. IRC, gerçek zamanlı metin tabanlı iletişim için kullanılan bir protokoldür. HexChat, bu protokolü kullanarak kullanıcıların çeşitli IRC sunucularına bağlanmasını ve sohbet etmesini sağlar.
+    `HexChat Özellikleri ve Arayüz`
+   - HexChat, XChat'in bir çatallamasıdır (fork).
+   - Çapraz platform desteği sunar (Windows, macOS, Linux).
+   - Çoklu sunucu bağlantısı.
+   - Kanal listesi ve yönetimi.
+   - Özel mesajlaşma.
+   - Dosya transferi.
+   - Kullanıcı dostu arayüz.
+   - Özelleştirilebilir temalar ve renkler.
+   - Eklenti desteği (Python ve Perl).
+   - SSL bağlantı desteği.
+   - SASL kimlik doğrulama.
+   - DCC (Direct Client-to-Client) desteği.
+   - Otomatik komut çalıştırma.
+   - Detaylı log tutma.
+   - Sekmeli arayüz tasarımı.
+   - Özelleştirilebilir araç çubukları.
+   - Kanal kullanıcı listesi.
+   - Şifreli bağlantılar (SSL/TLS).
+   - Güvenli kimlik doğrulama yöntemleri.
+   - IP maskeleme seçenekleri.
+   - IPv6 desteği.
+
 
