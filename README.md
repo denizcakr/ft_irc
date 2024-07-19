@@ -12,7 +12,7 @@
 
 Table of Contents
 =================
-
+* [ft_irc](#ft-irc)
 * [TCP/IP (Transmission Control Protocol/Internet Protocol)](#tcp-ip)
 * [External functs.](#external-functs.)
 
