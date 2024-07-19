@@ -217,6 +217,7 @@ int select(int nfds, fd_set *_Nullable restrict readfds, fd_set *_Nullable restr
  - HexChat, açık kaynaklı bir IRC (Internet Relay Chat) istemcisidir. IRC, gerçek zamanlı metin tabanlı iletişim için kullanılan bir protokoldür. HexChat, bu protokolü kullanarak kullanıcıların çeşitli IRC sunucularına bağlanmasını ve sohbet etmesini sağlar.
 ---
     `HexChat Özellikleri ve Arayüz`
+---
    - HexChat, XChat'in bir çatallamasıdır (fork).
    - Çapraz platform desteği sunar (Windows, macOS, Linux).
    - Çoklu sunucu bağlantısı.
