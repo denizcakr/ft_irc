@@ -36,13 +36,22 @@ Table of Contents
  - Kullanıcı uygulamalarıyla iletişime girer.
  - Protokoller; HTTP, FTP, SMTP, DNS, SSH, Telnet vb.
  - Veriyi kullanıcı için anlamlı formatta sunar.
+   
+=================
+
  `Taşıma Katmanı;`
  - Uç noktalar arası iletişimi sağlar.
  - Ana protokoller: TCP (Transmission Control Protocol), UDP (User Datagram Protocol)
+   
+=================
+
  `İnternet Katmanı;`
  - Paketlerin yönlendirilmesini sağlar.
  - Ana protokol: IP (Internet Protocol) - IPv4: 32-bit adres sistemi, IPv6: 128-bit adres sistemi-
  - Diğer protokoller: ICMP, ARP, IGMP
+   
+=================
+
  `Ağ Arayüzü Katmanı;`
  - Fiziksel ağ bağlantısını yönetir.
  - Ethernet, Wi-Fi, PPP gibi teknolojileri kapsar.
