@@ -168,7 +168,7 @@ uint16_t ntohs(uint16_t netshort);
  - Bazı uygulamalarda bu işlevler makro olarak tanımlanır.
 
  - htonl() işlevi, işaretsiz tamsayı hostlong'u ana bilgisayar bayt sırasından ağ bayt sırasına dönüştürür.
- - htons() işlevi, işaretsiz kısa tamsayı hostshort'u ana bilgisayar bayt sırasından ağ bayt sırasına dönüştürür.
+ - htons() işlevi, işaretsiz kısa tamsayı hostshort'u ana bilgisayar bayt sırasından ağ bayt sırasına dönüştürür. (htons() işlevi, veriyi göndermeden önce göndericinin byte sıralamasını, alıcının byte sıralamasına dönüştürerek "endianness" uyuşmazlığını ortadan kaldırır)
  - ntohl() işlevi, işaretsiz tamsayı netlong'u ağ bayt sırasından ana bilgisayar bayt sırasına dönüştürür.
  - ntohs() işlevi, işaretsiz kısa tamsayı netshort'u ağ bayt sırasından ana bilgisayar bayt sırasına dönüştürür.
 
