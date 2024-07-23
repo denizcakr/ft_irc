@@ -13,12 +13,15 @@ class Client{
     public:
         std::vector<std::string> messageBox;
         int cliFd;
-        int port;
+        int cliPort;
         char ipAddr[INET_ADDRSTRLEN];
         std::string ip;
         std::string user;
         std::string nick;
         std::string pass;
+
+        char clientIP[INET_ADDRSTRLEN];
+        socklen_t cliSize;
 
         Client();
         ~Client();

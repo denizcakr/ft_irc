@@ -1,4 +1,5 @@
 #include "Server.hpp"
+#include "Client.hpp"
 #include "Utilities.hpp"
 #include "Exception.hpp"
 
@@ -32,16 +33,17 @@ void Server::socketListen(void) const{
     std::cout << GREEN << "Server socket is listening you now." << RESET << std::endl;
 }
 
-// int Server::findMaxFd() const{
-//     int maxFd = this->server_fd;
+int Server::findMaxFd() const{
+    int maxFd = this->server_fd;
 
-//     for(std::vector<client>::iterator begin = this->clients.begin(); begin != this->clients.end(); begin++)
-//     {
-//         if (maxFd < (*begin).cliFd)
-//             maxFd = (*begin).cliFd;
-//     }
-//     return (maxFd);
-// }
+    for(std::vector<Client>::const_iterator it = this->clients.begin(); it != this->clients.end(); it++)
+    {
+        if (maxFd < (*it).cliFd)
+            maxFd = (*it).cliFd;
+    }
+    return (maxFd);
+}
+
 /*
 
 memset(&addr, 0, sizeof(sockaddr_in));

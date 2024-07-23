@@ -2,9 +2,7 @@
 #include <iostream>
 #include <string>
 #include <exception>
-
-#define RED "\033[31m"
-#define RESET "\033[0m"
+#include "Utilities.hpp"
 
 class Exception : public std::exception {
     private:
