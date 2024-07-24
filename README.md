@@ -239,10 +239,11 @@ int select(int nfds, fd_set *_Nullable restrict readfds, fd_set *_Nullable restr
    - Güvenli kimlik doğrulama yöntemleri.
    - IP maskeleme seçenekleri.
    - IPv6 desteği.
+---
 
-## MiniSocket
+# MiniSocket
 
-- Bu kısımda basit bir socket örneğini paylaşmak istedim. server.cpp ve client.cpp dosyalarını, "c++ server.cpp -o server" ve "c++ client.cpp -o client" şeklinde derleyip server'den client'e mesaj yollayabilirsiniz. exit yazarak programı kapatabilirsiniz.
+- Bu kısımda basit bir socket örneğini paylaşmak istedim. server.cpp ve client.cpp dosyalarını, "c++ server.cpp -o server" ve "c++ client.cpp -o client" şeklinde derleyip server'den client'e mesaj yollayabilirsiniz. exit yazarak programı kapatabilirsiniz. (programın çalışmaması durumunda server.cpp ve client.cpp dosyalarında bulunan port numarasını, iki dosyada aynı olacak şekilde değiştiriniz.)
 ---
  `Server.cpp`
 ```c
