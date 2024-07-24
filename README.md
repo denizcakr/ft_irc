@@ -16,6 +16,7 @@ Table of Contents
 * [TCP/IP](#tcp/ip)
 * [External functs](#external-functs)
 * [HexChat](#HexChat)
+* [MiniSocket](#MiniSocket)
 
 ## TCP/IP
 ---
@@ -239,4 +240,143 @@ int select(int nfds, fd_set *_Nullable restrict readfds, fd_set *_Nullable restr
    - IP maskeleme seçenekleri.
    - IPv6 desteği.
 
+## MiniSocket
 
+- Bu kısımda basit bir socket örneğini paylaşmak istedim. server.cpp ve client.cpp dosyalarını, "c++ server.cpp -o server" ve "c++ client.cpp -o client" şeklinde derleyip server'den client'e mesaj yollayabilirsiniz. exit yazarak programı kapatabilirsiniz.
+---
+ `Server.cpp`
+```c
+#include <iostream>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <cstring>
+
+int main()
+{
+    int server_socket = socket(AF_INET, SOCK_STREAM, 0); // AF_INET = IPV4, SOCK_STREAM = TCP
+    if (server_socket == -1)
+    {
+        std::cout << "!SOCKET ERROR!" << std::endl;
+        return -1;
+    }
+    else
+    {
+        std::cout << "- SOCKET CREATED SUCCESSFULLY -" << std::endl;
+    }
+
+    struct sockaddr_in server_address; // Sunucu adresi
+    server_address.sin_family = AF_INET; // IPV4
+    server_address.sin_addr.s_addr = INADDR_ANY; // Herhangi bir IP adresinden bağlanmayı kabul et
+    server_address.sin_port = htons(4000); // Port numarası
+
+    int bind_status = bind(server_socket, (struct sockaddr*)&server_address, sizeof(server_address));
+    if (bind_status == -1)
+    {
+        std::cout << "!BIND ERROR!" << std::endl;
+        close(server_socket);
+        return -1;
+    }
+    else
+    {
+        std::cout << "- BIND SUCCESSFUL -" << std::endl;
+    }
+
+    int listen_status = listen(server_socket, 1); // Maksimum 1 bekleyen bağlantı
+    if (listen_status == -1)
+    {
+        std::cout << "!LISTEN ERROR!" << std::endl;
+        close(server_socket);
+        return -1;
+    }
+    else
+    {
+        std::cout << "- LISTENING ON PORT 4000 -" << std::endl;
+    }
+
+    struct sockaddr_in client_address; // İstemci adresi
+    socklen_t client_address_len = sizeof(client_address); // İstemci adresinin boyutu
+    int client_socket = accept(server_socket, (struct sockaddr*)&client_address, &client_address_len); // İstemci bağlantısını kabul et
+    if (client_socket == -1)
+    {
+        std::cout << "!ACCEPT ERROR!" << std::endl;
+        close(server_socket);
+        return -1;
+    }
+    else
+    {
+        std::cout << "- CONNECTION ACCEPTED -" << std::endl;
+    }
+
+    while (true)
+    {
+        // Terminalden mesaj al
+        std::cout << "Enter message to send to client: ";
+        std::string input_message; // Gönderilecek mesaj
+        std::getline(std::cin, input_message); // Mesajı al
+
+        if (input_message == "exit")
+            break;
+
+        int message_length = input_message.size(); // Mesaj uzunluğu
+        send(client_socket, &message_length, sizeof(message_length), 0); // Mesaj uzunluğunu gönder
+
+        // Mesajı gönder
+        send(client_socket, input_message.c_str(), message_length, 0); 
+    }
+
+    close(client_socket); // İstemci soketini kapat
+    close(server_socket); // Sunucu soketini kapat
+
+    return 0;
+}
+```
+
+---
+
+ `Client.cpp`
+ 
+```c
+#include <iostream>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+
+int main()
+{
+    int scket = socket(AF_INET, SOCK_STREAM, 0); // AF_INET = IPV4, SOCK_STREAM = TCP
+    if (scket == -1)
+        std::cout << "!SOCKET ERROR!" << std::endl;
+    else
+        std::cout << "- SOCKET WORKED SUCCESSFULLY -" << std::endl;
+
+    struct sockaddr_in sockadd; // Server adresi
+    sockadd.sin_addr.s_addr = inet_addr("127.0.0.1"); // Server'ın IP adresi
+    sockadd.sin_family = AF_INET; // IPV4
+    sockadd.sin_port = htons(4000); // Port numarası
+
+    int conn = connect(scket, (struct sockaddr*)&sockadd, sizeof(sockadd)); // Server'a bağlanma
+    if (conn == -1)
+        std::cout << "!CONNECTION ERROR!" << std::endl;
+    else
+        std::cout << "- CONNECTION SUCCESSFUL -" << std::endl;
+
+    while (true)
+    {
+        int message_length; 
+        int recv_status = recv(scket, &message_length, sizeof(message_length), 0); // Mesaj uzunluğunu al
+        if (recv_status <= 0) // Eğer mesaj alınamazsa
+            break;
+
+        char message[message_length + 1];
+        recv(scket, message, message_length, 0); // Mesajı al
+        message[message_length] = '\0'; // Null karakter ekle
+
+        std::cout << "Server: " << message << std::endl;
+    }
+
+    close(scket); // Soket kapat
+
+    return 0;
+}
+```
