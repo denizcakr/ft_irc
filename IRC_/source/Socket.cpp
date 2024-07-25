@@ -1,49 +1,73 @@
 #include "Server.hpp"
-#include "Client.hpp"
 #include "Utilities.hpp"
 #include "Exception.hpp"
 
+
 void Server::createSocket(void){
 
-    ((this->server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) ?//ip4,tcp -> socket create
-    throw Exception("Socket is not created!") :
-    std::cout << GREEN << "Socket is created." << RESET << std::endl;
+    if ((this->server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+        throw Exception("Socket is not created!");
+    }
+    else
+    {
+        std::cout << GREEN << "Socket is created." << RESET << std::endl;
+    }
 
     int opt = 1;
-    (setsockopt(this->server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) ?
-    throw Exception("Socket is not optimized!") : 
-    std::cout << GREEN << "Socket is optimized." << RESET << std::endl;
+
+    if (setsockopt(this->server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0){
+        throw Exception("Socket is not optimized!");
+    }
+    else
+    {
+        std::cout << GREEN << "Socket is optimized." << RESET << std::endl;
+    }
 }
 
+
 void Server::serverAddrSocket(void) const{
+
     struct sockaddr_in server_addr_socket;
     memset(&server_addr_socket, 0, sizeof(struct sockaddr_in));
     server_addr_socket.sin_family = AF_INET;
     server_addr_socket.sin_addr.s_addr = INADDR_ANY; // localhost
-    server_addr_socket.sin_port = htons(this->port_number); // port
+    server_addr_socket.sin_port = htons(this->port_number); // port number
 
-    (bind(this->server_fd,(struct sockaddr *)&server_addr_socket, sizeof(server_addr_socket)) < 0) ?
-    throw Exception("Socket is not bound!") :
-    std::cout << GREEN << "Socket is bound." << RESET << std::endl;
-}
-
-void Server::socketListen(void) const{
-    (listen(this->server_fd, 128) < 0) ? //kac socketi ayni anda dinleyebilirsin ->128
-    throw Exception("Server socket can not hear you!") :
-    std::cout << GREEN << "Server socket is listening you now." << RESET << std::endl;
-}
-
-int Server::findMaxFd() const{
-    int maxFd = this->server_fd;
-
-    for(std::vector<Client>::const_iterator it = this->clients.begin(); it != this->clients.end(); it++)
+    if (bind(this->server_fd, (struct sockaddr *)&server_addr_socket, sizeof(server_addr_socket)) < 0)
     {
-        if (maxFd < (*it).cliFd)
-            maxFd = (*it).cliFd;
+        throw Exception("Socket is not bound!");
     }
-    return (maxFd);
+    else
+    {
+        std::cout << GREEN << "Socket is bound." << RESET << std::endl;
+    }
 }
 
+/*
+    kac socketi ayni anda dinleyebilirsin ->128
+*/
+void Server::socketListen(void) const{
+
+    if (listen(this->server_fd, 128) < 0)
+    {
+        throw Exception("Server socket can not hear you!");
+    }
+    else
+    {
+        std::cout << GREEN << "Server socket is listening you now." << RESET << std::endl;
+    }
+}
+
+// int Server::findMaxFd() const{
+//     int maxFd = this->server_fd;
+
+//     for(std::vector<client>::iterator begin = this->clients.begin(); begin != this->clients.end(); begin++)
+//     {
+//         if (maxFd < (*begin).cliFd)
+//             maxFd = (*begin).cliFd;
+//     }
+//     return (maxFd);
+// }
 /*
 
 memset(&addr, 0, sizeof(sockaddr_in));

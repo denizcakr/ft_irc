@@ -15,6 +15,10 @@
 # define RESET		"\033[0m"
 
 
+
+# define BUG 1
+
+
 class Utilities{
 
     private:
