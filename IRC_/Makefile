@@ -12,8 +12,6 @@ OBJ_DIR = objects
 SRCS = $(wildcard $(SRC_DIR)/*.cpp)
 OBJS = $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
-# Hedef program adı (istediğiniz ismi buraya yazabilirsiniz)
-
 # Varsayılan hedef
 all: $(NAME)
 
@@ -33,10 +31,15 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 
-run: re
-	@./ircserv 8080 123
+run: fclean all
+	@if [ -f $(NAME) ]; then \
+		echo "Running $(NAME)..."; \
+		./$(NAME) 8080 123; \
+	else \
+		echo "Executable $(NAME) not found!"; \
+	fi
 
 # Yeniden derleme
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re run

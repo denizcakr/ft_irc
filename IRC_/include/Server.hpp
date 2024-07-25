@@ -7,7 +7,9 @@
 #include <netinet/in.h>
 #include <Utilities.hpp>
 #include <Replies.hpp>
+#include "Client.hpp"
 
+class Client;
 class Server{
 
     private:
@@ -24,5 +26,8 @@ class Server{
 
         int findMaxFd(void) const;
     public:
+        std::vector<Client> clients;
+        Server(size_t port_number, char* password);
+        ~Server();
 
 };
