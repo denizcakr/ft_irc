@@ -5,9 +5,11 @@
 #include <map>
 #include <vector>
 #include <sys/socket.h>
+#include <fcntl.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include "Utilities.hpp"
+#include "Exception.hpp"
 #include "Replies.hpp"
 
 class Client;

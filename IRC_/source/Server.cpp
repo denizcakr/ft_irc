@@ -47,8 +47,11 @@ void Server::run(void){
 
         if (FD_ISSET(this->server_fd, &this->readFdsSup)){
             tmp.cliFd = accept(this->server_fd, (sockaddr *)&cliAddr, &cliSize);
+            fcntl(tmp.cliFd, F_SETFL, O_NONBLOCK);
+            if(tmp.cliFd <= 0)
+                throw Exception("Accept failed");
             tmp.cliPort = ntohs(cliAddr.sin_port);
-            std::cout << "Top G:" << inet_ntop(AF_INET, &(cliAddr.sin_addr), tmp.ipAddr, INET_ADDRSTRLEN) << std::endl;
+            std::cout << "Top G:" << inet_ntop(AF_INET, &(cliAddr.sin_addr), tmp.ipAddr, INET_ADDRSTRLEN) << std::endl;//
             this->clients.push_back(tmp);
             FD_SET(tmp.cliFd, &this->readFds);
 
