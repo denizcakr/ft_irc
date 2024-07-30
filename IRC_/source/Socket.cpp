@@ -58,35 +58,4 @@ void Server::socketListen(void) const{
     }
 }
 
-// int Server::findMaxFd() const{
-//     int maxFd = this->server_fd;
 
-//     for(std::vector<client>::iterator begin = this->clients.begin(); begin != this->clients.end(); begin++)
-//     {
-//         if (maxFd < (*begin).cliFd)
-//             maxFd = (*begin).cliFd;
-//     }
-//     return (maxFd);
-// }
-/*
-
-memset(&addr, 0, sizeof(sockaddr_in));
-    addr.sin_addr.s_addr = htonl(INADDR_ANY);//127.0.0.1 localhost
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(portNo);//portu veriyor
-
-    if (bind(sockFd, (sockaddr *)&addr, sizeof(addr)) == -1)//birlestir
-    {
-        std::cerr << "bind err" << std::endl;
-        close(sockFd);
-        exit(1);
-    }
-
-
-    if (listen(sockFd, 1024) == -1)//server socket ready to listen
-    {
-        std::cerr << "listen err" << std::endl;
-        close(sockFd);
-        exit(1);
-    }
-*/

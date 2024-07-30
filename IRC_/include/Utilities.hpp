@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "Server.hpp"
 
 
 # define BLACK		"\033[0;30m"
@@ -27,4 +28,5 @@ class Utilities{
 
     public:
         static int checkPortNumber(char* port_number);
+
 };

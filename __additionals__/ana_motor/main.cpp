@@ -2,17 +2,17 @@
 
 int main()
 {
-    int sockFd = createSocket(8080);//server socket, ilk socket
+    int sockFd = createSocket(8080);//server socket, ilk socket///////
     sockaddr_in cliAddr;
     socklen_t cliSize;
-    int cliFd;
+    int cliFd; //+
     int readed;
     char buffer[1024];
-    char clientIP[INET_ADDRSTRLEN];
-    int cliPort;
+    char clientIP[INET_ADDRSTRLEN]; //+
+    int cliPort;//+
     client tmp;
     server mysw;
-    mysw.serverFd = sockFd;
+    mysw.serverFd = sockFd;/////////////
     cliSize = sizeof(sockaddr_in);
     cliFd = -1;
     int state = 0;
@@ -41,7 +41,7 @@ int main()
             // Wait for an event using select
             readFdsSup = readFds;
             writeFdsSup = writeFds;
-            state = select(mysw.findMaxFd() + 1, &readFdsSup, &writeFdsSup, NULL, 0);
+            state = select(mysw.findMaxFd() + 1, &readFdsSup, &writeFdsSup, NULL, 0);//client connect istek ->readFdsSup dingdingding
             std::cout << ++k << " ";
            /*
             *   The program enters an infinite loop where it waits for events using the select function. 

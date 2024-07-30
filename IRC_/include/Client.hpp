@@ -15,13 +15,11 @@ class Client{
         int cliFd;
         int cliPort;
         char ipAddr[INET_ADDRSTRLEN];
+        
         std::string ip;
         std::string user;
         std::string nick;
         std::string pass;
-
-        char clientIP[INET_ADDRSTRLEN];
-        socklen_t cliSize;
 
         Client();
         ~Client();
