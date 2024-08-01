@@ -41,15 +41,21 @@ void Server::run(void){
             this->readFdsSup = this->readFds;
             this->writeFdsSup = this->writeFds;
 
-            state = select(myserver.findMaxFd() + 1, &this->readFdsSup, &this->writeFdsSup, NULL, 0);
+            state = select(myserver.findMaxFd() + 2, &this->readFdsSup, &this->writeFdsSup, NULL, 0);
             std::cout << ++k << " ";
         }
 
         if (FD_ISSET(this->server_fd, &this->readFdsSup)){
             tmp.cliFd = accept(this->server_fd, (sockaddr *)&cliAddr, &cliSize);
+            if (tmp.cliFd < 0) {
+                if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                    // Non-blocking soketlerde bu hata normaldir ve bağlantı olmadığı anlamına gelir.
+                    continue;
+                }
+                throw Exception("Accept failed!");
+                continue;
+            }
             fcntl(tmp.cliFd, F_SETFL, O_NONBLOCK);
-            if(tmp.cliFd <= 0)
-                throw Exception("Accept failed");
             tmp.cliPort = ntohs(cliAddr.sin_port);
             std::cout << "Top G:" << inet_ntop(AF_INET, &(cliAddr.sin_addr), tmp.ipAddr, INET_ADDRSTRLEN) << std::endl;//
             this->clients.push_back(tmp);

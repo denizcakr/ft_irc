@@ -13,7 +13,10 @@ void Server::createSocket(void){
         std::cout << GREEN << "Socket is created." << RESET << std::endl;
     }
 
-    fcntl(this->server_fd, F_SETFL, O_NONBLOCK);
+    if (fcntl(this->server_fd, F_SETFL, O_NONBLOCK) < 0) {
+        close(this->server_fd);
+        throw std::runtime_error("Failed to set socket to non-blocking mode");
+    }
     int opt = 1;
 
     if (setsockopt(this->server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0){
@@ -24,7 +27,6 @@ void Server::createSocket(void){
         std::cout << GREEN << "Socket is optimized." << RESET << std::endl;
     }
 }
-
 
 void Server::serverAddrSocket(void) const{
 

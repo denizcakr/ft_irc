@@ -4,6 +4,11 @@
 #include <exception>
 #include "Utilities.hpp"
 
+# define RESET		"\033[0m"
+# define RED		"\033[0;31m"
+
+
+
 class Exception : public std::exception {
     private:
         const char* _msg_;
