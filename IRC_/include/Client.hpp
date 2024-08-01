@@ -21,6 +21,8 @@ class Client{
         std::string nick;
         std::string pass;
 
+        int         isCapt;
+
         Client();
         ~Client();
 

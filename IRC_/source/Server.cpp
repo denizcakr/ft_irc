@@ -135,6 +135,31 @@ int Server::findMaxFd() const{
     return (maxFd);
 }
 
+/*
+    nc 
+    JOIN eymen
+*/
+
+/*
+void Server::initCommands(void) {
+    // commands["PASS"] = &Server::Pass;
+    commands["INFO"] = &Server::Info;
+    commands["PRIVMSG"] = &Server::Privmsg;
+    commands["JOIN"] = &Server::Join;
+    commands["NICK"] = &Server::Nick;
+    // commands["USER"] = &Server::User;
+    commands["CAP"] = &Server::Cap;
+    commands["TOPIC"] = &Server::Topic;
+    commands["INVITE"] = &Server::Invite;
+    commands["NOTICE"] = &Server::Notice;
+    commands["KICK"] = &Server::Kick;
+    commands["PART"] = &Server::Part;
+    commands["PONG"] = &Server::Pong;
+    commands["QUIT"] = &Server::Quit;
+    // commands["WHOIS"] = &Server::Whois;
+    commands["MODE"] = &Server::Mode;
+}
+*/
 
 Server::~Server(){
     close(this->server_fd);

@@ -41,4 +41,23 @@ class Server{
         Server(size_t port_number, const std::string password);
         ~Server();
 
+        void initCommands(void);
+
+
+        typedef std::map<std::string , void(Server::*)(std::string, Client&)> commands;
+
+        void Join(std::string &cmd, Client& c);
+        void Cap(std::string &cmd, Client& c);
+        void Info(std::string &cmd, Client& c);
+        void Invite(std::string &cmd, Client& c);
+        void Topic(std::string &cmd, Client& c);
+        void Privmsg(std::string &cmd, Client& c);
+        void Notice(std::string &cmd, Client& c);
+        void Nick(std::string &cmd, Client& c);
+        void Part(std::string &cmd, Client& c);
+        void Pong(std::string &cmd, Client& c);
+        void Quit(std::string &cmd, Client& c);
+        void Mode(std::string &cmd, Client& c);
+        void Kick(std::string &cmd, Client& c);
+
 };
