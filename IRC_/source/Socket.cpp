@@ -2,10 +2,11 @@
 #include "Utilities.hpp"
 #include "Exception.hpp"
 
-
-void Server::createSocket(void){
-
-    if ((this->server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+void Server::createSocket(void)
+{
+    this->server_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if ((int)(this->server_fd) < 0)
+    {
         throw Exception("Socket is not created!");
     }
     else

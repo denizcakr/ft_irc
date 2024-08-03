@@ -3,14 +3,15 @@
 
 Server::Server(){}
 
-Server::Server(size_t port_number, const std::string password) : port_number(port_number), password(password){
+Server::Server(size_t port_no, const std::string passwd) : port_number(port_no), password(passwd){
     std::cout << this->port_number << " " << this->password << std::endl;
 
     createSocket();
-    initCommands();
+    cmds_initialize();
     serverAddrSocket();
     socketListen();
     run();
+    std::cout << "upsydaisy!" << std::endl;
 }
 
 void Server::run(void){
@@ -37,26 +38,25 @@ void Server::run(void){
     
 }
 
-
-void Server::initCommands(void) {
-    // commands["PASS"] = &Server::Pass;
-    // commands["INFO"] = &Server::Info;
-    // commands["PRIVMSG"] = &Server::Privmsg;
-    // commands["JOIN"] = &Server::Join;
-    commands["NICK"] = &Server::Nick;
-    // // commands["USER"] = &Server::User;
-    // commands["CAP"] = &Server::Cap;
-    // commands["TOPIC"] = &Server::Topic;
-    // commands["INVITE"] = &Server::Invite;
-    // commands["NOTICE"] = &Server::Notice;
-    // commands["KICK"] = &Server::Kick;
-    // commands["PART"] = &Server::Part;
-    // commands["PONG"] = &Server::Pong;
-    // commands["QUIT"] = &Server::Quit;
-    // // commands["WHOIS"] = &Server::Whois;
-    // commands["MODE"] = &Server::Mode;
+void Server::cmds_initialize(void)
+{
+    // cmds["PASS"] = &Server::Pass;
+    // cmds["INFO"] = &Server::Info;
+    // cmds["PRIVMSG"] = &Server::Privmsg;
+    // cmds["JOIN"] = &Server::Join;
+    cmds["NICK"] = &Server::Nick;
+    // // cmds["USER"] = &Server::User;
+    cmds["CAP"] = &Server::Cap;
+    // cmds["TOPIC"] = &Server::Topic;
+    // cmds["INVITE"] = &Server::Invite;
+    // cmds["NOTICE"] = &Server::Notice;
+    // cmds["KICK"] = &Server::Kick;
+    // cmds["PART"] = &Server::Part;
+    // cmds["PONG"] = &Server::Pong;
+    // cmds["QUIT"] = &Server::Quit;
+    // // cmds["WHOIS"] = &Server::Whois;
+    // cmds["MODE"] = &Server::Mode;
 }
-
 
 Server::~Server(){
     close(this->server_fd);

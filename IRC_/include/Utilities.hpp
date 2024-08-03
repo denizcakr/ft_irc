@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 #include "Server.hpp"
-
+#include <stdlib.h>
 
 # define BLACK		"\033[0;30m"
 # define RED		"\033[0;31m"

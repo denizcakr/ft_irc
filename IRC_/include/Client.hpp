@@ -15,6 +15,8 @@ class Client{
         int cliFd;
         int cliPort;
         char ipAddr[INET_ADDRSTRLEN];
+
+        int hexOrNc;
         
         std::string ip;
         std::string user;

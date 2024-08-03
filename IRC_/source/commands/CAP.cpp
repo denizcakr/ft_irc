@@ -1,14 +1,13 @@
 #include "Server.hpp"
 #include "Client.hpp"
 
-// int    Server::Cap(std::string &s, Client &c) {
-//     if (s == "LS")
-//         c.isCapt = HEX;
-//     else if (s == "NC")
-//         c.isCapt = NC;
-//     // else if (s == "BOT")
-//     //     c.isCapt = BOT;
-//     // else
-//     //     return false;
-//     // return true;
-// }
+int Server::Cap(std::string &cmd, Client &c)
+{
+    if (cmd == "LS\n")
+        c.cliFd = HEX;
+    else if (cmd == "NC\n")
+        c.cliFd = NC;
+    else
+        return 0;
+    return 1;
+}

@@ -1,4 +1,5 @@
 #pragma once
+
 #include <iostream>
 #include <string>
 #include <unistd.h>
@@ -13,6 +14,9 @@
 #include "Replies.hpp"
 #include "Client.hpp"
 #include "Channel.hpp"
+#include <cerrno>
+#include <cstring>
+
 
 class Server;
 class Client;
@@ -20,7 +24,8 @@ class Client;
 typedef int (Server::*command)(std::string& , Client&);
 
 
-class Server{
+class Server
+{
 
     private:
         size_t                  port_number;
@@ -53,11 +58,9 @@ class Server{
         Server(size_t port_number, const std::string password);
         ~Server();
 
-        void initCommands(void);
+        void cmds_initialize(void);
 
-
-
-        std::map<std::string, command> commands;
+        std::map<std::string, command> cmds;
         int Nick(std::string &cmd, Client& c);//zorunlu
         int Pass(std::string &cmd, Client& c);//zorunlu
         int Join(std::string &cmd, Client& c);//zorunlu
@@ -73,5 +76,4 @@ class Server{
         int Quit(std::string &cmd, Client& c);
         int Mode(std::string &cmd, Client& c);
         int Kick(std::string &cmd, Client& c);
-
 };
