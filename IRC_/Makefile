@@ -5,33 +5,24 @@ FLAGS = -Wall -Werror -Wextra -std=c++98 -Wshadow -O3
 
 # Dizinler
 SRC_DIR = source
+CMD_DIR = $(SRC_DIR)/commands
 INC_DIR = include
-OBJ_DIR = objects
 
 # Kaynak dosyaları
-SRCS = $(wildcard $(SRC_DIR)/*.cpp)
-OBJS = $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+SRCS = $(wildcard $(SRC_DIR)/*.cpp) $(wildcard $(CMD_DIR)/*.cpp)
 
 # Varsayılan hedef
 all: $(NAME)
 
 # Programı oluştur
-$(NAME): $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME)
-
-# Obje dosyalarını oluştur
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	@mkdir -p $(OBJ_DIR)
-	$(CC) $(FLAGS) -I$(INC_DIR) -c $< -o $@
+$(NAME): $(SRCS)
+	$(CC) $(FLAGS) -I$(INC_DIR) $^ -o $@
 
 # Temizlik
 clean:
-	rm -rf $(OBJ_DIR)
-
-fclean: clean
 	rm -f $(NAME)
 
-run: fclean all
+run: clean all
 	@if [ -f $(NAME) ]; then \
 		echo "Running $(NAME)..."; \
 		./$(NAME) 8080 123; \
@@ -40,6 +31,6 @@ run: fclean all
 	fi
 
 # Yeniden derleme
-re: fclean all
+re: clean all
 
-.PHONY: all clean fclean re run
+.PHONY: all clean re run
