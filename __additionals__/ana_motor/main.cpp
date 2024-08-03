@@ -41,6 +41,10 @@ int main()
             // Wait for an event using select
             readFdsSup = readFds;
             writeFdsSup = writeFds;
+
+            std::cout << "fd:"<<mysw.findMaxFd() << std::endl;
+
+
             state = select(mysw.findMaxFd() + 1, &readFdsSup, &writeFdsSup, NULL, 0);//client connect istek ->readFdsSup dingdingding
             std::cout << ++k << " ";
            /*

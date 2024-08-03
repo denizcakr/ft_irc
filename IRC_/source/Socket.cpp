@@ -28,15 +28,14 @@ void Server::createSocket(void){
     }
 }
 
-void Server::serverAddrSocket(void) const{
+void Server::serverAddrSocket(void) {
 
-    struct sockaddr_in server_addr_socket;
-    memset(&server_addr_socket, 0, sizeof(struct sockaddr_in));
-    server_addr_socket.sin_family = AF_INET;
-    server_addr_socket.sin_addr.s_addr = INADDR_ANY; // localhost
-    server_addr_socket.sin_port = htons(this->port_number); // port number
+    memset(&this->addr, 0, sizeof(sockaddr_in));
+    this->addr.sin_addr.s_addr = htonl(INADDR_ANY); // localhost
+    this->addr.sin_family = AF_INET;
+    this->addr.sin_port = htons(this->port_number); // port number
 
-    if (bind(this->server_fd, (struct sockaddr *)&server_addr_socket, sizeof(server_addr_socket)) < 0)
+    if (bind(this->server_fd, (sockaddr *)&this->addr, sizeof(this->addr)) < 0)
     {
         throw Exception("Socket is not bound!");
     }

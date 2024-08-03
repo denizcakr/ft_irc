@@ -28,5 +28,7 @@ class Utilities{
 
     public:
         static int checkPortNumber(char* port_number);
+        static std::vector<std::string> splitFromFirstSpace(const std::string& input);
+
 
 };

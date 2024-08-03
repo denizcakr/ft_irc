@@ -43,6 +43,7 @@ int createSocket(int portNo)
 int server::findMaxFd()
 {
     int maxFd = this->serverFd;
+        std::cout << maxFd << " hello" << std::endl;
 
     for(std::vector<client>::iterator begin = this->clients.begin(); begin != this->clients.end(); begin++)
     {
