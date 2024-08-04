@@ -7,8 +7,31 @@
 
 class Client;
 
-class Channel {
+class Channel
+{
     public:
+        std::string channel_name;
         std::vector<Client> channel_client;
-
+        Channel(const std::string& channelName);
+        ~Channel();
+        // static std::vector<Channel> channels;
+        // static void addChannel(const std::string& channelName);
+        // static Channel* find_channel(const std::string& channelName);
 };
+
+// static void Channel::addChannel(const std::string& channelName)
+// {
+//     channels.push_back(Channel(channelName));
+// }
+
+// static Channel* Channel::find_channel(const std::string& channelName)
+// {
+//     for (auto& channel : channels)
+//     {
+//         if (channel.name == channelName)
+//         {
+//             return &channel;
+//         }
+//     }
+//     return nullptr;
+// }
