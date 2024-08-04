@@ -2,14 +2,13 @@
 #include <iostream>
 #include <string>
 #include "Server.hpp"
-
+#include <vector>
 
 #define HEX 1
 #define NC 2
 
-
-class Client{
-
+class Client
+{
     public:
         std::vector<std::string> messageBox;
         int cliFd;
@@ -23,9 +22,6 @@ class Client{
         std::string nick;
         std::string pass;
 
-        int         isCapt;
-
         Client();
         ~Client();
-
 };

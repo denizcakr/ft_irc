@@ -1,5 +1,4 @@
 #pragma once
-
 #include <iostream>
 #include <string>
 #include <unistd.h>
@@ -17,16 +16,13 @@
 #include <cerrno>
 #include <cstring>
 
-
 class Server;
 class Client;
 
 typedef int (Server::*command)(std::string& , Client&);
 
-
 class Server
 {
-
     private:
         size_t                  port_number;
         const std::string       password;
@@ -52,11 +48,13 @@ class Server
         void readEvent();
         void writeEvent();
 
-
     public:
         Server();
         Server(size_t port_number, const std::string password);
         ~Server();
+
+        Client* find_client(std::string &nick);
+
 
         void cmds_initialize(void);
 

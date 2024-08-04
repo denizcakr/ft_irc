@@ -25,8 +25,10 @@ void Server::run(void){
 
     FD_SET(this->server_fd, &this->readFds);
 
-    while (1) {
-        while(this->state == 0){
+    while (1)
+    {
+        while(this->state == 0)
+        {
             this->readFdsSup = this->readFds;
             this->writeFdsSup = this->writeFds;
             state = select(this->findMaxFd() + 1, &this->readFdsSup, &this->writeFdsSup, NULL, 0);
@@ -35,14 +37,25 @@ void Server::run(void){
         readEvent();
         writeEvent();
     }
-    
+}
+
+Client* Server::find_client(std::string &nick)
+{
+    for(std::vector<Client>::iterator iter = clients.begin(); iter != clients.end(); iter++)
+    {
+        if(iter->nick == nick)
+        {
+            return &(*iter);
+        }
+    }
+    return NULL;
 }
 
 void Server::cmds_initialize(void)
 {
     // cmds["PASS"] = &Server::Pass;
     // cmds["INFO"] = &Server::Info;
-    // cmds["PRIVMSG"] = &Server::Privmsg;
+    cmds["PRIVMSG"] = &Server::Privmsg;
     // cmds["JOIN"] = &Server::Join;
     cmds["NICK"] = &Server::Nick;
     // // cmds["USER"] = &Server::User;
@@ -58,6 +71,7 @@ void Server::cmds_initialize(void)
     // cmds["MODE"] = &Server::Mode;
 }
 
-Server::~Server(){
+Server::~Server()
+{
     close(this->server_fd);
 }

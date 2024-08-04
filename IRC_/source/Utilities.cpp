@@ -33,12 +33,16 @@ int Server::findMaxFd() const{
 std::vector<std::string> Utilities::splitFromFirstSpace(const std::string& input) {
     std::vector<std::string> result;
     size_t spacePos = input.find(' ');
+    std::string temp = input;
+    if (input[input.size()-1] == '\n') {
+        temp = input.substr(0, input.size() - 1);
+    }
     if (spacePos != std::string::npos) {
-        result.push_back(input.substr(0, spacePos));
-        result.push_back(input.substr(spacePos + 1));
+        result.push_back(temp.substr(0, spacePos));
+        result.push_back(temp.substr(spacePos + 1));
     } else {
         // If no space is found, the whole string is the first part, and the second part is empty.
-        result.push_back(input);
+        result.push_back(temp);
         result.push_back("");
     }
     return result;
