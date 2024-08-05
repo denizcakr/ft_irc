@@ -13,11 +13,13 @@ void Server::readEvent() {
                 std::cout << RED << "CS: "<< this->clients.size() << ", A client disconnected!" << RESET << std::endl;
             }
             else {
-                this->buffer[readed] = 0;
+                this->buffer[readed] = '\0';
                 // std::cout << "buffer |" << buffer << "|" << std::endl;//sekilli sukullu
                 std::vector<std::string> all = Utilities::splitFromFirstSpace(buffer);
                 if (cmds.find(all[0]) != cmds.end())
-                    (this->*cmds[all[0]])(all[1], (*begin));
+                {
+                    ((this->*cmds[all[0]])(all[1], (*begin)));
+                }
                 for(std::vector<Client>::iterator it = this->clients.begin(); it != this->clients.end(); ++it){
                     if(it != begin){
                         (*it).messageBox.push_back(buffer);

@@ -32,16 +32,16 @@ class server
 
         typedef std::map<std::string , void(server::*)(std::string, client&)> reply_cmds;
 
-        void JOIN(std::string &cmd, client& c);
-        void INFO(std::string &cmd, client& c);
-        void INVITE(std::string &cmd, client& c);
-        void TOPIC(std::string &cmd, client& c);
-        void PRIVMSG(std::string &cmd, client& c);
-        void NOTICE(std::string &cmd, client& c);
-        void NICK(std::string &cmd, client& c);
-        void PART(std::string &cmd, client& c);
-        void PONG(std::string &cmd, client& c);
-        void QUIT(std::string &cmd, client& c);
-        void MODE(std::string &cmd, client& c);
-        void KICK(std::string &cmd, client& c);
+        void JOIN(std::string &input, client& c);
+        void INFO(std::string &input, client& c);
+        void INVITE(std::string &input, client& c);
+        void TOPIC(std::string &input, client& c);
+        void PRIVMSG(std::string &input, client& c);
+        void NOTICE(std::string &input, client& c);
+        void NICK(std::string &input, client& c);
+        void PART(std::string &input, client& c);
+        void PONG(std::string &input, client& c);
+        void QUIT(std::string &input, client& c);
+        void MODE(std::string &input, client& c);
+        void KICK(std::string &input, client& c);
 };

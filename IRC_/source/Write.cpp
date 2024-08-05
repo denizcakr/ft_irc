@@ -1,7 +1,8 @@
 #include "Server.hpp"
 #include "Client.hpp"
 
-void Server::writeEvent() {
+void Server::writeEvent()
+{
     for(std::vector<Client>::iterator it = this->clients.begin(); it != this->clients.end() && state; ++it){
         if(FD_ISSET((*it).cliFd, &this->writeFdsSup)){
             int readed = write((*it).cliFd, (char *)(*it).messageBox[0].c_str(), (*it).messageBox[0].length());
@@ -9,7 +10,6 @@ void Server::writeEvent() {
 
             if((*it).messageBox.empty())
                 FD_CLR((*it).cliFd, &this->writeFds);
-            
             if(readed <= 0){
                 FD_CLR((*it).cliFd, &this->readFds);
                 FD_CLR((*it).cliFd, &this->writeFds);

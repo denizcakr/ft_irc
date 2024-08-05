@@ -59,19 +59,19 @@ class Server
         void cmds_initialize(void);
 
         std::map<std::string, command> cmds;
-        int Nick(std::string &cmd, Client& c);//zorunlu
-        int Pass(std::string &cmd, Client& c);//zorunlu
-        int Join(std::string &cmd, Client& c);//zorunlu
-        int User(std::string &cmd, Client& c);//zorunlu
-        int Cap(std::string &cmd, Client& c);//karsi tarafin hexchatten baglandigini gosteren sey
-        int Info(std::string &cmd, Client& c);
-        int Invite(std::string &cmd, Client& c);
-        int Topic(std::string &cmd, Client& c);//operator
-        int Privmsg(std::string &cmd, Client& c);//operator
-        int Notice(std::string &cmd, Client& c);//operator
-        int Part(std::string &cmd, Client& c);
-        int Pong(std::string &cmd, Client& c);
-        int Quit(std::string &cmd, Client& c);
-        int Mode(std::string &cmd, Client& c);
-        int Kick(std::string &cmd, Client& c);
+        int Nick(std::string &input, Client& c);//zorunlu
+        int Cap(std::string &input, Client& c);//karsi tarafin hexchatten baglandigini gosteren sey
+        int Privmsg(std::string &input, Client& c);//operator
+        int Join(std::string &input, Client& c);//zorunlu
+        int Pass(std::string &input, Client& c);//zorunlu
+        int User(std::string &input, Client& c);//zorunlu
+        int Topic(std::string &input, Client& c);//operator
+        int Notice(std::string &input, Client& c);//operator
+        int Info(std::string &input, Client& c);
+        int Invite(std::string &input, Client& c);
+        int Part(std::string &input, Client& c);
+        int Pong(std::string &input, Client& c);
+        int Quit(std::string &input, Client& c);
+        int Mode(std::string &input, Client& c);
+        int Kick(std::string &input, Client& c);
 };
