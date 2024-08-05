@@ -47,3 +47,9 @@ std::vector<std::string> Utilities::splitFromFirstSpace(const std::string& input
     }
     return result;
 }
+
+void Utilities::writeMessage(int socket, std::string const& message)
+{
+    if ((write(socket, message.c_str(), message.length())) < 0)
+        std::cout << "Message cannot send!" << std::endl;
+}

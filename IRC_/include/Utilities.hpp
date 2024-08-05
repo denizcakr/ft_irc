@@ -27,6 +27,7 @@ class Utilities{
         ~Utilities();
 
     public:
+        static void writeMessage(int, std::string const &);
         static int checkPortNumber(char* port_number);
         static std::vector<std::string> splitFromFirstSpace(const std::string& input);
 
