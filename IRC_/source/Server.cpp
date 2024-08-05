@@ -53,7 +53,7 @@ Client* Server::find_client(std::string &nick)
 
 void Server::cmds_initialize(void)
 {
-    // cmds["PASS"] = &Server::Pass;
+    cmds["PASS"] = &Server::Pass;
     // cmds["INFO"] = &Server::Info;
     cmds["PRIVMSG"] = &Server::Privmsg;
     // cmds["JOIN"] = &Server::Join;

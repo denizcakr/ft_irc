@@ -1,19 +1,19 @@
 #include <Server.hpp>
 #include <Channel.hpp>
 
-int Server::Privmsg(std::string &cmd, Client& c)
+int Server::Privmsg(std::string &input, Client& c)
 {
 	(void) c; //
 	std::string target;
 	std::string message;
-	std::string::size_type pos = cmd.find(" ");
+	std::string::size_type pos = input.find(" ");
 	//std::string::size_type is typically an unsigned integral type (like size_t), which is large enough to represent the size of any string that can be created on your system. Its exact type can vary depending on the platform and compiler.
 	//It is used as the return type for functions that report the size of a string, like std::string::size() and std::string::length().
 	//It is also used as the type for parameters and return values for functions that deal with string positions and substrings, like std::string::find().
 	if (pos != std::string::npos)
 	{
-		target = cmd.substr(0, pos);
-		message = cmd.substr(pos + 1);
+		target = input.substr(0, pos);
+		message = input.substr(pos + 1);
 		message += "\n";
 	}
 	else

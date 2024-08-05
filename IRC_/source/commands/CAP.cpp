@@ -1,11 +1,11 @@
 #include "Server.hpp"
 #include "Client.hpp"
 
-int Server::Cap(std::string &cmd, Client &c)
+int Server::Cap(std::string &input, Client &c)
 {
-    if (cmd == "LS\n")
+    if (input == "LS\n")
         c.hexOrNc = HEX;
-    else if (cmd == "NC\n")
+    else if (input == "NC\n")
         c.hexOrNc = NC;
     else
         return 0;

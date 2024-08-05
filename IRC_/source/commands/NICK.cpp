@@ -6,5 +6,6 @@ int Server::Nick(std::string &s, Client &c) {// NICK <nickname>
         return 0;   //send message back to the client for warning "nick cannot be empty!"
     }
     c.nick = s;
+    //std::cout << "Nick: " << c.nick << std::endl;
     return 1;
 }
