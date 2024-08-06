@@ -56,9 +56,9 @@ void Server::cmds_initialize(void)
     cmds["PASS"] = &Server::Pass;
     // cmds["INFO"] = &Server::Info;
     cmds["PRIVMSG"] = &Server::Privmsg;
-    // cmds["JOIN"] = &Server::Join;
+    cmds["JOIN"] = &Server::Join;
     cmds["NICK"] = &Server::Nick;
-    // // cmds["USER"] = &Server::User;
+    cmds["USER"] = &Server::User;
     cmds["CAP"] = &Server::Cap;
     // cmds["TOPIC"] = &Server::Topic;
     // cmds["INVITE"] = &Server::Invite;

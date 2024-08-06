@@ -27,7 +27,8 @@ class Utilities{
         ~Utilities();
 
     public:
-        static void writeMessage(int, std::string const &);
+        static void writeReply(int fd, std::string message);
+        static void writeAllClient(std::vector<int> fd, std::string message);
         static int checkPortNumber(char* port_number);
         static std::vector<std::string> splitFromFirstSpace(const std::string& input);
 

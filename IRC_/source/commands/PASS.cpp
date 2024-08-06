@@ -2,6 +2,10 @@
 #include "Server.hpp"
 #include "Utilities.hpp"
 
+/*
+    passwordun diger clientlara gitmemesi gerek!
+*/
+
 int Server::Pass(std::string &input, Client& c)
 {
     if(c.pass == "")

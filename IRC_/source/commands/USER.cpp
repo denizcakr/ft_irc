@@ -4,15 +4,18 @@
 #include "Replies.hpp"
 #include "Utilities.hpp"
 
+/*
+    USER degistirilmemeli ve ayni adda user varsa izin vermemeli!
+*/
 int Server::User(std::string &cmd, Client& c)
 {
     if(c.hexOrNc == NC)
     {
         // password kontrolüne c yollanacak
         if(cmd.size() != 1)
-            Utilities::writeMessage(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, cmd));
+            Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, cmd));
         else if(!c.user.empty())
-            Utilities::writeMessage(c.cliFd, ERR_ALREADYREGISTRED);
+            Utilities::writeReply(c.cliFd, ERR_ALREADYREGISTRED);
         else
         {
             std::string::size_type pos = cmd.find(" ");
@@ -22,7 +25,7 @@ int Server::User(std::string &cmd, Client& c)
                 c.user += "\n";
             }
             else
-                Utilities::writeMessage(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, cmd));
+                Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, cmd));
         }
     }
         return 0;

@@ -48,8 +48,13 @@ std::vector<std::string> Utilities::splitFromFirstSpace(const std::string& input
     return result;
 }
 
-void Utilities::writeMessage(int socket, std::string const& message)
-{
-    if ((write(socket, message.c_str(), message.length())) < 0)
-        std::cout << "Message cannot send!" << std::endl;
+void Utilities::writeReply(int fd, std::string message){
+    if (write(fd, message.c_str(), message.length()) < 0){
+        throw Exception("Message can't send!");
+    }
+}
+void Utilities::writeAllClient(std::vector<int> fd, std::string message){
+    for(std::vector<int>::iterator it = fd.begin(); it != fd.end(); ++it){
+        Utilities::writeReply((*it), message);
+    }
 }

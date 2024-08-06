@@ -24,14 +24,3 @@ class Channel
 //     channels.push_back(Channel(channelName));
 // }
 
-// static Channel* Channel::find_channel(const std::string& channelName)
-// {
-//     for (auto& channel : channels)
-//     {
-//         if (channel.name == channelName)
-//         {
-//             return &channel;
-//         }
-//     }
-//     return nullptr;
-// }

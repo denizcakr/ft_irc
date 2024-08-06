@@ -18,7 +18,9 @@
 
 class Server;
 class Client;
+class Channel;
 
+typedef std::vector<Channel>::iterator ChannelIterator;
 typedef int (Server::*command)(std::string& , Client&);
 
 class Server
@@ -29,6 +31,7 @@ class Server
         size_t                  server_fd;
         sockaddr_in             addr;
         std::vector<Client>     clients;
+        std::vector<Channel>    channels;
         char                    buffer[1024];
         int                     state;
 
