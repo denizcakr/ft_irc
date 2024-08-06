@@ -13,7 +13,7 @@ int Server::Join(std::string &cmd, Client& c){
     std::size_t pos = cmd.find('#');
     if (pos != std::string::npos) {
         ch_name = cmd.substr(pos + 1);
-        std::cout << "chnael_name: " << ch_name << std::endl;
+        std::cout << "channel_name: " << ch_name << std::endl;
     }
     if(findChannel(ch_name, this->channels)){
         for(ChannelIterator it = this->channels.begin(); it != this->channels.end(); ++it){

@@ -2,52 +2,52 @@
 #include "Server.hpp"
 #include "Utilities.hpp"
 
-/*
-    passwordun diger clientlara gitmemesi gerek!
-*/
-
 int Server::Pass(std::string &input, Client& c)
 {
-    if(c.pass == "")
+    if(input != "\0")
     {
-        if (this->password == input)
+        if(c.pass == "")
         {
-            std::cout << "Password is correct!" << std::endl;
-            c.pass = input;
-            // reply
-            return 1;
-        }
-        else if(this->password != input)
-        {
-            // reply wrong password
-            FD_CLR(c.cliFd, &this->readFds);
-            FD_CLR(c.cliFd, &this->writeFds);
-            close(c.cliFd);
-            for(std::vector<Client>::iterator iter = clients.begin(); iter != clients.end(); iter++)
+            if (this->password == input)
+            {
+                std::cout << "Password is correct!" << std::endl;
+                c.pass = input;
+                Utilities::writeReply(c.cliFd, "Registration is Successful!");
+                return 1;
+            }
+            else if(this->password != input)
             {
                 std::cout << "Wrong Password!" << std::endl;
-                if (iter->cliFd == c.cliFd)
+                Utilities::writeReply(c.cliFd, "Error: Wrong Password!");
+                FD_CLR(c.cliFd, &this->readFds);
+                FD_CLR(c.cliFd, &this->writeFds);
+                close(c.cliFd);
+                for(std::vector<Client>::iterator iter = clients.begin(); iter != clients.end(); iter++)
                 {
-                    this->clients.erase(iter);
-                    return 0;
+                    if (iter->cliFd == c.cliFd)
+                    {
+                        this->clients.erase(iter);
+                        std::cout << RED << "CS: "<< this->clients.size() << ", A client disconnected!" << RESET << std::endl;
+                        return 0;
+                    }
                 }
             }
         }
-    }
-    if(c.pass != "")
-    {
-        if(this->password == input)
+        if(c.pass != "")
         {
-            std::cout << "Already registered! " << c.pass << std::endl;
-            // reply(ERR_ALREADYREGISTERED, c);
-            size_t msg = write(c.cliFd, "Error: ALREADY REGISTERED!", strlen("Error: ALREADY REGISTERED!"));
-            (void)msg;
-        }
-        else if(this->password != input)
-        {
-            std::cout << "Registered Account / Wrong Password!: " << c.pass << std::endl;
+            if(this->password == input)
+            {
+                std::cout << "Already registered! " << c.pass << std::endl;
+                Utilities::writeReply(c.cliFd, ERR_ALREADYREGISTRED);
+            }
+            else if(this->password != input)
+            {
+                std::cout << "Registered Account / Wrong Password!: " << c.pass << std::endl;
 
+            }
         }
+        return 0;
     }
+    Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, "PASS"));
     return 0;
 }

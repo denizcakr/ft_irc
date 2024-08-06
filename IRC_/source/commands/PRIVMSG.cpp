@@ -3,7 +3,6 @@
 
 int Server::Privmsg(std::string &input, Client& c)
 {
-	(void) c; //
 	std::string target;
 	std::string message;
 	std::string::size_type pos = input.find(" ");
@@ -18,13 +17,13 @@ int Server::Privmsg(std::string &input, Client& c)
 	}
 	else
 	{
-		//c.send_reply(ERR_NORECIPIENT, c.get_nick());				//send reply !!!
+		Utilities::writeReply(c.cliFd, RPL_PRIVMSG(c.user, target,"Wrong Format!")); ///????
 		return 0;
 	}
 
 	// if (target[0] == '#')
 	// {
-	//     Channel *ch = find_channel(target);
+	//     Channel *ch = findChannel(target);
 	//     if (ch == NULL)
 	//     {
 	//         c.send_reply(ERR_NOSUCHNICK, c.get_nick());
@@ -36,8 +35,8 @@ int Server::Privmsg(std::string &input, Client& c)
 	//         return 0;
 	//     }
 	//     ch->sendMessageToChannel(c.get_nick(), message);
-	//}
-	//else
+	// }
+	// else
 	{
 		Client* cl = find_client(target);
 		if (cl == NULL)
@@ -50,3 +49,8 @@ int Server::Privmsg(std::string &input, Client& c)
 	}
 	return 0;
 }
+//  ERR_NORECIPIENT                 ERR_NOTEXTTOSEND
+//            ERR_CANNOTSENDTOCHAN            ERR_NOTOPLEVEL
+//            ERR_WILDTOPLEVEL                ERR_TOOMANYTARGETS
+//            ERR_NOSUCHNICK
+//            RPL_AWAY

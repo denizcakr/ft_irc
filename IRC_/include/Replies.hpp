@@ -35,9 +35,9 @@
 #define ERR_BADCHANNELKEY(source, channel)			": 475 " + source + " " + channel + " :Cannot join channel (+k)" + "\r\n"           //JOIN
 #define ERR_NEEDMOREPARAMS(source, command)			": 461 " + source + " " + command + " :Not enough parameters" + "\r\n"              //MODE
 #define ERR_CHANOPRIVSNEEDED(source, channel)		": 482 " + source + " " + channel + " :You're not the channel operator" + "\r\n"    //MODE
-#define ERR_CHANOPKICK(source, channel)		        ": 482 " + source + " " + channel + " :You cannot KICK yourself" + "\r\n"           //MODE
+#define ERR_CHANOPKICK(source, channel)				": 482 " + source + " " + channel + " :You cannot KICK yourself" + "\r\n"           //MODE
 #define ERR_NOSUCHCHANNEL(source, channel)			": 403 " + source + " " + channel + " :No such channel" + "\r\n"                    //MODE
-#define ERR_NICKNAMEINUSE(source)				    ": 433 " + source + " " + source  + " :Nickname is already in use" + "\r\n"         //NICK
-#define ERR_NICKNAMEEMPTY(source)				    ": 433 " + source + " " + source  + " :Nickname cannot empty" + "\r\n"              //NICK
-#define RPL_NOTOPIC(nick, channel)                  ": 331 " + nick + " " + channel + " :No topic is set" + "\r\n"                      //TOPIC
-#define ERR_ALREADYREGISTRED "Already registered\r\n"
+#define ERR_NICKNAMEINUSE(source)					": 433 " + source + " " + source  + " :Nickname is already in use" + "\r\n"         //NICK
+#define ERR_NICKNAMEEMPTY(source)					": 433 " + source + " " + source  + " :Nickname cannot empty" + "\r\n"              //NICK
+#define RPL_NOTOPIC(nick, channel)					": 331 " + nick + " " + channel + " :No topic is set" + "\r\n"                      //TOPIC
+#define ERR_ALREADYREGISTRED						"Already registered\r\n"
