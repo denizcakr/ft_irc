@@ -7,6 +7,7 @@ int findChannel(std::string &name, std::vector<Channel> channel){
     }
     return 0;
 }
+
 int Server::Join(std::string &cmd, Client& c){
     (void)c;
     std::string ch_name;

@@ -48,13 +48,32 @@ std::vector<std::string> Utilities::splitFromFirstSpace(const std::string& input
     return result;
 }
 
+
+
 void Utilities::writeReply(int fd, std::string message){
     if (write(fd, message.c_str(), message.length()) < 0){
-        throw Exception("Message can't send!");
+        std::cout << "Message cannot be sent!" << std::endl;
     }
 }
 void Utilities::writeAllClient(std::vector<int> fd, std::string message){
     for(std::vector<int>::iterator it = fd.begin(); it != fd.end(); ++it){
         Utilities::writeReply((*it), message);
     }
+}
+
+std::vector<std::string> Utilities::splitStringByNewline(const std::string& str) {
+    std::vector<std::string> result;
+    std::string::size_type start = 0;
+    std::string::size_type end = str.find('\n');
+
+    while (end != std::string::npos) {
+        result.push_back(str.substr(start, end - start));
+        start = end + 1;
+        end = str.find('\n', start);
+    }
+
+    // Add the last segment
+    result.push_back(str.substr(start));
+
+    return result;
 }

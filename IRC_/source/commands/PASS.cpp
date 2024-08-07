@@ -2,23 +2,30 @@
 #include "Server.hpp"
 #include "Utilities.hpp"
 
+/*
+
+    connect olduktan sonra ilk girilen komut PASS olmali, 
+    specially hexchat
+*/
 int Server::Pass(std::string &input, Client& c)
 {
     if(input != "\0")
     {
         if(c.pass == "")
         {
+            if (c.hexOrNc == HEX)
+                input = input.substr(0, input.size() - 1);
             if (this->password == input)
             {
                 std::cout << "Password is correct!" << std::endl;
                 c.pass = input;
-                Utilities::writeReply(c.cliFd, "Registration is Successful!");
+                Utilities::writeReply(c.cliFd, "Registration is Successful!\n");
                 return 1;
             }
             else if(this->password != input)
             {
                 std::cout << "Wrong Password!" << std::endl;
-                Utilities::writeReply(c.cliFd, "Error: Wrong Password!");
+                Utilities::writeReply(c.cliFd, "Error: Wrong Password!\n");
                 FD_CLR(c.cliFd, &this->readFds);
                 FD_CLR(c.cliFd, &this->writeFds);
                 close(c.cliFd);
@@ -33,7 +40,7 @@ int Server::Pass(std::string &input, Client& c)
                 }
             }
         }
-        if(c.pass != "")
+        else
         {
             if(this->password == input)
             {
