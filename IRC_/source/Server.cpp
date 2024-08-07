@@ -11,7 +11,6 @@ Server::Server(size_t port_no, const std::string passwd) : port_number(port_no),
     serverAddrSocket();
     socketListen();
     run();
-    std::cout << "upsydaisy!" << std::endl;
 }
 
 void Server::run(void){

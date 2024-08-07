@@ -8,24 +8,20 @@
 */
 int Server::User(std::string &input, Client& c)
 {
-    if(c.hexOrNc == NC)
-    {
-        // password kontrolüne c yollanacak
-        if(input.size() != 1)
-            Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, input));
-        else if(!c.user.empty())
-            Utilities::writeReply(c.cliFd, ERR_ALREADYREGISTRED);
-        else
-        {
-            std::string::size_type pos = input.find(" ");
-            if (pos != std::string::npos)
-            {
-                c.user = input.substr(0, pos);
-                c.user += "\n";
-            }
-            else
-                Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, input));
-        }
+    for(int i = 0; input[i]; i++){
+        if(input[i] == '\r')
+            std::cout << "varmis" << std::endl;
     }
-        return 0;
+    // password kontrolüne c yollanacak
+    if(!c.user.empty() && c.user == input)
+        Utilities::writeReply(c.cliFd, ERR_ALREADYREGISTRED);
+    else if(c.user.empty() && !input.empty())
+        c.user = input;
+    else if(input.empty())
+        Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.user, "USER"));
+    else if(!c.user.empty() && c.user != input)
+        Utilities::writeReply(c.cliFd, ERR_BADINPUTUSER);
+    std::cout << "USEr : " << c.user << std::endl;
+    return 1;
 }
+// inputun sonunda \r varmi
