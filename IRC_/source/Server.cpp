@@ -39,11 +39,11 @@ void Server::run(void){
     }
 }
 
-Client* Server::find_client(std::string &nick)
+Client* Server::find_client(std::string &user)
 {
     for(std::vector<Client>::iterator iter = clients.begin(); iter != clients.end(); iter++)
     {
-        if(iter->nick == nick)
+        if(iter->user == user)
         {
             return &(*iter);
         }

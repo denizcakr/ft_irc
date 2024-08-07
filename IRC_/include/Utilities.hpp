@@ -3,6 +3,7 @@
 #include <string>
 #include "Server.hpp"
 #include <stdlib.h>
+#include <Channel.hpp>
 
 # define BLACK		"\033[0;30m"
 # define RED		"\033[0;31m"
@@ -32,6 +33,4 @@ class Utilities{
         static int checkPortNumber(char* port_number);
         static std::vector<std::string> splitFromFirstSpace(const std::string& input);
         static std::vector<std::string> splitStringByNewline(const std::string& str);
-
-
 };

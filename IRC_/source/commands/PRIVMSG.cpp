@@ -1,5 +1,6 @@
 #include <Server.hpp>
 #include <Channel.hpp>
+#include <Utilities.hpp>
 
 int Server::Privmsg(std::string &input, Client& c)
 {
@@ -21,22 +22,23 @@ int Server::Privmsg(std::string &input, Client& c)
 		return 0;
 	}
 
-	// if (target[0] == '#')
-	// {
-	//     Channel *ch = findChannel(target);
-	//     if (ch == NULL)
-	//     {
-	//         c.send_reply(ERR_NOSUCHNICK, c.get_nick());
-	//         return 0;
-	//     }
-	//     if (!ch->is_member(c.get_nick()))
-	//     {
-	//         c.send_reply(ERR_CANNOTSENDTOCHAN, c.get_nick());
-	//         return 0;
-	//     }
-	//     ch->sendMessageToChannel(c.get_nick(), message);
-	// }
-	// else
+	std::cout << "target: |" << target << "|" << std::endl;
+	if (target[0] == '#')
+	{
+		Channel *ch = getChannel(target);
+	    if (ch == NULL)
+	    {
+	        Utilities::writeReply(c.cliFd, ERR_NOSUCHNICK(c.user));
+	        return 0;
+	    }
+	    if (!ch->is_member(c)) // if the user is not a member of the channel
+	    {
+	        Utilities::writeReply(c.cliFd, ERR_CANNOTSENDTOCHAN(c.user));
+	        return 0;
+		}
+	    ch->sendMessageToChannel(c, message, this->writeFds);
+	}
+	else
 	{
 		Client* cl = find_client(target);
 		if (cl == NULL)
@@ -50,7 +52,6 @@ int Server::Privmsg(std::string &input, Client& c)
 	return 0;
 }
 //  ERR_NORECIPIENT                 ERR_NOTEXTTOSEND
-//            ERR_CANNOTSENDTOCHAN            ERR_NOTOPLEVEL
+//                      ERR_NOTOPLEVEL
 //            ERR_WILDTOPLEVEL                ERR_TOOMANYTARGETS
-//            ERR_NOSUCHNICK
 //            RPL_AWAY

@@ -41,3 +41,5 @@
 #define ERR_NICKNAMEEMPTY(source)					": 433 " + source + " " + source  + " :Nickname cannot empty" + "\r\n"              //NICK
 #define RPL_NOTOPIC(nick, channel)					": 331 " + nick + " " + channel + " :No topic is set" + "\r\n"                      //TOPIC
 #define ERR_ALREADYREGISTRED						"Already registered\r\n"
+#define ERR_NOSUCHNICK(source)						": 401 " + source + " :No such nick/channel" + "\r\n"                             //PRIVMSG
+#define ERR_CANNOTSENDTOCHAN(source)				": 404 " + source + " :Cannot send to channel" + "\r\n"                           //PRIVMSG

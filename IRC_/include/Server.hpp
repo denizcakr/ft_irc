@@ -77,4 +77,6 @@ class Server
         int Quit(std::string &input, Client& c);
         int Mode(std::string &input, Client& c);
         int Kick(std::string &input, Client& c);
+
+        Channel* getChannel(const std::string &name);
 };
