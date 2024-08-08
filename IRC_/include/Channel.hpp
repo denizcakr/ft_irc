@@ -18,13 +18,7 @@ class Channel
         bool is_member(Client& c);
         void sendMessageToChannel(Client& c, std::string& message, fd_set &writeFds);
         std::vector<int>    getFds() const;
-        // static std::vector<Channel> channels;
-        // static void addChannel(const std::string& channelName);
-        // static Channel* find_channel(const std::string& channelName);
+
 };
 
-// static void Channel::addChannel(const std::string& channelName)
-// {
-//     channels.push_back(Channel(channelName));
-// }
 
