@@ -9,16 +9,6 @@
 */
 int Server::Pass(std::string &input, Client& c)
 {
-    for(int i = 0; input[i]; i++){
-        if(input[i] == '\r')
-            std::cout << "r var input" << std::endl;
-        std::cout << input[i] << std::endl;
-    }
-    for(int i = 0; this->password[i]; i++){
-        if(password[i] == '\r')
-            std::cout << "r var pass" << std::endl;
-        std::cout << this->password[i] << std::endl;
-    }
     if(input != "\0")
     {
         if(c.pass == "")

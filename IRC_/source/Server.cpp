@@ -40,15 +40,32 @@ void Server::run(void){
 
 Client* Server::find_client(std::string &user)
 {
-    for(std::vector<Client>::iterator iter = clients.begin(); iter != clients.end(); iter++)
+    for(ClientIterator it = clients.begin(); it != clients.end() ; ++it)
     {
-        if(iter->user == user)
+        if(it->user == user)
         {
-            return &(*iter);
+            return &(*it);
         }
     }
     return NULL;
 }
+
+void Server::sendMessageToChannel(Client& c, std::string& message, Channel &channel)
+{
+    for (std::vector<Client>::iterator it = channel.channel_client.begin(); it != channel.channel_client.end(); ++it)
+    {
+        if ((*it).user == c.user)
+            continue;
+        for(std::vector<Client>::iterator it2 = clients.begin(); it2 != clients.end(); ++it2){
+            if((*it).user == (*it2).user){
+                (*it2).messageBox.push_back(message);
+                FD_SET((*it2).cliFd, &this->writeFds);
+            }
+        }
+
+    }
+}
+
 
 void Server::cmds_initialize(void)
 {
