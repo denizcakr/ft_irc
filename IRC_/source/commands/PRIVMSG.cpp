@@ -28,12 +28,13 @@ int Server::Privmsg(std::string &input, Client& c)
 	}
 	std::cout << "target: |" << target << "|" << std::endl;
 	std::cout << "message : " << message << std::endl;
+
 	if (target[0] == '#')
 	{
 		Channel *ch = getChannel(target);
 	    if (ch == NULL)
 	    {
-	        Utilities::writeReply(c.cliFd, ERR_NOSUCHNICK(c.user)); // nosuchchannel
+	        Utilities::writeReply(c.cliFd, ERR_NOSUCHCHANNEL(c.user, target)); // nosuchchannel
 	        return 0;
 	    }
 	    if (!ch->is_member(c)) // if the user is not a member of the channel
@@ -48,7 +49,7 @@ int Server::Privmsg(std::string &input, Client& c)
 		Client* cl = find_client(target);
 		if (cl == NULL)
 		{
-			//c.send_reply(ERR_NOSUCHNICK, c.get_nick());
+			Utilities::writeReply(c.cliFd, ERR_NOSUCHNICK(c.user));
 			return 0;
 		}
 		cl->messageBox.push_back(message);
