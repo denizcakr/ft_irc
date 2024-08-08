@@ -21,6 +21,7 @@ int Server::User(std::string &input, Client& c)
         Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.user, "USER"));
     else if(!c.user.empty() && c.user != input)
         Utilities::writeReply(c.cliFd, ERR_BADINPUTUSER);
+    
     std::cout << "USEr : " << c.user << std::endl;
     return 1;
 }

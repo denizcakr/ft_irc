@@ -73,7 +73,22 @@ std::vector<std::string> Utilities::splitStringByNewline(const std::string& str)
     }
 
     // Add the last segment
-    result.push_back(str.substr(start));
+    // result.push_back(str.substr(start));
 
     return result;
 }
+
+
+// void Server::showRightGui(Client &client, Channel &channel) {
+//     std::string msg;
+//     Channel tmp = getChannel(channel.channel_name);
+//     if (tmp.channel_name.empty())
+//         return;
+//     for(ClientIterator it = tmp.clients.begin() ; it != tmp.clients.end(); ++it) {
+//         if (it->cliFd == tmp.op->cliFd)
+//             msg += "@";
+//         msg += (*it).nick + " ";
+//     }
+//     Utilities::writeAllClient(tmp.getFds(), RPL_NAMREPLY(cli.nick, cha.name, msg));
+//     Utilities::writeAllClient(tmp.getFds(), RPL_ENDOFNAMES(cli.nick, cha.name));
+// }

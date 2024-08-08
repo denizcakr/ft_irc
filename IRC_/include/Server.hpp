@@ -20,6 +20,7 @@ class Server;
 class Client;
 class Channel;
 
+typedef std::vector<Client>::iterator ClientIterator;
 typedef std::vector<Channel>::iterator ChannelIterator;
 typedef int (Server::*command)(std::string& , Client&);
 
@@ -51,6 +52,7 @@ class Server
         void readEvent();
         void writeEvent();
 
+
     public:
         Server();
         Server(size_t port_number, const std::string password);
@@ -78,5 +80,6 @@ class Server
         int Mode(std::string &input, Client& c);
         int Kick(std::string &input, Client& c);
 
+        void showRightGui(Client &client, Channel &channel);//graphical user interface -> yanda kullanicilarin gozukecegi zimbirti
         Channel* getChannel(const std::string &name);
 };

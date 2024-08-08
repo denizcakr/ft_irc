@@ -17,7 +17,7 @@ void Server::readEvent() {
                 // std::cout << "buffer |" << buffer << std::endl;//sekilli sukullu
                 std::vector<std::string> lines = Utilities::splitStringByNewline(buffer);
                 for(size_t i = 0; i < lines.size(); i++){
-                    // std::cout << "line: " << lines[i] << std::endl;
+                    std::cout << "line: " << lines[i] << std::endl;
                     std::vector<std::string> all = Utilities::splitFromFirstSpace(lines[i]);
                     //std::cout << "|" << all[1] << "|" << std::endl;
                     if (cmds.find(all[0]) != cmds.end())

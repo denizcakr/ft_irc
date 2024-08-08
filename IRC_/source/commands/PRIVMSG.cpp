@@ -14,7 +14,7 @@ int Server::Privmsg(std::string &input, Client& c)
 	{
 		target = input.substr(0, pos);
 		message = input.substr(pos + 1);
-		message += "\n";
+		// message += "\n";
 	}
 	else
 	{
@@ -22,13 +22,18 @@ int Server::Privmsg(std::string &input, Client& c)
 		return 0;
 	}
 
+	for(int i = 0; target[i]; i++){
+		if(target[i] == '\r')
+			std::cout << "r var" << std::endl;
+	}
 	std::cout << "target: |" << target << "|" << std::endl;
+	std::cout << "message : " << message << std::endl;
 	if (target[0] == '#')
 	{
 		Channel *ch = getChannel(target);
 	    if (ch == NULL)
 	    {
-	        Utilities::writeReply(c.cliFd, ERR_NOSUCHNICK(c.user));
+	        Utilities::writeReply(c.cliFd, ERR_NOSUCHNICK(c.user)); // nosuchchannel
 	        return 0;
 	    }
 	    if (!ch->is_member(c)) // if the user is not a member of the channel
