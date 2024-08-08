@@ -23,6 +23,7 @@ int Server::Join(std::string &cmd, Client& c){
         for(ChannelIterator it = this->channels.begin(); it != this->channels.end(); ++it){
             (*it).channel_client.push_back(c);
             Utilities::writeReply(c.cliFd, RPL_JOIN(c.nick, c.ipAddr, ch_name));
+            this->showRightGui(c, (*it));
         }
     }
     else {
@@ -30,6 +31,7 @@ int Server::Join(std::string &cmd, Client& c){
         a.channel_client.push_back(c);
         this->channels.push_back(a);
         Utilities::writeReply(c.cliFd, RPL_JOIN(c.nick, c.ipAddr, ch_name));
+        this->showRightGui(c, this->channels.back());
     }
     return 0;
     // if(findChannel())

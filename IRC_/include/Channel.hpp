@@ -6,6 +6,7 @@
 
 
 class Client;
+class Server;
 
 class Channel
 {
@@ -15,6 +16,9 @@ class Channel
         Channel(const std::string& channelName);
         ~Channel();
         bool is_member(Client& c);
+        void sendMessageToChannel(Client& c, std::string& message, fd_set &writeFds);
+        std::vector<int>    getFds() const;
+
 };
 
 
