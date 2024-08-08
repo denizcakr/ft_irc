@@ -7,6 +7,14 @@ Channel::Channel(const std::string& channelName) : channel_name(channelName) {}
 
 Channel::~Channel() {}
 
+std::vector<int>    Channel::getFds() const {
+    std::vector<int> ret;
+    for(int i = 0; i < (int) this->channel_client.size(); i++) {
+        ret.push_back(this->channel_client[i].cliFd);
+    }
+    return(ret);
+}
+
 Channel* Server::getChannel(const std::string &name) {
     for (ChannelIterator it = this->channels.begin(); it != this->channels.end(); ++it) {
         if (name == it->channel_name) {
