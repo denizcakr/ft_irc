@@ -24,4 +24,5 @@ class Client
 
         Client();
         ~Client();
+        Client& operator=(Client const &copy);
 };

@@ -66,16 +66,16 @@ void Server::sendMessageToChannel(Client& c, std::string& message, Channel &chan
     }
 }
 
-
 void Server::cmds_initialize(void)
 {
+    cmds["CAP"] = &Server::Cap;
     cmds["PASS"] = &Server::Pass;
-    // cmds["INFO"] = &Server::Info;
+    cmds["USER"] = &Server::User;
+    cmds["NICK"] = &Server::Nick;
     cmds["PRIVMSG"] = &Server::Privmsg;
     cmds["JOIN"] = &Server::Join;
-    cmds["NICK"] = &Server::Nick;
-    cmds["USER"] = &Server::User;
-    cmds["CAP"] = &Server::Cap;
+    cmds["MODE"] = &Server::Mode;
+    // cmds["INFO"] = &Server::Info;
     // cmds["TOPIC"] = &Server::Topic;
     // cmds["INVITE"] = &Server::Invite;
     // cmds["NOTICE"] = &Server::Notice;
@@ -84,7 +84,6 @@ void Server::cmds_initialize(void)
     // cmds["PONG"] = &Server::Pong;
     // cmds["QUIT"] = &Server::Quit;
     // // cmds["WHOIS"] = &Server::Whois;
-    // cmds["MODE"] = &Server::Mode;
 }
 
 Server::~Server()

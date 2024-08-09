@@ -52,7 +52,4 @@ int Server::Privmsg(std::string &input, Client& c)
 	}
 	return 0;
 }
-//  ERR_NORECIPIENT                 ERR_NOTEXTTOSEND
-//                      ERR_NOTOPLEVEL
-//            ERR_WILDTOPLEVEL                ERR_TOOMANYTARGETS
-//            RPL_AWAY
+//  ERR_NORECIPIENT           ERR_NOTEXTTOSEND            ERR_TOOMANYTARGETS

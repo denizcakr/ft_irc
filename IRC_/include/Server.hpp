@@ -70,6 +70,7 @@ class Server
         int Join(std::string &input, Client& c);//zorunlu
         int Pass(std::string &input, Client& c);//zorunlu
         int User(std::string &input, Client& c);//zorunlu
+        int Mode(std::string &input, Client& c);
         int Topic(std::string &input, Client& c);//operator
         int Notice(std::string &input, Client& c);//operator
         int Info(std::string &input, Client& c);
@@ -77,7 +78,6 @@ class Server
         int Part(std::string &input, Client& c);
         int Pong(std::string &input, Client& c);
         int Quit(std::string &input, Client& c);
-        int Mode(std::string &input, Client& c);
         int Kick(std::string &input, Client& c);
 
         void showRightGui(Client &client, Channel &channel);//graphical user interface -> yanda kullanicilarin gozukecegi zimbirti

@@ -9,6 +9,9 @@
 */
 int Server::Pass(std::string &input, Client& c)
 {
+    /* input = input.substr(0, input.length()-1);
+    std::cout << "|INPUT:|" << input << "|" << std::endl; */
+
     if(input != "\0")
     {
         if(c.pass == "")

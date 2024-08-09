@@ -14,10 +14,10 @@ void Server::readEvent() {
             }
             else {
                 this->buffer[readed] = '\0';
-                // std::cout << "buffer |" << buffer << std::endl;//sekilli sukullu
+                // std::cout << "buffer |" << buffer << "|" << std::endl;//sekilli sukullu
                 std::vector<std::string> lines = Utilities::splitStringByNewline(buffer);
                 for(size_t i = 0; i < lines.size(); i++){
-                    std::cout << "line: " << lines[i] << std::endl;
+                    std::cout << "line: " << lines[i] << "|" << std::endl;
                     std::vector<std::string> all = Utilities::splitFromFirstSpace(lines[i]);
                     //std::cout << "|" << all[1] << "|" << std::endl;
                     if (cmds.find(all[0]) != cmds.end())
@@ -25,7 +25,7 @@ void Server::readEvent() {
                         ((this->*cmds[all[0]])(all[1], (*begin)));
                     }
                     else{
-                        std::cout << "cmd not found" << std::endl;
+                        std::cout << "Command Not Found!" << std::endl;
                     }
                 }
                 // for(std::vector<Client>::iterator it = this->clients.begin(); it != this->clients.end(); ++it){
