@@ -20,7 +20,7 @@ void Server::acceptClient() {
     }
     fcntl(tmp.cliFd, F_SETFL, O_NONBLOCK);
     tmp.cliPort = ntohs(cliAddr.sin_port);
-    std::cout << "Top G:" << inet_ntop(AF_INET, &(cliAddr.sin_addr), tmp.ipAddr, INET_ADDRSTRLEN) << std::endl;//
+    inet_ntop(AF_INET, &(cliAddr.sin_addr), tmp.ipAddr, INET_ADDRSTRLEN);
     this->clients.push_back(tmp);
     FD_SET(tmp.cliFd, &this->readFds);
     std::cout << GREEN << "CS: "<< this->clients.size() << ", New Client Connected!" << RESET << std::endl;

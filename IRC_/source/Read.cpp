@@ -10,16 +10,14 @@ void Server::readEvent() {
                 FD_CLR((*begin).cliFd, &this->writeFds);
                 close((*begin).cliFd);
                 this->clients.erase(begin);
-                std::cout << RED << "CS: "<< this->clients.size() << ", A client disconnected!" << RESET << std::endl;
+                std::cout << RED << "CS: "<< this->clients.size() << ", " << (*begin).nick << " client disconnected!" <<RESET << std::endl;
             }
             else {
                 this->buffer[readed] = '\0';
-                // std::cout << "buffer |" << buffer << "|" << std::endl;//sekilli sukullu
                 std::vector<std::string> lines = Utilities::splitStringByNewline(buffer);
                 for(size_t i = 0; i < lines.size(); i++){
-                    std::cout << "line: " << lines[i] << "|" << std::endl;
+                    std::cout << BLUE << "[ CMD ] "<<  RESET << PURPLE << "[ "<< lines[i] << " ]" << RESET << std::endl; 
                     std::vector<std::string> all = Utilities::splitFromFirstSpace(lines[i]);
-                    //std::cout << "|" << all[1] << "|" << std::endl;
                     if (cmds.find(all[0]) != cmds.end())
                     {
                         ((this->*cmds[all[0]])(all[1], (*begin)));
