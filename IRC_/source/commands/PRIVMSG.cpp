@@ -25,15 +25,15 @@ int Server::Privmsg(std::string &input, Client& c)
 	if (target[0] == '#')
 	{
 		Channel *ch = getChannel(target);
-	    if (ch == NULL)
-	    {
-	        Utilities::writeReply(c.cliFd, ERR_NOSUCHCHANNEL(c.nick, target));
-	        return 0;
-	    }
-	    if (!ch->is_member(c)) // if the user is not a member of the channel
-	    {
-	        Utilities::writeReply(c.cliFd, ERR_CANNOTSENDTOCHAN(c.nick));
-	        return 0;
+		if (ch == NULL)
+		{
+			Utilities::writeReply(c.cliFd, ERR_NOSUCHCHANNEL(c.nick, target));
+			return 0;
+		}
+		if (!ch->is_member(c)) // if the user is not a member of the channel
+		{
+			Utilities::writeReply(c.cliFd, ERR_CANNOTSENDTOCHAN(c.nick));
+			return 0;
 		}
 		std::string mes = RPL_PRIVMSG(c.nick, target, message);
 		sendMessageToChannel(c, mes, *ch);

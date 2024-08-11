@@ -44,3 +44,4 @@
 #define ERR_BADINPUTUSER       						"Cannot change the username\r\n"
 #define ERR_NOSUCHNICK(source)						": 401 " + source + " :No such nick/channel" + "\r\n"                             //PRIVMSG
 #define ERR_CANNOTSENDTOCHAN(source)				": 404 " + source + " :Cannot send to channel" + "\r\n"                           //PRIVMSG
+#define ERR_USERNOTINCHANNEL(source, user, channel)	": 441 " + source + " " + user + " " + channel + " :They aren't on that channel" + "\r\n" //PRIVMSG
