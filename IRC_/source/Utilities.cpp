@@ -5,7 +5,7 @@
 Utilities::Utilities(){}
 Utilities::~Utilities(){}
 
-int Utilities::checkPortNumber(char* port_number){ //max port number ekle
+int Utilities::checkPortNumber(char* port_number){ //max port number
 
     int pN = atoi(port_number);
 
@@ -97,10 +97,6 @@ std::vector<std::string> Utilities::splitStringByNewline(const std::string& str)
         start = end + 1;
         end = str.find('\n', start);
     }
-
-    // Add the last segment
-    // result.push_back(str.substr(start));
-
     return result;
 }
 
@@ -109,26 +105,12 @@ void Server::showRightGui(Client &client, Channel &channel) {
     std::string msg;
     Channel* tmp = getChannel(channel.channel_name);
 
-
     if (!tmp)
         return;
-    // std::cout << " bu mesaj " << msg << std::endl;
-    if (!tmp)
-        return;
-    // std::cout << " bu mesaj1 " << msg << std::endl;
-
-    // Kullanıcıların listesini oluştur
     for (std::vector<Client>::iterator it = tmp->channel_client.begin(); it != tmp->channel_client.end(); ++it) {
-        msg += it->nick + " ";
-    }
 
-    // Eğer msg boşsa, kullanıcı listesinin doğru oluşturulmadığını anlayabiliriz
-    // if (msg.empty()) {
-    //     std::cout << "List is empty!" << std::endl;
-    //     return;
-    // }
-    // Kullanıcıya kanalın kullanıcılarını gönder
-
+        msg += '@'+ it->nick + " ";
+    }    
     Utilities::writeAllClient(tmp->getFds(), RPL_NAMREPLY(client.nick, tmp->channel_name, msg));
     Utilities::writeAllClient(tmp->getFds(), RPL_ENDOFNAMES(client.nick, tmp->channel_name));
 }
@@ -151,11 +133,5 @@ std::vector<std::string> Utilities::parseCmd(std::string& cmd){
             result.push_back(cmd.substr(start));
         }
     }
-
-    // for(std::vector<std::string>::iterator it = result.begin(); it!= result.end(); ++it){
-    //     if((*it) == "\r")
-    //         std::cout << "r var param" << std::endl;
-    //     std::cout << "param: " <<*it << std::endl;
-    // }
     return result;
 }

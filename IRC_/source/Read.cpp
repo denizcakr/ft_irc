@@ -27,9 +27,7 @@ void Server::readEvent() {
                 // }
                 std::vector<std::string> lines = Utilities::splitStringByNewline(buffer);
                 for(size_t i = 0; i < lines.size(); i++){
-                    if(lines[i] == "\r")
-                        std::cout<< "r var" <<std::endl; 
-                    std::cout << BLUE << "[ CMD ] "<<  RESET << PURPLE << "[ "<< lines[i] << " ]" << RESET << std::endl; 
+                    std::cout << BLUE << "[ CMD ] "<<  RESET << PURPLE << "[ "<< lines[i].substr(0, lines[i].size() - 1) << " ]" << RESET << std::endl; 
                     std::vector<std::string> all = Utilities::splitFromFirstSpace(lines[i]);
                     if (cmds.find(all[0]) != cmds.end())
                     {
@@ -49,12 +47,6 @@ void Server::readEvent() {
                         this->clients.erase(begin);//sikintili
                     }
                 }
-                // for(std::vector<Client>::iterator it = this->clients.begin(); it != this->clients.end(); ++it){
-                //     if(it != begin){
-                //         (*it).messageBox.push_back(buffer);
-                //         FD_SET((*it).cliFd, &this->writeFds);
-                //     }
-                // }
             }
 
             this->state = 0;
