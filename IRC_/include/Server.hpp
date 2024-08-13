@@ -83,4 +83,5 @@ class Server
         void showRightGui(Client &client, Channel &channel);//graphical user interface -> yanda kullanicilarin gozukecegi zimbirti
         Channel* getChannel(const std::string &name);
         void sendMessageToChannel(Client& c, std::string& message, Channel& channel);
+        std::string getTopic(const std::vector<std::string>& params);
 };

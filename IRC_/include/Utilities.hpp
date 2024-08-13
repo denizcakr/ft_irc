@@ -4,6 +4,7 @@
 #include "Server.hpp"
 #include <stdlib.h>
 #include <Channel.hpp>
+#include <sstream>
 
 # define BLACK		"\033[0;30m"
 # define RED		"\033[0;31m"
@@ -30,8 +31,10 @@ class Utilities{
     public:
         static void writeReply(int fd, std::string message);
         static void writeAllClient(std::vector<int> fd, std::string message);
+        static void writeAllMessage(std::vector<int> const&, std::string const&);
         static int checkPortNumber(char* port_number);
         static std::vector<std::string> splitFromFirstSpace(const std::string& input);
         static std::vector<std::string> splitStringByNewline(const std::string& str);
+        static std::vector<std::string> splitString(const std::string& input, char delimiter);
         static std::vector<std::string> parseCmd(std::string& cmd);
 };

@@ -48,13 +48,39 @@ std::vector<std::string> Utilities::splitFromFirstSpace(const std::string& input
     return result;
 }
 
+std::vector<std::string> Utilities::splitString(const std::string& input, char delimiter) {
+    std::vector<std::string> result;
+    std::string::size_type start = 0;
+    std::string::size_type end = input.find(delimiter);
 
+    while (end != std::string::npos) {
+        if (end != start) {
+            result.push_back(input.substr(start, end - start));
+        }
+        start = end + 1;
+        end = input.find(delimiter, start);
+    }
+
+    if (start < input.length()) {
+        result.push_back(input.substr(start));
+    }
+
+    return result;
+}
 
 void Utilities::writeReply(int fd, std::string message){
     if (write(fd, message.c_str(), message.length()) < 0){
         std::cout << "Message cannot be sent!" << std::endl;
     }
 }
+
+void Utilities::writeAllMessage(std::vector<int> const& fd, std::string const& message)
+{
+    for (std::vector<int>::const_iterator it = fd.begin(); it != fd.end(); ++it) {
+        Utilities::writeReply((*it), message);
+    }
+}
+
 void Utilities::writeAllClient(std::vector<int> fd, std::string message){
     for(std::vector<int>::iterator it = fd.begin(); it != fd.end(); ++it){
         Utilities::writeReply((*it), message);
@@ -74,6 +100,7 @@ std::vector<std::string> Utilities::splitStringByNewline(const std::string& str)
     return result;
 }
 
+
 void Server::showRightGui(Client &client, Channel &channel) {
     std::string msg;
     Channel* tmp = getChannel(channel.channel_name);
@@ -81,6 +108,7 @@ void Server::showRightGui(Client &client, Channel &channel) {
     if (!tmp)
         return;
     for (std::vector<Client>::iterator it = tmp->channel_client.begin(); it != tmp->channel_client.end(); ++it) {
+
         msg += '@'+ it->nick + " ";
     }    
     Utilities::writeAllClient(tmp->getFds(), RPL_NAMREPLY(client.nick, tmp->channel_name, msg));
