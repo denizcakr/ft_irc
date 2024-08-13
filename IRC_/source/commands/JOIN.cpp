@@ -18,10 +18,17 @@ int Server::Join(std::string &cmd, Client& c){
     }
     if(findChannel(ch_name, this->channels)){
         for(ChannelIterator it = this->channels.begin(); it != this->channels.end(); ++it){
-            (*it).channel_client.push_back(c);
-            Utilities::writeReply(c.cliFd, RPL_JOIN(c.nick, c.ipAddr, ch_name));
-            this->showRightGui(c, (*it));
+            if(ch_name == (*it).channel_name){
+                if((*it).is_member(c)){
+                    Utilities::writeReply(c.cliFd, ERR_ALREADYREGISTRED);
+                    return 0;
+                }
+                (*it).channel_client.push_back(c);
+                Utilities::writeReply(c.cliFd, RPL_JOIN(c.nick, c.ipAddr, ch_name));
+                this->showRightGui(c, (*it));
+            }
         }
+        
     }
     else {
         Channel a(ch_name);
