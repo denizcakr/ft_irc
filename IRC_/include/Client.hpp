@@ -22,6 +22,10 @@ class Client
         std::string nick;
         std::string pass;
 
+        std::string buffer;
+
+        int passCheck;
+
         Client();
         ~Client();
         Client& operator=(Client const &copy);
