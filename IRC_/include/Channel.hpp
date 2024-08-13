@@ -17,6 +17,8 @@ class Channel
 	//Channel Modes
 		Client* oprt;
 		bool mode;
+		std::string topic;
+        std::string _opNick;
 		bool topic_settable; //Channel Mode Topic
 		int channel_limit;
 		std::string channel_key;
