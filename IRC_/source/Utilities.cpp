@@ -48,7 +48,25 @@ std::vector<std::string> Utilities::splitFromFirstSpace(const std::string& input
     return result;
 }
 
+std::vector<std::string> Utilities::splitString(const std::string& input, char delimiter) {
+    std::vector<std::string> result;
+    std::string::size_type start = 0;
+    std::string::size_type end = input.find(delimiter);
 
+    while (end != std::string::npos) {
+        if (end != start) {
+            result.push_back(input.substr(start, end - start));
+        }
+        start = end + 1;
+        end = input.find(delimiter, start);
+    }
+
+    if (start < input.length()) {
+        result.push_back(input.substr(start));
+    }
+
+    return result;
+}
 
 void Utilities::writeReply(int fd, std::string message){
     if (write(fd, message.c_str(), message.length()) < 0){
@@ -85,6 +103,7 @@ std::vector<std::string> Utilities::splitStringByNewline(const std::string& str)
 
     return result;
 }
+
 
 void Server::showRightGui(Client &client, Channel &channel) {
     std::string msg;
