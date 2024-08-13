@@ -4,7 +4,6 @@
 #include "Utilities.hpp"
 #include "Replies.hpp"
 
-
 class Client;
 class Server;
 
@@ -20,7 +19,7 @@ class Channel
 		std::string topic;
         std::string _opNick;
 		bool topic_settable; //Channel Mode Topic
-		int channel_limit;
+		unsigned int channel_limit;
 		std::string channel_key;
 
 		Channel(const std::string& channelName);
