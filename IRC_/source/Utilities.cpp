@@ -55,6 +55,14 @@ void Utilities::writeReply(int fd, std::string message){
         std::cout << "Message cannot be sent!" << std::endl;
     }
 }
+
+void Utilities::writeAllMessage(std::vector<int> const& fd, std::string const& message)
+{
+    for (std::vector<int>::const_iterator it = fd.begin(); it != fd.end(); ++it) {
+        Utilities::writeReply((*it), message);
+    }
+}
+
 void Utilities::writeAllClient(std::vector<int> fd, std::string message){
     for(std::vector<int>::iterator it = fd.begin(); it != fd.end(); ++it){
         Utilities::writeReply((*it), message);
@@ -82,11 +90,8 @@ void Server::showRightGui(Client &client, Channel &channel) {
     std::string msg;
     Channel* tmp = getChannel(channel.channel_name);
 
-    std::cout << " bu mesaj " << msg << std::endl;
     if (!tmp)
         return;
-    std::cout << " bu mesaj1 " << msg << std::endl;
-
     // Kullanıcıların listesini oluştur
     for (std::vector<Client>::iterator it = tmp->channel_client.begin(); it != tmp->channel_client.end(); ++it) {
         msg += it->nick + " ";
@@ -98,9 +103,7 @@ void Server::showRightGui(Client &client, Channel &channel) {
     //     return;
     // }
     // Kullanıcıya kanalın kullanıcılarını gönder
-    std::cout << " bu mesaj2 " << msg << std::endl;
-    
-    
+
     Utilities::writeAllClient(tmp->getFds(), RPL_NAMREPLY(client.nick, tmp->channel_name, msg));
     Utilities::writeAllClient(tmp->getFds(), RPL_ENDOFNAMES(client.nick, tmp->channel_name));
 }
