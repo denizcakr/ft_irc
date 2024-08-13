@@ -1,6 +1,6 @@
 #include "Client.hpp"
 
-Client::Client(){}
+Client::Client() : passCheck(0){}
 
 Client::~Client(){}
 

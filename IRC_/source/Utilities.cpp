@@ -82,10 +82,10 @@ void Server::showRightGui(Client &client, Channel &channel) {
     std::string msg;
     Channel* tmp = getChannel(channel.channel_name);
 
-    std::cout << " bu mesaj " << msg << std::endl;
+    // std::cout << " bu mesaj " << msg << std::endl;
     if (!tmp)
         return;
-    std::cout << " bu mesaj1 " << msg << std::endl;
+    // std::cout << " bu mesaj1 " << msg << std::endl;
 
     // Kullanıcıların listesini oluştur
     for (std::vector<Client>::iterator it = tmp->channel_client.begin(); it != tmp->channel_client.end(); ++it) {
@@ -98,9 +98,36 @@ void Server::showRightGui(Client &client, Channel &channel) {
     //     return;
     // }
     // Kullanıcıya kanalın kullanıcılarını gönder
-    std::cout << " bu mesaj2 " << msg << std::endl;
+    // std::cout << " bu mesaj2 " << msg << std::endl;
     
     
     Utilities::writeAllClient(tmp->getFds(), RPL_NAMREPLY(client.nick, tmp->channel_name, msg));
     Utilities::writeAllClient(tmp->getFds(), RPL_ENDOFNAMES(client.nick, tmp->channel_name));
+}
+
+std::vector<std::string> Utilities::parseCmd(std::string& cmd){
+
+    std::vector<std::string> result;
+    std::string::size_type start = 0;
+    std::string::size_type end = 0;
+
+    while (end != std::string::npos) {
+        end = cmd.find(' ', start);
+
+        // Add the word to the result vector
+        if (end != std::string::npos) {
+            result.push_back(cmd.substr(start, end - start));
+            start = end + 1;
+        } else {
+            // Add the last word
+            result.push_back(cmd.substr(start));
+        }
+    }
+
+    // for(std::vector<std::string>::iterator it = result.begin(); it!= result.end(); ++it){
+    //     if((*it) == "\r")
+    //         std::cout << "r var param" << std::endl;
+    //     std::cout << "param: " <<*it << std::endl;
+    // }
+    return result;
 }
