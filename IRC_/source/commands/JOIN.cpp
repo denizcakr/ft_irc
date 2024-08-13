@@ -12,11 +12,6 @@ int findChannel(std::string &name, std::vector<Channel> channel){
 
 int Server::Join(std::string &cmd, Client& c){
     (void)c;
-    // std::size_t pos = cmd.find('#');
-    // if (pos != std::string::npos) {
-    //     ch_name = cmd;
-    //     std::cout << "channel_name: " << ch_name << std::endl;
-    // }
     std::string ch_name = cmd;
     if(c.hexOrNc == HEX)
         ch_name = cmd.substr(0, cmd.size() - 1);
