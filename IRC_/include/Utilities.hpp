@@ -36,4 +36,5 @@ class Utilities{
         static std::vector<std::string> splitFromFirstSpace(const std::string& input);
         static std::vector<std::string> splitStringByNewline(const std::string& str);
         static std::vector<std::string> splitString(const std::string& input, char delimiter);
+        static std::vector<std::string> parseCmd(std::string& cmd);
 };

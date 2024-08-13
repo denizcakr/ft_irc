@@ -14,8 +14,21 @@ void Server::readEvent() {
             }
             else {
                 this->buffer[readed] = '\0';
+                std::string k = this->buffer;
+                // if (k == "\n") {
+                //     state = 0;
+                //     break;
+                // }
+                // // ^D
+                // if (k[k.length() - 1] != '\n') {
+                //     (*begin).buffer += k;
+                //     state = 0;
+                //     break;
+                // }
                 std::vector<std::string> lines = Utilities::splitStringByNewline(buffer);
                 for(size_t i = 0; i < lines.size(); i++){
+                    if(lines[i] == "\r")
+                        std::cout<< "r var" <<std::endl; 
                     std::cout << BLUE << "[ CMD ] "<<  RESET << PURPLE << "[ "<< lines[i] << " ]" << RESET << std::endl; 
                     std::vector<std::string> all = Utilities::splitFromFirstSpace(lines[i]);
                     if (cmds.find(all[0]) != cmds.end())
@@ -24,6 +37,16 @@ void Server::readEvent() {
                     }
                     else{
                         std::cout << "Command Not Found!" << std::endl;
+                    }
+                }
+                if(!(Utilities::parseCmd(lines[0])[0] == "CAP" && lines.size() == 1)){
+                    if (!(*begin).passCheck) {
+                        FD_CLR((*begin).cliFd, &this->readFds);
+                        FD_CLR((*begin).cliFd, &this->writeFds);
+                        std::cout << RED << (*begin).cliFd - 3 << " YOU MUST ENTER THE PASSWORD!" << RESET << std::endl;
+                        std::cout << RED << "CS: "<< this->clients.size() << ", " << " client disconnected!" <<RESET << std::endl;
+                        close((*begin).cliFd);//sikintili
+                        this->clients.erase(begin);//sikintili
                     }
                 }
                 // for(std::vector<Client>::iterator it = this->clients.begin(); it != this->clients.end(); ++it){
