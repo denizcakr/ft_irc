@@ -2,6 +2,21 @@
 #include "Channel.hpp"
 #include "Client.hpp"
 
+/*
+ERROR: A client connects to the server and joins to a channel, and sets a password to the channel
+with (mode +key) but when the other client tries to join the channel with the password, with not
+a password it receives an error message which is correct but with a wrong message it joins another
+channel and with correct pass. it joins to the channel but both the participants cannot send message
+to the channel or see each others messages !!!
+
+1- without pass channel = WORKS*
+2- no password: ERR_NEEDMOREPARAMS = WORKS*
+3- wrong password: ERR_BADCHANNELKEY = Doesnt work 
+(joins another channel or clients dont join the same channel with the same name)
+4- correct password: RPL_JOIN = same thing as 3 also takes the key as a participant i think whether
+it is correct or not.
+*/
+
 int findChannel(std::string &name, std::vector<Channel> channel){
     for(ChannelIterator it = channel.begin(); it != channel.end(); ++it){
         if(name == (*it).channel_name)
@@ -11,9 +26,10 @@ int findChannel(std::string &name, std::vector<Channel> channel){
 }
 
 void printChannelMembers(Channel& channel) {
-    for(std::vector<Client>::iterator it = channel.channel_client.begin(); it != channel.channel_client.end(); ++it) {
-        std::cout << "Channel: " << channel.channel_name << std::endl;
-        std::cout << "Members: " << (*it).user << std::endl;
+    // Kanalın client listesi üzerinde klasik for döngüsü ile iterasyon yapıyoruz
+    for(std::vector<Client>::const_iterator it = channel.channel_client.begin(); it != channel.channel_client.end(); ++it) {
+        const Client& client = *it;
+        std::cout << "Channel: " << channel.channel_name << ", User: " << client.user << ", Nickname: " << client.nick << std::endl;
     }
 }
 
@@ -22,7 +38,10 @@ int Server::Join(std::string &cmd, Client& c)
     std::string ch_name = Utilities::splitFromFirstSpace(cmd)[0];
     std::string chKey = Utilities::splitFromFirstSpace(cmd)[1];
 
-    std::cout << "CH:" << ch_name << "|CHKEY:" << chKey << "|" << std::endl;
+    if(chKey[chKey.size() - 1] == '\r')
+        chKey = chKey.substr(0, chKey.size() - 1);
+
+    std::cout << "CH:" << ch_name << "|CHKEY:|" << chKey << "|" << std::endl;
     
     if(c.hexOrNc == HEX)
         ch_name = cmd.substr(0, cmd.size() - 1);
@@ -43,6 +62,7 @@ int Server::Join(std::string &cmd, Client& c)
                 // std::cout << "join key" << (*it).channel_key << std::endl;
                 if(!(*it).channel_key.empty())
                 {
+                    std::cout << "KEY" << chKey << "|" << std::endl;
                     if(cmd.size() < 3)
                     {
                         Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, "MODE"));
