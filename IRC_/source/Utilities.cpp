@@ -135,3 +135,24 @@ std::vector<std::string> Utilities::parseCmd(std::string& cmd){
     }
     return result;
 }
+
+std::string Utilities::infoMessage(void){
+    std::string msg;
+
+    msg += "* 42 Ecole IRC Project \n";
+    msg += "* Developers: \n";
+    msg += "* - Eymen Hafsa Albayrak \n";
+    msg += "* - Ezgi Deniz Çakır \n";
+    msg += "* - Sümeyra Yıldız \n";
+    msg += "* \n";
+    msg += "* Project Information: \n";
+    msg += "* - Start Date: 16/07/2024 \n";
+    msg += "* - End Date: ../08/2024 \n";
+    msg += "* Thanks to the following individuals for their contributions: \n";
+    msg += "* - ayalman         Alp Arda Yalman \n";
+    msg += "* - tacikgoz        Talha Açıkgöz \n";
+    msg += "* \n";
+    msg += "* End of /INFO list. \n";
+
+    return msg;
+}

@@ -75,15 +75,14 @@ void Server::cmds_initialize(void)
     cmds["PRIVMSG"] = &Server::Privmsg;
     cmds["JOIN"] = &Server::Join;
     cmds["MODE"] = &Server::Mode;
-    // cmds["INFO"] = &Server::Info;
+    cmds["INFO"] = &Server::Info;
     cmds["TOPIC"] = &Server::Topic;
     // cmds["INVITE"] = &Server::Invite;
     // cmds["NOTICE"] = &Server::Notice;
     // cmds["KICK"] = &Server::Kick;
     // cmds["PART"] = &Server::Part;
-    // cmds["PONG"] = &Server::Pong;
     // cmds["QUIT"] = &Server::Quit;
-    // // cmds["WHOIS"] = &Server::Whois;
+
 }
 
 Server::~Server()

@@ -2,13 +2,6 @@
 #include "Server.hpp"
 #include "Utilities.hpp"
 
-/*
-
-    connect olduktan sonra ilk girilen komut PASS olmali, 
-    specially hexchat
-*/
-
-
 // int Server::Pass(std::string &input, Client& c)
 // {
 //     /* input = input.substr(0, input.length()-1);
@@ -51,7 +44,7 @@
 //             if(this->password == input)
 //             {
 //                 std::cout << "Already registered! " << c.pass << std::endl;
-//                 Utilities::writeReply(c.cliFd, ERR_ALREADYREGISTRED);
+//                 Utilities::writeReply(c.cliFd, ERR_ALREADYREGISTRED(c.cliFd));
 //             }
 //             else if(this->password != input)
 //             {

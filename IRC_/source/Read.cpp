@@ -2,6 +2,7 @@
 #include "Client.hpp"
 
 void Server::readEvent() {
+    Client cl;
     for(std::vector<Client>::iterator begin = this->clients.begin(); begin != this->clients.end() && this->state; ++begin){
         if(FD_ISSET((*begin).cliFd, &this->readFdsSup)){
             int readed = read((*begin).cliFd, this->buffer, 1024);
@@ -27,7 +28,9 @@ void Server::readEvent() {
                 // }
                 std::vector<std::string> lines = Utilities::splitStringByNewline(buffer);
                 for(size_t i = 0; i < lines.size(); i++){
-                    std::cout << BLUE << "[ CMD ] "<<  RESET << PURPLE << "[ "<< lines[i].substr(0, lines[i].size() - 1) << " ]" << RESET << std::endl; 
+                    if(cl.hexOrNc == HEX)
+                        std::cout << BLUE << "[ CMD ] " << RESET << PURPLE << "[ "<< lines[i].substr(0, lines[i].size() - 1) << " ]" << RESET << std::endl; 
+                    std::cout << BLUE << "[ CMD ] " <<  RESET << PURPLE << "[ "<< lines[i] << " ]" << RESET << std::endl; 
                     std::vector<std::string> all = Utilities::splitFromFirstSpace(lines[i]);
                     if (cmds.find(all[0]) != cmds.end())
                     {
