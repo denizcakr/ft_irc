@@ -16,12 +16,15 @@ int Server::Privmsg(std::string &input, Client& c)
 		message = input.substr(pos + 1);
 		// message += "\n";
 	}
-	else
+	if(target.empty())
 	{
-		Utilities::writeReply(c.cliFd, RPL_PRIVMSG(c.user, target,"Wrong Format!")); ///????
+		Utilities::writeReply(c.cliFd, ERR_NORECIPIENT(c.user)); ///????
 		return 0;
 	}
-
+	if(message.empty()){
+		Utilities::writeReply(c.cliFd, ERR_NOTEXTTOSEND(c.user)); ///????
+		return 0;
+	}
 	if (target[0] == '#')
 	{
 		Channel *ch = getChannel(target);
@@ -35,7 +38,8 @@ int Server::Privmsg(std::string &input, Client& c)
 			Utilities::writeReply(c.cliFd, ERR_CANNOTSENDTOCHAN(c.user));
 			return 0;
 		}
-		std::string mes = RPL_PRIVMSG(c.user, target, message);
+
+		std::string mes = RPL_PRIVMSG(c.user, target, message.substr(1, message.size()));
 		sendMessageToChannel(c, mes, *ch);
 	}
 

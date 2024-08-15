@@ -16,17 +16,18 @@ void Server::readEvent() {
             else {
                 this->buffer[readed] = '\0';
                 std::string k = this->buffer;
-                // if (k == "\n") {
-                //     state = 0;
-                //     break;
-                // }
-                // // ^D
-                // if (k[k.length() - 1] != '\n') {
-                //     (*begin).buffer += k;
-                //     state = 0;
-                //     break;
-                // }
-                std::vector<std::string> lines = Utilities::splitStringByNewline(buffer);
+                if (k == "\n") {
+                    state = 0;
+                    break;
+                }
+                // ^D
+                if (k[k.length() - 1] != '\n') {
+                    (*begin).buffer += k;
+                    state = 0;
+                    break;
+                }
+                
+                std::vector<std::string> lines = Utilities::splitStringByNewline((*begin).buffer + buffer);
                 for(size_t i = 0; i < lines.size(); i++){
                     if(lines[i][lines[i].size() - 1] == '\r')
                         lines[i] = lines[i].substr(0, lines[i].size() - 1);

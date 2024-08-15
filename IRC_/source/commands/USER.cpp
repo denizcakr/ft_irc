@@ -32,8 +32,10 @@ int Server::User(std::string &input, Client& c)
 	}
 	if(!c.user.empty() && c.user == input)
 		Utilities::writeReply(c.cliFd, ERR_ALREADYREGISTRED(c.user));
-	else if(c.user.empty() && !input.empty())
-		c.user = input;
+	else if(c.user.empty() && !input.empty()){
+		c.user = Utilities::splitFromFirstSpace(input)[0];
+
+	}
 	else if(input.empty() || input.size() < 1 )
 		Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.user, "USER"));
 	else if(!c.user.empty() && c.user != input)
