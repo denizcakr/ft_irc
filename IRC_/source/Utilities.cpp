@@ -107,8 +107,10 @@ void Server::showRightGui(Client &client, Channel &channel) {
     if (!tmp)
         return;
     for (std::vector<Client>::iterator it = tmp->channel_client.begin(); it != tmp->channel_client.end(); ++it) {
-
-        msg += '@'+ it->nick + " ";
+        if(it->nick == tmp->oprt->nick)
+            msg += "\00304@" + it->nick + "\003 ";
+        else
+            msg += '@'+ it->nick + " ";
     }    
     Utilities::writeAllClient(tmp->getFds(), RPL_NAMREPLY(client.nick, tmp->channel_name, msg));
     Utilities::writeAllClient(tmp->getFds(), RPL_ENDOFNAMES(client.nick, tmp->channel_name));
