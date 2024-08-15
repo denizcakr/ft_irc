@@ -80,7 +80,7 @@ void Server::cmds_initialize(void)
     // cmds["INVITE"] = &Server::Invite;
     // cmds["NOTICE"] = &Server::Notice;
     // cmds["KICK"] = &Server::Kick;
-    // cmds["PART"] = &Server::Part;
+    cmds["PART"] = &Server::Part;
     cmds["QUIT"] = &Server::Quit;
 
 }
