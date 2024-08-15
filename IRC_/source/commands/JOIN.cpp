@@ -19,18 +19,10 @@
 */
 
 /*
-ERROR: A client connects to the server and joins to a channel, and sets a password to the channel
-with (mode +key) but when the other client tries to join the channel with the password, with not
-a password it receives an error message which is correct but with a wrong message it joins another
-channel and with correct pass. it joins to the channel but both the participants cannot send message
-to the channel or see each others messages !!!
-
-1- without pass channel = WORKS*
-2- no password: ERR_NEEDMOREPARAMS = WORKS*
-3- wrong password: ERR_BADCHANNELKEY = Doesnt work 
-(joins another channel or clients dont join the same channel with the same name)
-4- correct password: RPL_JOIN = same thing as 3 also takes the key as a participant i think whether
-it is correct or not.
+UPDATED
+CURRENT ERRORS:
+    1- KEY IS NOT CHANGING!
+    2- 
 */
 
 int findChannel(std::string &name, std::vector<Channel> channel){
@@ -59,8 +51,8 @@ int Server::Join(std::string &cmd, Client& c)
         ch_key = splitResult[1];
     }
 
-    if(!ch_key.empty() && ch_key[ch_key.size() - 1] == '\r')
-        ch_key = ch_key.substr(0, ch_key.size() - 1);
+   /*  if(!ch_key.empty() && ch_key[ch_key.size() - 1] == '\r')
+        ch_key = ch_key.substr(0, ch_key.size() - 1); */
 
     std::cout << "CH:" << ch_name << "|ch_key:|" << ch_key << "|" << std::endl;
     std::cout << "KEY:" << ch_key << "|" << std::endl;
@@ -73,45 +65,40 @@ int Server::Join(std::string &cmd, Client& c)
         for(ChannelIterator it = this->channels.begin(); it != this->channels.end(); ++it)
         {
             printChannelMembers(*it);
-            // std::cout << "CH:" << (*it).channel_key << "|"<< std::endl;
-            // std::cout << "CHk:" << ch_key << "|" << std::endl;
+            std::cout << "CH:" << (*it).channel_key << "|"<< std::endl;
+            std::cout << "CHk:" << ch_key << "|" << std::endl;
             if(ch_name == (*it).channel_name)
             {
+                if((*it).is_member(c)){
+                    Utilities::writeReply(c.cliFd, ERR_ALREADYREGISTRED(c.user));
+                    return 0;
+                }
                 if((*it).channel_limit != 0 && (*it).channel_client.size() >= (*it).channel_limit) {
                     Utilities::writeReply(c.cliFd, ERR_CHANNELISFULL(c.nick, ch_name));
                     return 0;
                 }
-                std::cout << "TEST WRONG KEY" << ch_key << std::endl;
                 if(!(*it).channel_key.empty())
                 {
-                    std::cout << "KEY" << ch_key << "|" << std::endl;
-                    if(ch_key.empty())
+                    // if((*it).oprt == c)
                     {
-                        Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, "MODE"));
-                        return 0;
+                        if(ch_key.empty())
+                        {
+                            std::cout << "KEY" << ch_key << "|" << std::endl;
+                            Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, "MODE"));
+                            return 0;
+                        }
+                        if(ch_key != (*it).channel_key)
+                        {
+                            Utilities::writeReply(c.cliFd, ERR_BADCHANNELKEY(c.nick, ch_name));
+                            return 0;
+                        }
                     }
-                    if(ch_key != (*it).channel_key)
-                    {
-                        Utilities::writeReply(c.cliFd, ERR_BADCHANNELKEY(c.nick, ch_name));
-                        return 0;
-                    }
-                }
-int Server::Join(std::string &cmd, Client& c){
-    (void)c;
-    std::string ch_name = cmd;
-    if(findChannel(ch_name, this->channels)){
-        for(ChannelIterator it = this->channels.begin(); it != this->channels.end(); ++it){
-            if(ch_name == (*it).channel_name){
-                if((*it).is_member(c)){
-                    Utilities::writeReply(c.cliFd, ERR_ALREADYREGISTRED(c.user));
-                    return 0;
                 }
                 (*it).channel_client.push_back(c);
                 Utilities::writeReply(c.cliFd, RPL_JOIN(c.nick, c.ipAddr, ch_name));
                 this->showRightGui(c, (*it));
             }
         }
-        
     }
     else {
         Channel a(ch_name);

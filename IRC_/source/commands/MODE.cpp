@@ -183,8 +183,8 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 					return 0;
 				}
 				std::string key = cmd[2];
-				if(key[key.size() - 1] == '\r')
-				key = key.substr(0, key.size() - 1);
+				// if(key[key.size() - 1] == '\r')
+				// 	key = key.substr(0, key.size() - 1);
 				if(ch->channel_key.empty())
 				{
 					ch->channel_key = key;
