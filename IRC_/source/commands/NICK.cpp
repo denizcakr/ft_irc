@@ -37,8 +37,6 @@ int Server::Nick(std::string &s, Client &c) {// NICK <nickname>
         return 0;
     }
     if(!s.empty() && !isNickExist(s)){
-        if (c.hexOrNc == HEX)
-            s = s.substr(0, s.size() - 1);
         c.nick = s;
         c.messageBox.push_back(RPL_NICK(c.nick, c.user, c.ip, s));
         FD_SET(c.cliFd, &this->writeFds);
@@ -46,7 +44,7 @@ int Server::Nick(std::string &s, Client &c) {// NICK <nickname>
     else{
         if (s.empty())
             Utilities::writeReply(c.cliFd, ERR_NICKNAMEEMPTY(c.nick));
-        else
+        else if(isNickExist(s))
             Utilities::writeReply(c.cliFd, ERR_NICKNAMEINUSE(c.nick));
     }
     return 1;

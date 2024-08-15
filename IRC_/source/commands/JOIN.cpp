@@ -29,9 +29,6 @@ int findChannel(std::string &name, std::vector<Channel> channel){
 int Server::Join(std::string &cmd, Client& c){
     (void)c;
     std::string ch_name = cmd;
-    if(c.hexOrNc == HEX) {
-        ch_name = cmd.substr(0, cmd.size() - 1);
-    }
     if(findChannel(ch_name, this->channels)){
         for(ChannelIterator it = this->channels.begin(); it != this->channels.end(); ++it){
             if(ch_name == (*it).channel_name){

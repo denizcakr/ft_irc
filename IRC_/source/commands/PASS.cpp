@@ -60,9 +60,6 @@
 
 int Server::Pass(std::string &input, Client& c){
 
-
-    if(c.hexOrNc == HEX)
-        input = input.substr(0, input.size() - 1);
     if(this->password == input){
         c.passCheck = 1;
         std::cout << "Password is correct!" << std::endl;

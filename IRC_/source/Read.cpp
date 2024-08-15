@@ -28,8 +28,8 @@ void Server::readEvent() {
                 // }
                 std::vector<std::string> lines = Utilities::splitStringByNewline(buffer);
                 for(size_t i = 0; i < lines.size(); i++){
-                    if(cl.hexOrNc == HEX)
-                        std::cout << BLUE << "[ CMD ] " << RESET << PURPLE << "[ "<< lines[i].substr(0, lines[i].size() - 1) << " ]" << RESET << std::endl; 
+                    if(lines[i][lines[i].size() - 1] == '\r')
+                        lines[i] = lines[i].substr(0, lines[i].size() - 1);
                     std::cout << BLUE << "[ CMD ] " <<  RESET << PURPLE << "[ "<< lines[i] << " ]" << RESET << std::endl; 
                     std::vector<std::string> all = Utilities::splitFromFirstSpace(lines[i]);
                     if (cmds.find(all[0]) != cmds.end())
