@@ -50,5 +50,7 @@ int Server::Quit(std::string &input, Client& c)
 
     Utilities::writeReply(c.cliFd, RPL_QUIT(c.nick, input.c_str()));
 
+    kickClient(baseIt);
+
     return 0;
 }
