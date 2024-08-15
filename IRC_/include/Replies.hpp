@@ -45,5 +45,7 @@
 #define ERR_ALREADYREGISTRED(source)				": 462 " + source + " :Already registered"+ "\r\n"
 #define ERR_NOSUCHNICK(source)						": 401 " + source + " :No such nick/channel" + "\r\n"                             //PRIVMSG
 #define ERR_CANNOTSENDTOCHAN(source)				": 404 " + source + " :Cannot send to channel" + "\r\n"                           //PRIVMSG
+#define ERR_NOTEXTTOSEND(source)                    ": 412 " + source + " :No text to send" + "\r\n"
+#define ERR_NORECIPIENT(source)                     ": 411 " + source + " :No recipient given" + "\r\n"                 //PRIVMSG 
 #define ERR_USERNOTINCHANNEL(source, user, channel)	": 441 " + source + " " + user + " " + channel + " :They aren't on that channel" + "\r\n" //PRIVMSG
 

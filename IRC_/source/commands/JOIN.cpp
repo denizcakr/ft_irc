@@ -57,8 +57,6 @@ int Server::Join(std::string &cmd, Client& c)
     std::cout << "CH:" << ch_name << "|ch_key:|" << ch_key << "|" << std::endl;
     std::cout << "KEY:" << ch_key << "|" << std::endl;
     
-    if(c.hexOrNc == HEX)
-        ch_name = cmd.substr(0, cmd.size() - 1);
 
     if(findChannel(ch_name, this->channels))
     {
@@ -95,8 +93,11 @@ int Server::Join(std::string &cmd, Client& c)
                     }
                 }
                 (*it).channel_client.push_back(c);
+                std::string topicName = (*it).channel_name + " :" + (*it).topic;
+                std::cout << "tpicname: " << topicName << std::endl;
                 Utilities::writeReply(c.cliFd, RPL_JOIN(c.nick, c.ipAddr, ch_name));
                 this->showRightGui(c, (*it));
+                Utilities::writeReply(c.cliFd, RPL_TOPIC(c.nick, c.ipAddr, (*it).channel_name, (*it).topic));
             }
         }
     }
