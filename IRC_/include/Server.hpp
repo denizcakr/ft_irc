@@ -16,6 +16,8 @@
 #include <cerrno>
 #include <cstring>
 
+#define USERLEN 12
+
 class Server;
 class Client;
 class Channel;
@@ -72,11 +74,11 @@ class Server
         int User(std::string &input, Client& c);//zorunlu
         int Mode(std::string &input, Client& c);
         int Topic(std::string &input, Client& c);//operator
-        int Notice(std::string &input, Client& c);//operator
         int Info(std::string &input, Client& c);
+
+        int Notice(std::string &input, Client& c);//operator
         int Invite(std::string &input, Client& c);
         int Part(std::string &input, Client& c);
-        int Pong(std::string &input, Client& c);
         int Quit(std::string &input, Client& c);
         int Kick(std::string &input, Client& c);
 
@@ -84,4 +86,6 @@ class Server
         Channel* getChannel(const std::string &name);
         void sendMessageToChannel(Client& c, std::string& message, Channel& channel);
         std::string getTopic(const std::vector<std::string>& params);
+        int isNickExist(std::string s);
+
 };

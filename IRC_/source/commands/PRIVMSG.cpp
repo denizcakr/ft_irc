@@ -41,15 +41,13 @@ int Server::Privmsg(std::string &input, Client& c)
 
 	else
 	{
-		Client* cl = find_client(target);
-		if (cl == NULL)
-		{
-			Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.user, target));
-			return 0;
+		std::string mes = RPL_PRIVMSG(c.nick, target, message);
+		for(std::vector<Client>::iterator it = clients.begin(); it != clients.end(); ++it){
+			if((*it).nick == target){
+				(*it).messageBox.push_back(mes);
+				FD_SET((*it).cliFd, &this->writeFds);
+			}
 		}
-		std::string mes = RPL_PRIVMSG(c.user, target, message);
-		cl->messageBox.push_back(mes);
-		FD_SET(cl->cliFd, &this->writeFds);
 	}
 	return 0;
 }

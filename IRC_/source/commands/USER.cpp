@@ -4,20 +4,39 @@
 #include "Utilities.hpp"
 
 /*
-    USER degistirilmemeli ve ayni adda user varsa izin vermemeli!
+	RFC
+	->ERR_NEEDMOREPARAMS (461) ++
+	->ERR_ALREADYREGISTERED  ++
+
 */
+
+int checkOnlyTabOrSpaces(std::string &input) {
+	int a = 0;
+	for (int i = 0; input[i]; i++) {
+		if (input[i] == ' ' || input[i] == '\t')
+			a++;
+	}
+	return a == (int)input.size();
+}
+
 int Server::User(std::string &input, Client& c)
 {
-    std::string tmp = Utilities::splitFromFirstSpace(input)[0];
-    // password kontrolüne c yollanacak
-    if(!c.user.empty() && c.user == input)
-        Utilities::writeReply(c.cliFd, ERR_ALREADYREGISTRED);
-    else if(c.user.empty() && !input.empty())
-        c.user = tmp;
-    else if(input.empty())
-        Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.user, "USER"));
-    else if(!c.user.empty() && c.user != input)
-        Utilities::writeReply(c.cliFd, ERR_BADINPUTUSER);
-    return 1;
+
+	if(input.size() > USERLEN) {
+        input = input.substr(0, USERLEN);
+		Utilities::writeReply(c.cliFd, "Username length can be maximum 12 characters.\n");
+    }
+	if(checkOnlyTabOrSpaces(input)){
+		Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.user, "USER"));
+		return 0;
+	}
+	if(!c.user.empty() && c.user == input)
+		Utilities::writeReply(c.cliFd, ERR_ALREADYREGISTRED(c.user));
+	else if(c.user.empty() && !input.empty())
+		c.user = input;
+	else if(input.empty() || input.size() < 1 )
+		Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.user, "USER"));
+	else if(!c.user.empty() && c.user != input)
+		Utilities::writeReply(c.cliFd, ERR_ALREADYREGISTRED(c.user));
+	return 1;
 }
-// inputun sonunda \r varmi

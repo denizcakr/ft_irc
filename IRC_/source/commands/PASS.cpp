@@ -7,7 +7,6 @@
     specially hexchat
 */
 
-
 // int Server::Pass(std::string &input, Client& c)
 // {
 //     /* input = input.substr(0, input.length()-1);
@@ -50,7 +49,7 @@
 //             if(this->password == input)
 //             {
 //                 std::cout << "Already registered! " << c.pass << std::endl;
-//                 Utilities::writeReply(c.cliFd, ERR_ALREADYREGISTRED);
+//                 Utilities::writeReply(c.cliFd, ERR_ALREADYREGISTRED(c.cliFd));
 //             }
 //             else if(this->password != input)
 //             {
@@ -66,9 +65,6 @@
 
 int Server::Pass(std::string &input, Client& c){
 
-
-    if(c.hexOrNc == HEX)
-        input = input.substr(0, input.size() - 1);
     if(this->password == input){
         c.passCheck = 1;
         std::cout << "Password is correct!" << std::endl;

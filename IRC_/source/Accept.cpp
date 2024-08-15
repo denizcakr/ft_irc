@@ -10,8 +10,8 @@ void Server::acceptClient() {
 
     cliSize = sizeof(sockaddr_in);
     tmp.cliFd = accept(this->server_fd, (sockaddr *)&cliAddr, &cliSize);
-    if (tmp.cliFd < 0) {
-        if (errno == EAGAIN || errno == EWOULDBLOCK)// Non-blocking soketlerde bu hata normaldir ve bağlantı olmadığı anlamına gelir.
+    if (tmp.cliFd < 0) { ///BIG NOOOOOOOOOO
+        if (errno == EAGAIN || errno == EWOULDBLOCK)//This error is normal for non-blocking socket, it means there is no connection .
         {
             this->state = 0;
             return ;
@@ -24,6 +24,6 @@ void Server::acceptClient() {
     this->clients.push_back(tmp);
     FD_SET(tmp.cliFd, &this->readFds);
     std::cout << GREEN << "CS: "<< this->clients.size() << ", New Client Connected!" << RESET << std::endl;
-    // write(tmp.cliFd, "Enter the password using PASS <password>\n", strlen("Enter the password using PASS <password>\n"));
+    Utilities::writeReply(tmp.cliFd, "Password please!\n");
     this->state = 0;
 }
