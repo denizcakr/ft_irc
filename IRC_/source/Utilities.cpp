@@ -144,6 +144,14 @@ void Server::kickClient(cliIt& it)
     clients.erase(it);
 }
 
+int Server::isChannelExist(std::string const& channelName)
+{
+    for (chanIt it = channels.begin(); it != channels.end(); ++it) {
+        if (it->channel_name == channelName)
+            return 1;
+    }
+    return 0;
+}
 
 std::string Utilities::infoMessage(void){
     std::string msg;

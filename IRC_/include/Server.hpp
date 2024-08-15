@@ -90,5 +90,6 @@ class Server
         std::string getTopic(const std::vector<std::string>& params);
         int isNickExist(std::string s);
         void kickClient(cliIt&);
+        int isChannelExist(std::string const&);
 
 };
