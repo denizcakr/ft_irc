@@ -18,6 +18,13 @@
 
 */
 
+/*
+UPDATED
+CURRENT ERRORS:
+    1- KEY IS NOT CHANGING!
+    2- 
+*/
+
 int findChannel(std::string &name, std::vector<Channel> channel){
     for(ChannelIterator it = channel.begin(); it != channel.end(); ++it){
         if(name == (*it).channel_name)
@@ -26,22 +33,72 @@ int findChannel(std::string &name, std::vector<Channel> channel){
     return 0;
 }
 
-int Server::Join(std::string &cmd, Client& c){
-    (void)c;
-    std::string ch_name = cmd;
-    if(findChannel(ch_name, this->channels)){
-        for(ChannelIterator it = this->channels.begin(); it != this->channels.end(); ++it){
-            if(ch_name == (*it).channel_name){
+void printChannelMembers(Channel& channel) {
+    // Kanalın client listesi üzerinde klasik for döngüsü ile iterasyon yapıyoruz
+    for(std::vector<Client>::const_iterator it = channel.channel_client.begin(); it != channel.channel_client.end(); ++it) {
+        const Client& client = *it;
+        std::cout << "Channel: " << channel.channel_name << ", User: " << client.user << ", Nickname: " << client.nick << std::endl;
+    }
+}
+
+int Server::Join(std::string &cmd, Client& c)
+{
+    std::vector<std::string> splitResult = Utilities::splitFromFirstSpace(cmd);
+    std::string ch_name, ch_key;
+
+    if (splitResult.size() == 2) {
+        ch_name = splitResult[0];
+        ch_key = splitResult[1];
+    }
+
+   /*  if(!ch_key.empty() && ch_key[ch_key.size() - 1] == '\r')
+        ch_key = ch_key.substr(0, ch_key.size() - 1); */
+
+    std::cout << "CH:" << ch_name << "|ch_key:|" << ch_key << "|" << std::endl;
+    std::cout << "KEY:" << ch_key << "|" << std::endl;
+    
+    if(c.hexOrNc == HEX)
+        ch_name = cmd.substr(0, cmd.size() - 1);
+
+    if(findChannel(ch_name, this->channels))
+    {
+        for(ChannelIterator it = this->channels.begin(); it != this->channels.end(); ++it)
+        {
+            printChannelMembers(*it);
+            std::cout << "CH:" << (*it).channel_key << "|"<< std::endl;
+            std::cout << "CHk:" << ch_key << "|" << std::endl;
+            if(ch_name == (*it).channel_name)
+            {
                 if((*it).is_member(c)){
                     Utilities::writeReply(c.cliFd, ERR_ALREADYREGISTRED(c.user));
                     return 0;
+                }
+                if((*it).channel_limit != 0 && (*it).channel_client.size() >= (*it).channel_limit) {
+                    Utilities::writeReply(c.cliFd, ERR_CHANNELISFULL(c.nick, ch_name));
+                    return 0;
+                }
+                if(!(*it).channel_key.empty())
+                {
+                    // if((*it).oprt == c)
+                    {
+                        if(ch_key.empty())
+                        {
+                            std::cout << "KEY" << ch_key << "|" << std::endl;
+                            Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, "MODE"));
+                            return 0;
+                        }
+                        if(ch_key != (*it).channel_key)
+                        {
+                            Utilities::writeReply(c.cliFd, ERR_BADCHANNELKEY(c.nick, ch_name));
+                            return 0;
+                        }
+                    }
                 }
                 (*it).channel_client.push_back(c);
                 Utilities::writeReply(c.cliFd, RPL_JOIN(c.nick, c.ipAddr, ch_name));
                 this->showRightGui(c, (*it));
             }
         }
-        
     }
     else {
         Channel a(ch_name);

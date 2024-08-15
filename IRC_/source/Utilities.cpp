@@ -19,7 +19,6 @@ int Utilities::checkPortNumber(char* port_number){ //max port number
     return 1;
 }
 
-
 int Server::findMaxFd() const{
     int maxFd = this->server_fd;
     for(std::vector<Client>::const_iterator begin = this->clients.begin(); begin != this->clients.end(); begin++)

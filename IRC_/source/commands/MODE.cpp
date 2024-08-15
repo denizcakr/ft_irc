@@ -65,7 +65,7 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 		return 0;
 	}
 
-	if(mode[1] == 'o' || mode[1] == 'v')
+	if(mode[1] == 'o' || mode[1] == 'v') //???
 	{
 		if(cmd.size() < 3)
 		{
@@ -104,14 +104,22 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 			else if(mode[0] == '-')
 			{
 				ch->oprt = NULL;
+				for (size_t i = 0; i < ch->channel_client.size(); i++)
+				{
+					if (ch->channel_client[i].user != cl->user)
+					{
+						ch->oprt = &ch->channel_client[i];
+						break; //the first user which is not the operator will be the operator.
+					}
+				}
 				Utilities::writeReply(c.cliFd, RPL_MODE(c.nick, channel, "-o " + user, "O"));
 			}
 		}
-		else if(mode[1] == 'v')
+		else if(mode[1] == 'v') //cancel
 		{
 			if(mode[0] == '+')
 			{
-				ch->mode = true; //privmsg mode add!
+				ch->mode = true; //privmsg mode add! only voice users can send message!
 				Utilities::writeReply(c.cliFd, RPL_MODE(c.nick, channel, "+v " + user, "V"));
 			}
 			else if(mode[0] == '-')
@@ -121,7 +129,7 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 			}
 		}
 	}
-	else if(mode[1] == 't')
+	else if(mode[1] == 't') //topic command will be redesigned!
 	{
 		if (ch->oprt == NULL)
 		{
@@ -152,7 +160,7 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 			{
 				if(cmd.size() < 3)
 				{
-					Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, "MODE"));
+					Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.user, "MODE"));
 					return 0;
 				}
 				std::string lmt = cmd[2];
@@ -175,8 +183,13 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 					return 0;
 				}
 				std::string key = cmd[2];
-				ch->channel_key = key;
-				std::cout << " THIS IS THE KEY!: " << ch->channel_key << std::endl;
+				// if(key[key.size() - 1] == '\r')
+				// 	key = key.substr(0, key.size() - 1);
+				if(ch->channel_key.empty())
+				{
+					ch->channel_key = key;
+				}
+				std::cout << "|THIS IS THE KEY!: " << ch->channel_key << "|" << std::endl;
 				Utilities::writeReply(c.cliFd, RPL_MODE(c.nick, channel, "+k " + key, "K"));
 			}
 			else if(mode[0] == '-')

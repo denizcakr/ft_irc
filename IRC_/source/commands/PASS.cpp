@@ -1,6 +1,11 @@
 #include "Client.hpp"
 #include "Server.hpp"
 #include "Utilities.hpp"
+/*
+
+    connect olduktan sonra ilk girilen komut PASS olmali, 
+    specially hexchat
+*/
 
 // int Server::Pass(std::string &input, Client& c)
 // {

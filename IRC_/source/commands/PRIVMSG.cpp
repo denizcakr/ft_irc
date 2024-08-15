@@ -18,7 +18,7 @@ int Server::Privmsg(std::string &input, Client& c)
 	}
 	else
 	{
-		Utilities::writeReply(c.cliFd, RPL_PRIVMSG(c.nick, target,"Wrong Format!")); ///????
+		Utilities::writeReply(c.cliFd, RPL_PRIVMSG(c.user, target,"Wrong Format!")); ///????
 		return 0;
 	}
 
@@ -27,20 +27,21 @@ int Server::Privmsg(std::string &input, Client& c)
 		Channel *ch = getChannel(target);
 		if (ch == NULL)
 		{
-			Utilities::writeReply(c.cliFd, ERR_NOSUCHCHANNEL(c.nick, target));
+			Utilities::writeReply(c.cliFd, ERR_NOSUCHCHANNEL(c.user, target));
 			return 0;
 		}
 		if (!ch->is_member(c)) // if the user is not a member of the channel
 		{
-			Utilities::writeReply(c.cliFd, ERR_CANNOTSENDTOCHAN(c.nick));
+			Utilities::writeReply(c.cliFd, ERR_CANNOTSENDTOCHAN(c.user));
 			return 0;
 		}
-		std::string mes = RPL_PRIVMSG(c.nick, target, message);
+		std::string mes = RPL_PRIVMSG(c.user, target, message);
 		sendMessageToChannel(c, mes, *ch);
 	}
+
 	else
 	{
-		std::string mes = RPL_PRIVMSG(c.nick, target, message);	
+		std::string mes = RPL_PRIVMSG(c.nick, target, message);
 		for(std::vector<Client>::iterator it = clients.begin(); it != clients.end(); ++it){
 			if((*it).nick == target){
 				(*it).messageBox.push_back(mes);
