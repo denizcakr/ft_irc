@@ -37,6 +37,8 @@ class Server
         std::vector<Channel>    channels;
         char                    buffer[1024];
         int                     state;
+        typedef std::vector<Client>::iterator cliIt;
+        typedef std::vector<Channel>::iterator chanIt;
 
         fd_set readFds;
         fd_set writeFds;
@@ -87,5 +89,6 @@ class Server
         void sendMessageToChannel(Client& c, std::string& message, Channel& channel);
         std::string getTopic(const std::vector<std::string>& params);
         int isNickExist(std::string s);
+        void kickClient(cliIt&);
 
 };

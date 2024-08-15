@@ -135,6 +135,16 @@ std::vector<std::string> Utilities::parseCmd(std::string& cmd){
     return result;
 }
 
+void Server::kickClient(cliIt& it)
+{
+    std::cout << RED << "Client " << it->cliFd - 3  << " disconnected!" << RESET << std::endl;
+    FD_CLR(it->cliFd, &readFds);
+    FD_CLR(it->cliFd, &writeFds);
+    close(it->cliFd);
+    clients.erase(it);
+}
+
+
 std::string Utilities::infoMessage(void){
     std::string msg;
 

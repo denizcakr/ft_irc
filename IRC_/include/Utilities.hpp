@@ -18,7 +18,6 @@
 # define RESET		"\033[0m"
 
 
-
 # define BUG 1
 
 
@@ -38,4 +37,15 @@ class Utilities{
         static std::vector<std::string> splitString(const std::string& input, char delimiter);
         static std::vector<std::string> parseCmd(std::string& cmd);
         static std::string infoMessage(void);
+
+    template<typename Iterator>
+    static std::string joinStrings(Iterator begin, Iterator end, const std::string& delimiter)
+    {
+        std::ostringstream result;
+        if (begin != end)
+            result << *begin++;
+        while (begin != end)
+            result << delimiter << *begin++;
+        return result.str();
+    }
 };
