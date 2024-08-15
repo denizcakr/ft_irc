@@ -184,8 +184,11 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 				}
 				std::string key = cmd[2];
 				if(key[key.size() - 1] == '\r')
-        			key = key.substr(0, key.size() - 1);
-				ch->channel_key = key;
+				key = key.substr(0, key.size() - 1);
+				if(ch->channel_key.empty())
+				{
+					ch->channel_key = key;
+				}
 				std::cout << "|THIS IS THE KEY!: " << ch->channel_key << "|" << std::endl;
 				Utilities::writeReply(c.cliFd, RPL_MODE(c.nick, channel, "+k " + key, "K"));
 			}
