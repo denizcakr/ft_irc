@@ -51,9 +51,9 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 		return 0;
 	}
 
-	// for(size_t i = 0; i < cmd.size(); i++) {
-	// 	std::cout << "CMD " << cmd[i] << std::endl;
-	// }
+	for(size_t i = 0; i < cmd.size(); i++) {
+		std::cout << "CMD " << cmd[i] << std::endl;
+	}
 
 	std::string channel = cmd[0];
 	std::string mode = cmd[1];
@@ -64,8 +64,17 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 		Utilities::writeReply(c.cliFd, ERR_NOSUCHCHANNEL(c.nick, channel));
 		return 0;
 	}
+	// ch->oprt = NULL;
+	if(ch->oprt != &c)
+	{
+		std::cout << "OPERATOR: " << ch->oprt->user << "|" << std::endl; ///TESTER
+		Utilities::writeReply(c.cliFd, ERR_CHANOPRIVSNEEDED(c.nick, channel));
+		return 0;
+	}
 
-	if(mode[1] == 'o' || mode[1] == 'v') //???
+	std::cout << "MODE:" << mode[0] << "|" << mode[1] << "|" << std::endl; ///TESTER
+
+	if(mode[1] == 'o')
 	{
 		if(cmd.size() < 3)
 		{
@@ -73,23 +82,24 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 			return 0;
 		}
 		std::string user = cmd[2];
-		Client *cl = find_client(user);
-		if (cl == NULL)
+		Client *newOprt = find_client(user);
+		std::cout << "NEW OPERATOR: " << newOprt->user << "|" << std::endl; ///TESTER
+		if (newOprt == NULL)
 		{
 			Utilities::writeReply(c.cliFd, ERR_NOSUCHNICK(c.nick));
 			return 0;
 		}
-		if (!ch->is_member(*cl))
+		if (!ch->is_member(*newOprt))
 		{
 			Utilities::writeReply(c.cliFd, ERR_USERNOTINCHANNEL(c.nick, user, channel));
 			return 0;
 		}
-		if (ch->oprt == NULL)
+		/* if (ch->oprt == NULL)
 		{
 			Utilities::writeReply(c.cliFd, ERR_CHANOPRIVSNEEDED(c.nick, channel));
 			return 0;
-		}
-		if (ch->oprt->nick != c.nick)
+		} */
+		if (ch->oprt != NULL || ch->oprt->nick != c.nick)
 		{
 			Utilities::writeReply(c.cliFd, ERR_CHANOPRIVSNEEDED(c.nick, channel));
 			return 0;
@@ -98,7 +108,8 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 		{
 			if(mode[0] == '+')
 			{
-				ch->oprt = cl;
+				ch->oprt = newOprt;
+				std::cout << "MODE OPERATOR " << ch->oprt->user << "|" << std::endl; /////TESTER
 				Utilities::writeReply(c.cliFd, RPL_MODE(c.nick, channel, "+o " + user, "O"));
 			}
 			else if(mode[0] == '-')
@@ -106,26 +117,14 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 				ch->oprt = NULL;
 				for (size_t i = 0; i < ch->channel_client.size(); i++)
 				{
-					if (ch->channel_client[i].user != cl->user)
+					if (ch->channel_client[i].user != newOprt->user)
 					{
 						ch->oprt = &ch->channel_client[i];
+						std::cout << "MODE OPERATOR " << ch->oprt->user << "|" << std::endl; ///TESTER
 						break; //the first user which is not the operator will be the operator.
 					}
 				}
 				Utilities::writeReply(c.cliFd, RPL_MODE(c.nick, channel, "-o " + user, "O"));
-			}
-		}
-		else if(mode[1] == 'v') //cancel
-		{
-			if(mode[0] == '+')
-			{
-				ch->mode = true; //privmsg mode add! only voice users can send message!
-				Utilities::writeReply(c.cliFd, RPL_MODE(c.nick, channel, "+v " + user, "V"));
-			}
-			else if(mode[0] == '-')
-			{
-				ch->mode = false;
-				Utilities::writeReply(c.cliFd, RPL_MODE(c.nick, channel, "-v " + user, "V"));
 			}
 		}
 	}
@@ -202,4 +201,3 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 	}
 	return 0;
 }
-

@@ -16,13 +16,27 @@
     RPL_NAMREPLY (353)
     RPL_ENDOFNAMES (366)
 
-*/
+    OPERATORs;
+        1- ONLY OPERATOR CAN SET KEY
+        2- ONLY OPERATOR CAN SET LIMIT
+        3- ONLY OPERATOR CAN SET MODE
+        4- ONLY OPERATOR CAN SET TOPIC
+        6- ONLY OPERATOR CAN INVITE
+        7- ONLY OPERATOR CAN OP
+        8- ONLY OPERATOR CAN DEOP
 
+*/
 /*
-UPDATED
-CURRENT ERRORS:
-    1- KEY IS NOT CHANGING!
-    2- 
+    ~UPDATED
+        CURRENT ERRORS:
+        1- KEY IS NOT CHANGING!
+        ONLY OP!!
+        2- Only operator can set key
+        3- Only operator can set limit
+        4- Only operator can set op
+        5- Only operator can set deop
+        6- Only operator can invite
+        7- Only operator can set topic
 */
 
 int findChannel(std::string &name, std::vector<Channel> channel){
@@ -54,8 +68,8 @@ int Server::Join(std::string &cmd, Client& c)
    /*  if(!ch_key.empty() && ch_key[ch_key.size() - 1] == '\r')
         ch_key = ch_key.substr(0, ch_key.size() - 1); */
 
-    std::cout << "CH:" << ch_name << "|ch_key:|" << ch_key << "|" << std::endl;
-    std::cout << "KEY:" << ch_key << "|" << std::endl;
+    std::cout << "CH:" << ch_name << "|ch_key:|" << ch_key << "|" << std::endl;  ///TESTER
+    std::cout << "KEY:" << ch_key << "|" << std::endl;  ///TESTER
     
 
     if(findChannel(ch_name, this->channels))
@@ -63,8 +77,8 @@ int Server::Join(std::string &cmd, Client& c)
         for(ChannelIterator it = this->channels.begin(); it != this->channels.end(); ++it)
         {
             printChannelMembers(*it);
-            std::cout << "CH:" << (*it).channel_key << "|"<< std::endl;
-            std::cout << "CHk:" << ch_key << "|" << std::endl;
+            std::cout << "CH:" << (*it).channel_key << "|"<< std::endl;  ///TESTER
+            std::cout << "CHk:" << ch_key << "|" << std::endl;  ///TESTER
             if(ch_name == (*it).channel_name)
             {
                 if((*it).is_member(c)){
@@ -77,11 +91,10 @@ int Server::Join(std::string &cmd, Client& c)
                 }
                 if(!(*it).channel_key.empty())
                 {
-                    // if((*it).oprt == c)
                     {
                         if(ch_key.empty())
                         {
-                            std::cout << "KEY" << ch_key << "|" << std::endl;
+                            std::cout << "KEY" << ch_key << "|" << std::endl; ///TESTER
                             Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, "MODE"));
                             return 0;
                         }
@@ -92,6 +105,7 @@ int Server::Join(std::string &cmd, Client& c)
                         }
                     }
                 }
+                std::cout << "OPERATOR: " << (*it).oprt->user << "|" << std::endl; ///TESTER
                 (*it).channel_client.push_back(c);
                 std::string topicName = (*it).channel_name + " :" + (*it).topic;
                 std::cout << "tpicname: " << topicName << std::endl;
