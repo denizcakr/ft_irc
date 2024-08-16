@@ -22,11 +22,9 @@
 #define RPL_ENDOFWHOIS(source, nick)				": 318 " + source + " " + nick + " :End of /WHOIS list" + "\r\n"
 #define RPL_PING(source, nick, second)				":" + source + " PONG " + nick + " :"+ second + "\r\n"
 
-
 # define RPL_LISTSTART(nick, numusers)			    ": 321 " + nick + " Channel : "+ numusers + "\r\n"
 # define RPL_LIST(nick, channel, numusers, topic)   ": 322 " + nick + " " + channel + " " + numusers + " " + topic + "\r\n"
 # define RPL_LISTEND(nick)						    ": 323 " + nick + " :End of /LIST\r\n"
-
 
 #define RPL_WELCOME(source, msg)				    source + msg + "\r\n"
 
@@ -48,4 +46,19 @@
 #define ERR_NOTEXTTOSEND(source)                    ": 412 " + source + " :No text to send" + "\r\n"
 #define ERR_NORECIPIENT(source)                     ": 411 " + source + " :No recipient given" + "\r\n"                 //PRIVMSG 
 #define ERR_USERNOTINCHANNEL(source, user, channel)	": 441 " + source + " " + user + " " + channel + " :They aren't on that channel" + "\r\n" //PRIVMSG
+#define ERR_PASSWDMISMATCH(source)				    ": 464 " + source + " :Password incorrect" + "\r\n" //JOIN
+#define ERR_KEYSET(source, channel)				    ": 467 " + source + " " + channel + " :Channel key already set" + "\r\n" //JOIN
 
+/*       331     RPL_NOTOPIC
+                        "<channel> :No topic is set"
+        332     RPL_TOPIC
+                        "<channel> :<topic>"
+                - When sending a TOPIC message to determine the
+                  channel topic, one of two replies is sent.  If
+                  the topic is set, RPL_TOPIC is sent back else
+                  RPL_NOTOPIC.
+        341     RPL_INVITING
+                        "<channel> <nick>"
+                - Returned by the server to indicate that the
+                  attempted INVITE message was successful and is
+                  being passed onto the end client. */

@@ -56,14 +56,10 @@ class Server
         void readEvent();
         void writeEvent();
 
-
     public:
         Server();
         Server(size_t port_number, const std::string password);
         ~Server();
-
-        Client* find_client(std::string &nick);
-
 
         void cmds_initialize(void);
 
@@ -87,6 +83,7 @@ class Server
         void showRightGui(Client &client, Channel &channel);//graphical user interface -> yanda kullanicilarin gozukecegi zimbirti
         Channel* getChannel(const std::string &name);
         void sendMessageToChannel(Client& c, std::string& message, Channel& channel);
+        Client* find_client(std::string &nick);
         std::string getTopic(const std::vector<std::string>& params);
         int isNickExist(std::string s);
         void kickClient(cliIt&);

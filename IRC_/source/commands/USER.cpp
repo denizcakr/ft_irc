@@ -23,9 +23,9 @@ int Server::User(std::string &input, Client& c)
 {
 
 	if(input.size() > USERLEN) {
-        input = input.substr(0, USERLEN);
+		input = input.substr(0, USERLEN);
 		Utilities::writeReply(c.cliFd, "Username length can be maximum 12 characters.\n");
-    }
+	}
 	if(checkOnlyTabOrSpaces(input)){
 		Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.user, "USER"));
 		return 0;
