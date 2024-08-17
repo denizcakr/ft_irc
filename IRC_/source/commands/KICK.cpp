@@ -27,7 +27,7 @@ int Server::Kick(std::string &input, Client& c)
         return 0;
     }
 
-    if (ch->oprt == NULL || c.nick != ch->oprt->nick)
+    if (ch->oprt == NULL || c.user != ch->oprt->user)
     {
         Utilities::writeReply(c.cliFd, ERR_CHANOPRIVSNEEDED(c.nick, channelName));
         return 0;
