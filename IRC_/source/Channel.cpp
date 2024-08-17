@@ -2,6 +2,7 @@
 #include "Client.hpp"
 #include "Utilities.hpp"
 #include "Replies.hpp"
+#include <iostream>
 
 Channel::Channel(const std::string& channelName) : channel_name(channelName) {}
 

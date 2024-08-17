@@ -22,6 +22,11 @@ int Server::Topic(std::string &input, Client& c)
 			topicContent.erase(0, 1);
 		}
 	}
+	
+	for(ChannelIterator it = channels.begin(); it != channels.end(); ++it){
+		if((*it).channel_name != channelName)
+			Utilities::writeReply(c.cliFd, ERR_NOSUCHCHANNEL(c.nick, channelName));
+	}
 
 	for (std::vector<Channel>::iterator it = channels.begin(); it != channels.end(); ++it) {
 		if ((*it).channel_name == channelName) {
@@ -49,6 +54,5 @@ int Server::Topic(std::string &input, Client& c)
 		}
 	}
 	// Kanal bulunamadı
-	Utilities::writeReply(c.cliFd, ERR_NOSUCHCHANNEL(c.nick, channelName));
 	return -1;
 }
