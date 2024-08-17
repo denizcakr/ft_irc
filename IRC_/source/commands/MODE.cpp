@@ -61,7 +61,7 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 		return 0;
 	}
 
-	if (ch->oprt->nick != c.nick)
+	if (ch->oprt->user != c.user)
 	{
 		Utilities::writeReply(c.cliFd, ERR_CHANOPRIVSNEEDED(c.nick, channel));
 		return 0;
@@ -101,7 +101,6 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 		else if(mode[0] == '-')
 		{
 			std::cout << "-o CURRENT MODE OPERATOR " << ch->oprt->user << "|" << std::endl; /////TESTER
-			// ch->oprt = NULL;
 			for (size_t i = 0; i < ch->channel_client.size(); i++)
 			{
 				if (ch->channel_client[i].user != c.user)
@@ -116,14 +115,9 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 		}
 	}
 
-	else if(mode[1] == 't') //topic command will be redesigned!
+	else if(mode[1] == 't')
 	{
 		if (ch->oprt == NULL)
-		{
-			Utilities::writeReply(c.cliFd, ERR_CHANOPRIVSNEEDED(c.nick, channel));
-			return 0;
-		}
-		if (ch->oprt->nick != c.nick)
 		{
 			Utilities::writeReply(c.cliFd, ERR_CHANOPRIVSNEEDED(c.nick, channel));
 			return 0;
@@ -131,12 +125,14 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 		if(mode[0] == '+')
 		{
 			ch->topic_settable = true;
-			Utilities::writeReply(c.cliFd, RPL_MODE(c.nick, channel, "+t", "T"));
+			std::cout << "TOPIC SETTABLE: " << ch->topic_settable << "|" << std::endl; ///TESTER
+			Utilities::writeReply(c.cliFd, RPL_TOPICSETTABLE(c.nick, ch->channel_name));
 		}
 		else if(mode[0] == '-')
 		{
 			ch->topic_settable = false;
-			Utilities::writeReply(c.cliFd, RPL_MODE(c.nick, channel, "-t", "T"));
+			std::cout << "TOPIC SETTABLE: " << ch->topic_settable << "|" << std::endl; ///TESTER
+			Utilities::writeReply(c.cliFd, RPL_TOPICNOTSETTABLE(c.nick, ch->channel_name));
 		}
 	}
 

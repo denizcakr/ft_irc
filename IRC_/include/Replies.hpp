@@ -40,6 +40,9 @@
 #define ERR_NONICKNAMEGIVEN(source)					": 431 " + source + " " + ":No nickname given" + "\r\n"								//NICK
 #define ERR_NICKNAMEEMPTY(source)					": 433 " + source + " " + source  + " :Nickname cannot empty" + "\r\n"              //NICK
 #define RPL_NOTOPIC(nick, channel)					": 331 " + nick + " " + channel + " :No topic is set" + "\r\n"                      //TOPIC
+#define RPL_TOPICSETTABLE(nick, channel)				": 331 " + nick + " " + channel + " :Topic is settable now." + "\r\n"                      //TOPIC
+#define RPL_TOPICNOTSETTABLE(nick, channel)			": 331 " + nick + " " + channel + " :Topic is not settable anymore!" + "\r\n"                      //TOPIC
+#define ERR_TOPICNOTSETTABLE(nick, channel)			": 331 " + nick + " " + channel + " :Topic is not settable!" + "\r\n"                      //TOPIC
 #define ERR_ALREADYREGISTRED(source)				": 462 " + source + " :Already registered"+ "\r\n"
 #define ERR_NOSUCHNICK(source)						": 401 " + source + " :No such nick/channel" + "\r\n"                             //PRIVMSG
 #define ERR_CANNOTSENDTOCHAN(source)				": 404 " + source + " :Cannot send to channel" + "\r\n"                           //PRIVMSG
@@ -48,17 +51,3 @@
 #define ERR_USERNOTINCHANNEL(source, user, channel)	": 441 " + source + " " + user + " " + channel + " :They aren't on that channel" + "\r\n" //PRIVMSG
 #define ERR_PASSWDMISMATCH(source)				    ": 464 " + source + " :Password incorrect" + "\r\n" //JOIN
 #define ERR_KEYSET(source, channel)				    ": 467 " + source + " " + channel + " :Channel key already set" + "\r\n" //JOIN
-
-/*       331     RPL_NOTOPIC
-                        "<channel> :No topic is set"
-        332     RPL_TOPIC
-                        "<channel> :<topic>"
-                - When sending a TOPIC message to determine the
-                  channel topic, one of two replies is sent.  If
-                  the topic is set, RPL_TOPIC is sent back else
-                  RPL_NOTOPIC.
-        341     RPL_INVITING
-                        "<channel> <nick>"
-                - Returned by the server to indicate that the
-                  attempted INVITE message was successful and is
-                  being passed onto the end client. */

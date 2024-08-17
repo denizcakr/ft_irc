@@ -25,8 +25,8 @@ int Server::Part(std::string &input, Client& c)
                     if ((*it2).user == c.user) {
                         Utilities::writeReply(c.cliFd, RPL_PART(c.nick, input));
                         it->channel_client.erase(it2);
-                        if (!(*it).channel_client.empty())
-                            (*it)._opUser = (*it).channel_client[0].nick;
+                        if (!it->channel_client.empty())
+                            it->oprt = &it->channel_client[0];
                         std::cout << RED << "Client " << c.nick << " has left channel " << input << RESET << std::endl;
                         if ((*it).channel_client.empty()) {
                             std::cout << RED << "Channel " << it->channel_name << " is deleted" << RESET << std::endl;
@@ -34,7 +34,7 @@ int Server::Part(std::string &input, Client& c)
                         }
                         if (!(*it).channel_client.empty())
                         {
-                            (*it)._opUser = (*it).channel_client.front().user;
+                            it->oprt = &it->channel_client.front();
                         showRightGui(c, *it);
                         }
                         return 0;

@@ -60,8 +60,8 @@ int Server::Join(std::string &cmd, Client& c)
 		for(ChannelIterator it = this->channels.begin(); it != this->channels.end(); ++it)
 		{
 			printChannelMembers(*it);
-			std::cout << "CH:" << (*it).channel_key << "|"<< std::endl;  ///TESTER
-			std::cout << "CHk:" << ch_key << "|" << std::endl;  ///TESTER
+			/* std::cout << "CH:" << (*it).channel_key << "|"<< std::endl;  ///TESTER
+			std::cout << "CHk:" << ch_key << "|" << std::endl;  ///TESTER */
 			if(ch_name == (*it).channel_name)
 			{
 				if((*it).is_member(c)){
@@ -77,7 +77,6 @@ int Server::Join(std::string &cmd, Client& c)
 					{
 						if(ch_key.empty())
 						{
-							std::cout << "KEY" << ch_key << "|" << std::endl; ///TESTER
 							Utilities::writeReply(c.cliFd, ERR_BADCHANNELKEY(c.nick, ch_name));
 							return 0;
 						}
@@ -91,10 +90,12 @@ int Server::Join(std::string &cmd, Client& c)
 				std::cout << "OPERATOR: " << (*it).oprt->user << "|" << std::endl; ///TESTER
 				(*it).channel_client.push_back(c);
 				std::string topicName = (*it).channel_name + " :" + (*it).topic;
-				std::cout << "tpicname: " << topicName << std::endl;
 				Utilities::writeReply(c.cliFd, RPL_JOIN(c.nick, c.ipAddr, ch_name));
 				this->showRightGui(c, (*it));
-				Utilities::writeReply(c.cliFd, RPL_TOPIC(c.nick, c.ipAddr, (*it).channel_name, (*it).topic));
+				if(!(*it).topic.empty())
+				{
+					Utilities::writeReply(c.cliFd, RPL_TOPIC(c.nick, c.ipAddr, (*it).channel_name, (*it).topic));
+				}
 			}
 		}
 	}
