@@ -29,7 +29,7 @@ int Server::Topic(std::string &input, Client& c)
 			std::cout <<"topic:" << it->topic << std::endl;
 			if (0)
 				std::cout << "topic" <<std::endl;
-			else if(!topicContent.empty() && it->_opNick != c.nick)
+			else if(!topicContent.empty() && it->_opUser != c.nick)
 				Utilities::writeReply(c.cliFd, ERR_CHANOPRIVSNEEDED(c.nick, channelName));
 			std::vector<int> fds = it->getFds();
 			if (!fds.empty()) {
@@ -38,7 +38,7 @@ int Server::Topic(std::string &input, Client& c)
 			// else {
 			//     std::cout << "hellothere" << std::endl;
 			//     // Topic değiştirilmek isteniyor
-			//     if (it->_opNick != c.nick) {
+			//     if (it->_opUser != c.nick) {
 			//         Utilities::writeReply(c.cliFd, ERR_CHANOPRIVSNEEDED(c.nick, channelName));
 			//         return -1;
 			//     }

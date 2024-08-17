@@ -137,7 +137,7 @@ std::vector<std::string> Utilities::parseCmd(std::string& cmd){
     return result;
 }
 
-void Server::kickClient(cliIt& it)
+void Server::kickClient(ClientIterator& it)
 {
     std::cout << RED << "Client " << it->cliFd - 3  << " disconnected!" << RESET << std::endl;
     FD_CLR(it->cliFd, &readFds);
@@ -148,7 +148,7 @@ void Server::kickClient(cliIt& it)
 
 int Server::isChannelExist(std::string const& channelName)
 {
-    for (chanIt it = channels.begin(); it != channels.end(); ++it) {
+    for (ChannelIterator it = channels.begin(); it != channels.end(); ++it) {
         if (it->channel_name == channelName)
             return 1;
     }

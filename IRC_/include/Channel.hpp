@@ -17,7 +17,7 @@ class Channel
 		Client* oprt;
 		bool mode;
 		std::string topic;
-		std::string _opNick;
+		std::string _opUser;
 		bool topic_settable; //Channel Mode Topic
 		unsigned int channel_limit;
 		std::string channel_key;

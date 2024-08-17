@@ -11,7 +11,7 @@ int Server::Quit(std::string &input, Client& c)
     else
         std::cout << RED << "Client " << c.nick << " quit (" << input << ")" << RESET << std::endl;
 
-    cliIt baseIt;
+    ClientIterator baseIt;
     for (baseIt = clients.begin(); baseIt != clients.end(); ++baseIt) {
         if (baseIt->nick == c.nick)
             break;
@@ -20,10 +20,10 @@ int Server::Quit(std::string &input, Client& c)
     if (baseIt == clients.end())
         return -1; // Client bulunamadı
 
-    chanIt itChan = channels.begin();
+    ChannelIterator itChan = channels.begin();
     while (itChan != channels.end())
     {
-        cliIt itClient;
+        ClientIterator itClient;
         for (itClient = itChan->channel_client.begin(); itClient != itChan->channel_client.end(); ++itClient) {
             if (itClient->nick == c.nick)
                 break;
@@ -35,7 +35,7 @@ int Server::Quit(std::string &input, Client& c)
 
             if (!itChan->channel_client.empty())
             {
-                itChan->_opNick = itChan->channel_client.front().nick;
+                itChan->_opUser = itChan->channel_client.front().nick;
                 showRightGui(c, *itChan);
             }
             else
