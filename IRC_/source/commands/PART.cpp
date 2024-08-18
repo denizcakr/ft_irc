@@ -4,6 +4,12 @@
 #include "Client.hpp"
 #include "Channel.hpp"
 
+/*
+ERR_NEEDMOREPARAMS (461)
+ERR_NOSUCHCHANNEL (403)
+ERR_NOTONCHANNEL (442)
+*/
+
 int Server::Part(std::string &input, Client& c)
 {
     std::string channelName;
@@ -35,9 +41,12 @@ int Server::Part(std::string &input, Client& c)
                         if (!(*it).channel_client.empty())
                         {
                             it->oprt = &it->channel_client.front();
-                        showRightGui(c, *it);
+                            showRightGui(c, *it);
                         }
                         return 0;
+                    }
+                    else{
+                        Utilities::writeReply(c.cliFd, ERR_NOTONCHANNEL(c.user, input));
                     }
                 }
                 break;

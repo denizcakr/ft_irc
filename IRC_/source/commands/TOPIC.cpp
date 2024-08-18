@@ -4,6 +4,18 @@
 #include "Replies.hpp"
 #include "Channel.hpp"
 
+/*
+
+ERR_NEEDMOREPARAMS (461)
+ERR_NOSUCHCHANNEL (403)
+ERR_NOTONCHANNEL (442)
+ERR_CHANOPRIVSNEEDED (482)
+RPL_NOTOPIC (331)
+RPL_TOPIC (332)
+RPL_TOPICWHOTIME (333)
+
+*/
+
 int Server::Topic(std::string &input, Client& c)
 {
 	std::vector<std::string> params = Utilities::splitString(input, ' ');
@@ -25,6 +37,9 @@ int Server::Topic(std::string &input, Client& c)
 	{
 		if ((*it).channel_name == channelName)
 		{
+			if((*it).topic.empty()){///check
+				Utilities::writeReply(c.cliFd, RPL_NOTOPIC(c.nick, channelName));
+			}
 			if((*it).topic_settable == false)
 			{
 				Utilities::writeReply(c.cliFd, ERR_TOPICNOTSETTABLE(c.nick, channelName));
@@ -46,17 +61,9 @@ int Server::Topic(std::string &input, Client& c)
 					Utilities::writeReply(c.cliFd, ERR_CHANOPRIVSNEEDED(c.nick, channelName));
 				return 0;
 			}
-			// else {
-			//     std::cout << "hellothere" << std::endl;
-			//     // Topic değiştirilmek isteniyor
-			//     if (it->_opNick != c.nick) {
-			//         Utilities::writeReply(c.cliFd, ERR_CHANOPRIVSNEEDED(c.nick, channelName));
-			//         return -1;
-			//     }
-			//     it->topic = topicContent;
-			//     std::cout << "Topic changed to: " << it->topic << std::endl;
-			// }
-			// return 0;
+		}
+		else{ ///checkle
+			Utilities::writeReply(c.cliFd, ERR_NOTONCHANNEL(c.nick, channelName));
 		}
 	}
 	// Kanal bulunamadı
