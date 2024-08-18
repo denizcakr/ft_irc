@@ -4,6 +4,25 @@ Client::Client() : passCheck(0){}
 
 Client::~Client(){}
 
+
+std::string Client::getPrefix() const {
+    std::string pre = this->nick;
+    if(this->user.empty()){
+        pre += "";
+    }
+    else{
+        pre += "!~" + this->user;
+    }
+    if(this->ip.empty()){
+        pre += "";
+    }
+    else{
+        pre += "@" + this->ip;
+    }
+    return (pre);
+	// return this->nick + (this->user.empty() ? "" : "!~" + this->user) + (this->ip.empty() ? "" : "@" + this->ip);
+}
+
 Client& Client::operator=(Client const &copy)
 {
     this->messageBox = copy.messageBox;

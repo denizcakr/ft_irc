@@ -23,7 +23,7 @@ int Server::Quit(std::string &input, Client& c)
             break;
     }
     if (baseIt == clients.end())
-        return -1; // Client bulunamadı
+        return -1; // cannot find client
 
     ChannelIterator itChan = channels.begin();
     while (itChan != channels.end())

@@ -23,6 +23,7 @@ class Channel
 		std::string channel_key;
 
 		Channel(const std::string& channelName);
+		Channel();
 		~Channel();
 		bool is_member(Client& c);
 		std::vector<int>    getFds() const;

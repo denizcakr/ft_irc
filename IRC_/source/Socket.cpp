@@ -47,7 +47,7 @@ void Server::serverAddrSocket(void) {
 }
 
 /*
-    kac socketi ayni anda dinleyebilirsin ->128
+    how many sockets can you listen at the same time ->128
 */
 void Server::socketListen(void) const{
 

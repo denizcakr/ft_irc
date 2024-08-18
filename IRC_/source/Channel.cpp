@@ -5,6 +5,7 @@
 #include <iostream>
 
 Channel::Channel(const std::string& channelName) : channel_name(channelName), topic_settable(false) {}
+Channel::Channel(){}
 
 Channel::~Channel() {}
 
@@ -20,7 +21,7 @@ Channel* Server::getChannel(const std::string &name) {
 	for (std::vector<Channel>::iterator it = this->channels.begin(); it != this->channels.end(); ++it) {
 		//std::cout << "CHANNEL NAMEEEEE: " << (*it).channel_name << std::endl;
 		if (name == it->channel_name) {
-			return &(*it); // Kanalın adresini döndür
+			return &(*it); //it returns the channel address
 		}
 	}
 	return NULL;

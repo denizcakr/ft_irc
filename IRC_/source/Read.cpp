@@ -47,8 +47,8 @@ void Server::readEvent() {
                         FD_CLR((*begin).cliFd, &this->writeFds);
                         std::cout << RED << (*begin).cliFd - 3 << " YOU MUST ENTER THE PASSWORD!" << RESET << std::endl;
                         std::cout << RED << "CS: "<< this->clients.size() << ", " << " client disconnected!" <<RESET << std::endl;
-                        close((*begin).cliFd);//sikintili
-                        this->clients.erase(begin);//sikintili
+                        close((*begin).cliFd);
+                        this->clients.erase(begin);
                     }
                 }
             }

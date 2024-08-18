@@ -63,23 +63,22 @@ class Server
         void cmds_initialize(void);
 
         std::map<std::string, command> cmds;
-        int Nick(std::string &input, Client& c);//zorunlu
-        int Cap(std::string &input, Client& c);//karsi tarafin hexchatten baglandigini gosteren sey
+        int Nick(std::string &input, Client& c);
+        int Cap(std::string &input, Client& c);
         int Privmsg(std::string &input, Client& c);//operator
-        int Join(std::string &input, Client& c);//zorunlu
-        int Pass(std::string &input, Client& c);//zorunlu
-        int User(std::string &input, Client& c);//zorunlu
+        int Join(std::string &input, Client& c);
+        int Pass(std::string &input, Client& c);
+        int User(std::string &input, Client& c);
+        int Info(std::string &input, Client& c);
+        int Notice(std::string &input, Client& c);
+
         int Mode(std::string &input, Client& c);
         int Topic(std::string &input, Client& c);//operator
-        int Info(std::string &input, Client& c);
-
-        int Notice(std::string &input, Client& c);//operator
-        int Invite(std::string &input, Client& c);
         int Part(std::string &input, Client& c);
         int Quit(std::string &input, Client& c);
         int Kick(std::string &input, Client& c);
 
-        void showRightGui(Client &client, Channel &channel);//graphical user interface -> yanda kullanicilarin gozukecegi zimbirti
+        void showRightGui(Client &client, Channel &channel);//graphical user interface
         Channel* getChannel(const std::string &name);
         void sendMessageToChannel(Client& c, std::string& message, Channel& channel);
         Client* find_client(std::string &nick);
@@ -87,5 +86,6 @@ class Server
         int isNickExist(std::string s);
         void kickClient(ClientIterator &);
         int isChannelExist(std::string const&);
+        int isClientInChannel(Client &c, std::string channelName);//notice
 
 };

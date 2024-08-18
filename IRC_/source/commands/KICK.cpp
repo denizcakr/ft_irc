@@ -7,7 +7,7 @@ int Server::Kick(std::string &input, Client& c)
     std::string channelName;
     std::string userToKick;
     std::istringstream stream(input);
-    stream >> channelName >> userToKick;  // Kanal adı ve kullanıcı adını ayır
+    stream >> channelName >> userToKick;  //separate channel_name and user_name
 
     if (channelName.empty() || userToKick.empty())
     {
