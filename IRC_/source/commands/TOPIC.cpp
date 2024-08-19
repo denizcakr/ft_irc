@@ -37,15 +37,10 @@ int Server::Topic(std::string &input, Client& c)
 	{
 		if ((*it).channel_name == channelName)
 		{
-			if((*it).topic.empty()){///check
+			/* if((*it).topic.empty()){///check
 				Utilities::writeReply(c.cliFd, RPL_NOTOPIC(c.nick, channelName));
-			}
+			} */
 			if((*it).topic_settable == false)
-			{
-				Utilities::writeReply(c.cliFd, ERR_TOPICNOTSETTABLE(c.nick, channelName));
-				return 0;
-			}
-			else if ((*it).topic_settable == true)
 			{
 				if(it->oprt == &c)
 				{
@@ -58,7 +53,18 @@ int Server::Topic(std::string &input, Client& c)
 					}
 				}
 				else
-					Utilities::writeReply(c.cliFd, ERR_CHANOPRIVSNEEDED(c.nick, channelName));
+					Utilities::writeReply(c.cliFd, ERR_TOPICNOTSETTABLE(c.nick, channelName));
+				return 0;
+			}
+			else if ((*it).topic_settable == true)
+			{
+				//Utilities::writeReply(c.cliFd, RPL_TOPIC(c.nick, c.ipAddr, channelName, topicContent));
+				(*it).topic = topicContent;
+				std::cout <<"topic:" << it->topic << std::endl;
+				std::vector<int> fds = it->getFds();
+				if (!fds.empty()) {
+					Utilities::writeAllMessage(fds, RPL_TOPIC(c.nick, c.ipAddr, channelName, topicContent));
+				}
 				return 0;
 			}
 		}

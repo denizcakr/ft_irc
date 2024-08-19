@@ -93,9 +93,9 @@ int Server::Join(std::string &cmd, Client& c)
 				Utilities::writeReply(c.cliFd, RPL_JOIN(c.nick, c.ipAddr, ch_name));
 				this->showRightGui(c, (*it));
 				if(!(*it).topic.empty())
-				{
 					Utilities::writeReply(c.cliFd, RPL_TOPIC(c.nick, c.ipAddr, (*it).channel_name, (*it).topic));
-				}
+				else
+					Utilities::writeReply(c.cliFd, RPL_NOTOPIC(c.nick, (*it).channel_name));
 			}
 		}
 	}

@@ -42,7 +42,7 @@
 #define RPL_NOTOPIC(nick, channel)					": 331 " + nick + " " + channel + " :No topic is set" + "\r\n"                      //TOPIC
 #define RPL_TOPICSETTABLE(nick, channel)				": 331 " + nick + " " + channel + " :Topic is settable now." + "\r\n"                      //TOPIC
 #define RPL_TOPICNOTSETTABLE(nick, channel)			": 331 " + nick + " " + channel + " :Topic is not settable anymore!" + "\r\n"                      //TOPIC
-#define ERR_TOPICNOTSETTABLE(nick, channel)			": 331 " + nick + " " + channel + " :Topic is not settable!" + "\r\n"                      //TOPIC
+#define ERR_TOPICNOTSETTABLE(nick, channel)			": 331 " + nick + " " + channel + " :Topic is not settable for participants, settable only by channel operator!" + "\r\n"                      //TOPIC
 #define ERR_ALREADYREGISTRED(source)				": 462 " + source + " :Already registered"+ "\r\n"
 #define ERR_NOSUCHNICK(source)						": 401 " + source + " :No such nick/channel" + "\r\n"                             //PRIVMSG
 #define ERR_CANNOTSENDTOCHAN(source)				": 404 " + source + " :Cannot send to channel" + "\r\n"                           //PRIVMSG
