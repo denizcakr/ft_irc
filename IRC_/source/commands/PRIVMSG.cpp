@@ -14,15 +14,14 @@ int Server::Privmsg(std::string &input, Client& c)
 	{
 		target = input.substr(0, pos);
 		message = input.substr(pos + 1);
-		// message += "\n";
 	}
 	if(target.empty())
 	{
-		Utilities::writeReply(c.cliFd, ERR_NORECIPIENT(c.user)); ///????
+		Utilities::writeReply(c.cliFd, ERR_NORECIPIENT(c.user)); 
 		return 0;
 	}
 	if(message.empty()){
-		Utilities::writeReply(c.cliFd, ERR_NOTEXTTOSEND(c.user)); ///????
+		Utilities::writeReply(c.cliFd, ERR_NOTEXTTOSEND(c.user));
 		return 0;
 	}
 	if (target[0] == '#')
@@ -42,7 +41,6 @@ int Server::Privmsg(std::string &input, Client& c)
 		std::string mes = RPL_PRIVMSG(c.user, target, message.substr(1, message.size()));
 		sendMessageToChannel(c, mes, *ch);
 	}
-
 	else
 	{
 		std::string mes = RPL_PRIVMSG(c.nick, target, message);
@@ -55,4 +53,3 @@ int Server::Privmsg(std::string &input, Client& c)
 	}
 	return 0;
 }
-//  ERR_NORECIPIENT           ERR_NOTEXTTOSEND            ERR_TOOMANYTARGETS

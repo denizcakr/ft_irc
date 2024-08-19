@@ -78,7 +78,7 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 		{
 			if(cmd.size() < 3)
 			{
-				Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, "MODE"));
+				Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, input));
 				return 0;
 			}
 			std::string user = cmd[2];
@@ -125,13 +125,13 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 		if(mode[0] == '+')
 		{
 			ch->topic_settable = true;
-			std::cout << "TOPIC SETTABLE: " << ch->topic_settable << "|" << std::endl; ///TESTER
+			std::cout << "TOPIC SETTABLE: " << ch->topic_settable << std::endl; ///TESTER
 			Utilities::writeReply(c.cliFd, RPL_TOPICSETTABLE(c.nick, ch->channel_name));
 		}
 		else if(mode[0] == '-')
 		{
 			ch->topic_settable = false;
-			std::cout << "TOPIC SETTABLE: " << ch->topic_settable << "|" << std::endl; ///TESTER
+			std::cout << "TOPIC SETTABLE: " << ch->topic_settable << std::endl; ///TESTER
 			Utilities::writeReply(c.cliFd, RPL_TOPICNOTSETTABLE(c.nick, ch->channel_name));
 		}
 	}
