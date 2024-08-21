@@ -37,14 +37,14 @@ int findChannel(std::string &name, std::vector<Channel> channel){
 	return 0;
 }
 
-void printChannelMembers(Channel& channel) //TESTER FUNCTION! CAN BE DELETED LATER
+/* void printChannelMembers(Channel& channel) //TESTER FUNCTION! CAN BE DELETED LATER
 {
 	for(std::vector<Client>::const_iterator it = channel.channel_client.begin(); it != channel.channel_client.end(); ++it) {
 		const Client& client = *it;
 		std::cout << "Channel: " << channel.channel_name << ", User: " << client.user << ", Nickname: " << client.nick << std::endl;
 	}
 }
-
+ */
 int Server::Join(std::string &cmd, Client& c)
 {
 	std::vector<std::string> splitResult = Utilities::splitFromFirstSpace(cmd);
@@ -59,7 +59,7 @@ int Server::Join(std::string &cmd, Client& c)
 	{
 		for(ChannelIterator it = this->channels.begin(); it != this->channels.end(); ++it)
 		{
-			printChannelMembers(*it);
+			// printChannelMembers(*it);
 			/* std::cout << "CH:" << (*it).channel_key << "|"<< std::endl;  ///TESTER
 			std::cout << "CHk:" << ch_key << "|" << std::endl;  ///TESTER */
 			if(ch_name == (*it).channel_name)
