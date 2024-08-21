@@ -3,57 +3,56 @@
 #include "Replies.hpp"
 #include "Client.hpp"
 #include "Channel.hpp"
+#include <algorithm>
+
+void printChannelMembers(Channel& channel) //TESTER FUNCTION! CAN BE DELETED LATER
+{
+	for(std::vector<Client>::const_iterator it = channel.channel_client.begin(); it != channel.channel_client.end(); ++it) {
+		const Client& client = *it;
+		std::cout << "Channel: " << channel.channel_name << ", User: " << client.user << ", Nickname: " << client.nick << std::endl;
+	}
+}
 
 int Server::Quit(std::string &input, Client& c)
 {
-    std::string channelName;
-    for (int i = 0; input[i]; i++) {
-    if (input[i] == ' ')
-        break;
-    channelName += input[i];
-    }
-    input = channelName;
-    if (input.size() <= 1 || input[0] != '#') {
-        Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, input));
-        return 0;
-    }
-    ClientIterator baseIt;
-    for (baseIt = clients.begin(); baseIt != clients.end(); ++baseIt) {
-        if (baseIt->nick == c.nick)
-            break;
-    }
-    if (baseIt == clients.end())
-        return -1; // cannot find client
+	std::cout << "INPUT:" << input << std::endl; // :Leaving
+	std::cout << "CLIENT:" << c.user << std::endl;
 
-    ChannelIterator itChan = channels.begin();
-    while (itChan != channels.end())
-    {
-        ClientIterator itClient;
-        for (itClient = itChan->channel_client.begin(); itClient != itChan->channel_client.end(); ++itClient) {
-            if (itClient->nick == c.nick)
-            {
-                showRightGui(c, *itChan);
-                break;
-            }
-        }
-        if (itClient != itChan->channel_client.end()) {
-            itChan->channel_client.erase(itClient);
+	ClientIterator c_iter;
+	for (c_iter = clients.begin(); c_iter != clients.end(); ++c_iter) {
+		if (c_iter->nick == c.nick)
+			break;
+	}
+	if (c_iter == clients.end())
+		return -1; // cannot find client
 
-            if (!itChan->channel_client.empty()) {
-                itChan->_opUser = itChan->channel_client.front().nick;
-                showRightGui(c, *itChan);
-            }
-            else {
-                std::cout << RED << "Channel " << itChan->channel_name << " is deleted" << RESET << std::endl;
-                itChan = channels.erase(itChan);
-                showRightGui(c, *itChan);
-                continue;
-            }
-        }
-        ++itChan;
-    }
-    Utilities::writeReply(c.cliFd, RPL_QUIT(c.nick, input.c_str()));
-    kickClient(baseIt);
+	for(ChannelIterator it = channels.begin(); it != channels.end(); ++it)
+	{
+		if((*it).is_member(c))
+		{
+			std::cout << "CLIENT FOUND: " << std::endl;
 
-    return 0;
+			for (std::vector<Client>::iterator client_it = (*it).channel_client.begin(); client_it != (*it).channel_client.end(); )
+			{
+				if (client_it->nick == c.nick)
+					client_it = (*it).channel_client.erase(client_it);
+				else
+					++client_it;
+			}
+
+			if((*it).channel_client.empty())
+			{
+				Utilities::writeReply(c.cliFd, RPL_QUIT(c.nick, input.c_str()));
+				it = channels.erase(it);
+				showRightGui(c, *it);
+				return 0;
+			}
+			(*it).oprt = &(*it).channel_client.front();
+			showRightGui(c, *it);
+		}
+		printChannelMembers(*it);
+	}
+	Utilities::writeReply(c.cliFd, RPL_QUIT(c.nick, input.c_str()));
+	kickClient(c_iter);
+	return 0;
 }
