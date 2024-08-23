@@ -51,4 +51,5 @@
 #define ERR_USERNOTINCHANNEL(source, user, channel)	": 441 " + source + " " + user + " " + channel + " :They aren't on that channel" + "\r\n" //PRIVMSG
 #define ERR_PASSWDMISMATCH(source)				    ": 464 " + source + " :Password incorrect" + "\r\n" //JOIN
 #define ERR_KEYSET(source, channel)				    ": 467 " + source + " " + channel + " :Channel key already set" + "\r\n" //JOIN
+#define ERR_NOTREGISTERED(source)                   ": 451 " + source + " :You have not registered" + "\r\n"
 #define ERR_NOTONCHANNEL(source, channel)           ": 442 " + source + " " + channel + " :You're not on that channel" + "\r\n"

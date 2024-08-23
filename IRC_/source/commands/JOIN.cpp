@@ -1,33 +1,7 @@
 #include "Server.hpp"
 #include "Channel.hpp"
 #include "Client.hpp"
-/*
-	RFC
-	ERR_NEEDMOREPARAMS (461)	present
-	ERR_NOSUCHCHANNEL (403)		present
-	ERR_BADCHANNELKEY (475)		present
-	ERR_CHANNELISFULL (471)		present
-	RPL_TOPIC (332) 			will be added
-	ERR_INVITEONLYCHAN (473)	
-	ERR_BANNEDFROMCHAN (474)	no need
-	ERR_BADCHANMASK (476)		no need
-	ERR_TOOMANYCHANNELS (405)
-	RPL_TOPICWHOTIME (333)
-	RPL_NAMREPLY (353)
-	RPL_ENDOFNAMES (366)
-*/
-/*
-	Operators:
-		1- ONLY OPERATOR CAN OP
-		2- ONLY OPERATOR CAN DEOP
-		3- ONLY OPERATOR CAN SET KEY OR REMOVE KEY
-		4- ONLY OPERATOR CAN SET LIMIT OR REMOVE LIMIT
-		5- ONLY OPERATOR CAN SET TOPIC OR REMOVE TOPIC
-		6- ONLY OPERATOR CAN SET INVITEONLY MOD OR REMOVE INVITEONLY MOD / KICK
-	UPDATE!!
-		-> TOPIC
-		-> INVITEONLY OR KICK
- */
+
 
 int findChannel(std::string &name, std::vector<Channel> channel){
 	for(ChannelIterator it = channel.begin(); it != channel.end(); ++it){
@@ -55,6 +29,10 @@ int Server::Join(std::string &cmd, Client& c)
 		ch_key = splitResult[1];
 	}
 	
+	if(c.user.empty() && c.nick.empty()){
+		Utilities::writeReply(c.cliFd, "ERROR: You must enter a username and a nickname\n");
+		return 0;
+	}
 	if(findChannel(ch_name, this->channels))
 	{
 		for(ChannelIterator it = this->channels.begin(); it != this->channels.end(); ++it)

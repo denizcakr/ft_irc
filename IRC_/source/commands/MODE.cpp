@@ -42,7 +42,7 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 		cmd.push_back(tmp);
 	}
 
-	if(cmd.size() < 2) {
+	if(c.hexOrNc == HEX && cmd.size() < 2) {
 		Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, "MODE"));
 		return 0;
 	}
