@@ -3,9 +3,7 @@
 #include "Utilities.hpp"
 #include "Replies.hpp"
 #include "Channel.hpp"
-
 /*
-
 ERR_NEEDMOREPARAMS (461)
 ERR_NOSUCHCHANNEL (403)
 ERR_NOTONCHANNEL (442)
@@ -13,9 +11,7 @@ ERR_CHANOPRIVSNEEDED (482)
 RPL_NOTOPIC (331)
 RPL_TOPIC (332)
 RPL_TOPICWHOTIME (333)
-
 */
-
 int Server::Topic(std::string &input, Client& c)
 {
 	std::vector<std::string> params = Utilities::splitString(input, ' ');
@@ -42,8 +38,9 @@ int Server::Topic(std::string &input, Client& c)
 			} */
 			if((*it).topic_settable == false)
 			{
-				if(it->oprt == &c)
+				if((*it).oprt == &c)
 				{
+					std::cout << "OPERATOR TOPIC:" << it->oprt->user << std::endl;
 					//Utilities::writeReply(c.cliFd, RPL_TOPIC(c.nick, c.ipAddr, channelName, topicContent));
 					(*it).topic = topicContent;
 					std::cout <<"topic:" << it->topic << std::endl;
@@ -72,7 +69,7 @@ int Server::Topic(std::string &input, Client& c)
 			Utilities::writeReply(c.cliFd, ERR_NOTONCHANNEL(c.nick, channelName));
 		}
 	}
-	// Kanal bulunamadı
+	// cannot find channel
 	Utilities::writeReply(c.cliFd, ERR_NOSUCHCHANNEL(c.nick, channelName));
 	return -1;
 }

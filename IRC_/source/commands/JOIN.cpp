@@ -11,14 +11,14 @@ int findChannel(std::string &name, std::vector<Channel> channel){
 	return 0;
 }
 
-/* void printChannelMembers(Channel& channel) //TESTER FUNCTION! CAN BE DELETED LATER
+void printChannelMembers(Channel& channel) //TESTER FUNCTION! CAN BE DELETED LATER
 {
 	for(std::vector<Client>::const_iterator it = channel.channel_client.begin(); it != channel.channel_client.end(); ++it) {
 		const Client& client = *it;
-		std::cout << "Channel: " << channel.channel_name << ", User: " << client.user << ", Nickname: " << client.nick << std::endl;
+		std::cout << "JOIN->Channel: " << channel.channel_name << ", User: " << client.user << ", Nickname: " << client.nick << std::endl;
 	}
 }
- */
+
 int Server::Join(std::string &cmd, Client& c)
 {
 	std::vector<std::string> splitResult = Utilities::splitFromFirstSpace(cmd);
@@ -28,16 +28,25 @@ int Server::Join(std::string &cmd, Client& c)
 		ch_name = splitResult[0];
 		ch_key = splitResult[1];
 	}
+<<<<<<< Updated upstream
 	
 	if(c.user.empty() && c.nick.empty()){
 		Utilities::writeReply(c.cliFd, "ERROR: You must enter a username and a nickname\n");
 		return 0;
 	}
+=======
+	if(c.user.empty() && c.nick.empty())
+    {
+        // Utilities::writeReply(c.cliFd, ERR_NOTREGISTERED(c.user));
+        Utilities::writeReply(c.cliFd, "ERROR: You must enter a username and a nickname first!\n");
+        return 0;
+    }
+>>>>>>> Stashed changes
 	if(findChannel(ch_name, this->channels))
 	{
 		for(ChannelIterator it = this->channels.begin(); it != this->channels.end(); ++it)
 		{
-			// printChannelMembers(*it);
+			printChannelMembers(*it);
 			/* std::cout << "CH:" << (*it).channel_key << "|"<< std::endl;  ///TESTER
 			std::cout << "CHk:" << ch_key << "|" << std::endl;  ///TESTER */
 			if(ch_name == (*it).channel_name)
@@ -65,7 +74,9 @@ int Server::Join(std::string &cmd, Client& c)
 						}
 					}
 				}
+				(*it).oprt = &(*it).channel_client[0];
 				std::cout << "OPERATOR: " << (*it).oprt->user << "|" << std::endl; ///TESTER
+				std::cout << "CHANNEL LIMIT: " << (*it).channel_limit << "|" << std::endl; ///TESTER
 				(*it).channel_client.push_back(c);
 				std::string topicName = (*it).channel_name + " :" + (*it).topic;
 				Utilities::writeReply(c.cliFd, RPL_JOIN(c.nick, c.ipAddr, ch_name));
@@ -78,12 +89,20 @@ int Server::Join(std::string &cmd, Client& c)
 		}
 	}
 	else {
+		std::cout<< "anen" << std::endl;
 		Channel a(ch_name);
+		// std::cout << "USEr : " << c.user << std::endl;
+		// if (a.channel_client.empty() && a.oprt == nullptr) {
+		// 	a.oprt = &c;  // İlk giren kullanıcıyı operatör yap
+		// 	std::cout << "First user " << c.nick << " is now the operator of channel " << a.channel_name << std::endl;
+		// }
+		a.oprt = &c;  // İlk giren kullanıcıyı operatör yap
 		a.channel_client.push_back(c);
-		a.oprt = &c;
+		std::cout << "OPERATOR: " << a.oprt->user << "|" << std::endl; ///TESTER
 		this->channels.push_back(a);
 		Utilities::writeReply(c.cliFd, RPL_JOIN(c.nick, c.ipAddr, ch_name));
 		this->showRightGui(c, this->channels.back());
 	}
 	return 0;
 }
+

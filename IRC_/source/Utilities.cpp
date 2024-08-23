@@ -107,7 +107,7 @@ void Server::showRightGui(Client &client, Channel &channel) {
     if (!tmp)
         return;
     for (std::vector<Client>::iterator it = tmp->channel_client.begin(); it != tmp->channel_client.end(); ++it) {
-        if(it->nick == tmp->oprt->nick)
+        if(it->user == tmp->oprt->user)
             msg += "@" + it->nick + " ";
         else
             msg += ' ' + it->nick + " ";

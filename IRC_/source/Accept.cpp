@@ -11,11 +11,11 @@ void Server::acceptClient() {
     cliSize = sizeof(sockaddr_in);
     tmp.cliFd = accept(this->server_fd, (sockaddr *)&cliAddr, &cliSize);
     if (tmp.cliFd < 0) { ///BIG NOOOOOOOOOO
-        if (errno == EAGAIN || errno == EWOULDBLOCK)//This error is normal for non-blocking socket, it means there is no connection .
+        /* if (errno == EAGAIN || errno == EWOULDBLOCK)//This error is normal for non-blocking socket, it means there is no connection .
         {
             this->state = 0;
             return ;
-        }
+        } */
         throw Exception("Accept failed!");
     }
     fcntl(tmp.cliFd, F_SETFL, O_NONBLOCK);

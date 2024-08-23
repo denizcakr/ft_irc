@@ -15,9 +15,9 @@ class Channel
 		
 	//Channel Modes
 		Client* oprt;
-		bool mode;
+		// bool mode;
 		std::string topic;
-		std::string _opUser;
+		// std::string _opUser;
 		bool topic_settable; //Channel Mode Topic
 		unsigned int channel_limit;
 		std::string channel_key;
@@ -26,7 +26,7 @@ class Channel
 		Channel();
 		~Channel();
 		bool is_member(Client& c);
-		std::vector<int>    getFds() const;
+		std::vector<int> getFds() const;
 
 
 };

@@ -5,11 +5,12 @@
 #include "Channel.hpp"
 #include <algorithm>
 
-void printChannelMembers(Channel& channel) //TESTER FUNCTION! CAN BE DELETED LATER
+void ChannelMembers(Channel& channel) //TESTER FUNCTION! CAN BE DELETED LATER
 {
+
 	for(std::vector<Client>::const_iterator it = channel.channel_client.begin(); it != channel.channel_client.end(); ++it) {
 		const Client& client = *it;
-		std::cout << "Channel: " << channel.channel_name << ", User: " << client.user << ", Nickname: " << client.nick << std::endl;
+		std::cout << "QUIT->Channel: " << channel.channel_name << ", User: " << client.user << ", Nickname: " << client.nick << std::endl;
 	}
 }
 
@@ -34,8 +35,10 @@ int Server::Quit(std::string &input, Client& c)
 
 			for (std::vector<Client>::iterator client_it = (*it).channel_client.begin(); client_it != (*it).channel_client.end(); )
 			{
-				if (client_it->nick == c.nick)
+				if (client_it->nick == c.nick){
+					std::cout << YELLOW << "CLIENT REMOVED: " << c.nick << RESET << std::endl;
 					client_it = (*it).channel_client.erase(client_it);
+				}
 				else
 					++client_it;
 			}
@@ -50,7 +53,7 @@ int Server::Quit(std::string &input, Client& c)
 			(*it).oprt = &(*it).channel_client.front();
 			showRightGui(c, *it);
 		}
-		printChannelMembers(*it);
+		ChannelMembers(*it);
 	}
 	Utilities::writeReply(c.cliFd, RPL_QUIT(c.nick, input.c_str()));
 	kickClient(c_iter);
