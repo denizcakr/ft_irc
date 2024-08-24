@@ -91,15 +91,27 @@ int Server::Join(std::string &cmd, Client& c)
 						}
 					}
 				}
+				(*it).oprt = &(*it).channel_client[0];
 				std::cout << "OPERATOR: " << (*it).oprt->user << "|" << std::endl; ///TESTER
 				(*it).channel_client.push_back(c);
+				std::cout << "annen1 " << std::endl;
 				std::string topicName = (*it).channel_name + " :" + (*it).topic;
+				std::cout << "annen2 " << std::endl;
 				Utilities::writeReply(c.cliFd, RPL_JOIN(c.nick, c.ipAddr, ch_name));
 				this->showRightGui(c, (*it));
-				if(!(*it).topic.empty())
-					Utilities::writeReply(c.cliFd, RPL_TOPIC(c.nick, c.ipAddr, (*it).channel_name, (*it).topic));
-				else
-					Utilities::writeReply(c.cliFd, RPL_NOTOPIC(c.nick, (*it).channel_name));
+				std::cout << "annen3 " << std::endl;
+				std::cout << "topic::  " << (*it).topic << std::endl;
+				std::vector<int> fds = it->getFds();
+					if (!fds.empty()) {
+						Utilities::writeAllMessage(fds, RPL_TOPIC(c.nick, c.ipAddr, (*it).channel_name, (*it).topic));
+					}
+				// if(!(*it).topic.empty()){
+				// 	Utilities::writeReply(c.cliFd, RPL_TOPIC(c.nick, c.ipAddr, (*it).channel_name, (*it).topic));
+				// 	std::cout << "annen4 " << std::endl;
+				// 	return 0;
+				// }
+				// else
+				// 	Utilities::writeReply(c.cliFd, RPL_NOTOPIC(c.nick, (*it).channel_name));
 			}
 		}
 	}

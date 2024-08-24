@@ -48,6 +48,7 @@ int Server::Quit(std::string &input, Client& c)
 				return 0;
 			}
 			(*it).oprt = &(*it).channel_client.front();
+			std::cout << "quit op : " << (*it).oprt->user << std::endl;
 			showRightGui(c, *it);
 		}
 		printChannelMembers(*it);

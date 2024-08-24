@@ -42,7 +42,7 @@ int Server::Topic(std::string &input, Client& c)
 			} */
 			if((*it).topic_settable == false)
 			{
-				if(it->oprt == &c)
+				if((*it).oprt->user == c.user)
 				{
 					//Utilities::writeReply(c.cliFd, RPL_TOPIC(c.nick, c.ipAddr, channelName, topicContent));
 					(*it).topic = topicContent;

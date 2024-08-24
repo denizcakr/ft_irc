@@ -33,6 +33,7 @@ int Server::Part(std::string &input, Client& c)
                         it->channel_client.erase(it2);
                         if (!it->channel_client.empty())
                             it->oprt = &it->channel_client[0];
+                        std::cout << "part op: " << (*it).oprt->user << std::endl;
                         std::cout << RED << "Client " << c.nick << " has left channel " << input << RESET << std::endl;
                         if ((*it).channel_client.empty()) {
                             std::cout << RED << "Channel " << it->channel_name << " is deleted" << RESET << std::endl;
@@ -41,6 +42,7 @@ int Server::Part(std::string &input, Client& c)
                         if (!(*it).channel_client.empty())
                         {
                             it->oprt = &it->channel_client.front();
+                            std::cout << "part op2: " << (*it).oprt->user << std::endl;
                             showRightGui(c, *it);
                         }
                         return 0;
