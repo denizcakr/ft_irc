@@ -55,6 +55,10 @@ int Server::Join(std::string &cmd, Client& c)
 		ch_key = splitResult[1];
 	}
 	
+	if(c.user.empty() && c.nick.empty()){
+		Utilities::writeReply(c.cliFd, "ERROR: You must enter a username and a nickname first!\n");
+        return 0;
+	}
 	if(findChannel(ch_name, this->channels))
 	{
 		for(ChannelIterator it = this->channels.begin(); it != this->channels.end(); ++it)

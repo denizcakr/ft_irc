@@ -42,7 +42,7 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 		cmd.push_back(tmp);
 	}
 
-	if(cmd.size() < 2) {
+	if(c.hexOrNc == HEX && cmd.size() < 2) {
 		Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, "MODE"));
 		return 0;
 	}
@@ -81,8 +81,8 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 				Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, input));
 				return 0;
 			}
-			std::string user = cmd[2];
-			Client *newOprt = find_client(user);
+			std::string user_nick = cmd[2];
+			Client *newOprt = find_client(user_nick);
 			if (newOprt == NULL)
 			{
 				Utilities::writeReply(c.cliFd, ERR_NOSUCHNICK(c.nick));
@@ -90,12 +90,12 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 			}
 			if (!ch->is_member(*newOprt))
 			{
-				Utilities::writeReply(c.cliFd, ERR_USERNOTINCHANNEL(c.nick, user, channel));
+				Utilities::writeReply(c.cliFd, ERR_USERNOTINCHANNEL(c.nick, user_nick, channel));
 				return 0;
 			}
 			ch->oprt = newOprt;
 			std::cout << "+o NEW OPERATOR: " << newOprt->user << "|" << std::endl; ///TESTER
-			Utilities::writeReply(c.cliFd, RPL_MODE(c.nick, channel, "+o " + user, "O"));
+			Utilities::writeReply(c.cliFd, RPL_MODE(c.nick, channel, "+o " + user_nick, "O"));
 			showRightGui(*newOprt, *ch);
 		}
 		else if(mode[0] == '-')
