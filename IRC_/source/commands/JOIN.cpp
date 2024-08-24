@@ -91,7 +91,7 @@ int Server::Join(std::string &cmd, Client& c)
 						}
 					}
 				}
-				(*it).oprt = &(*it).channel_client[0];
+				// (*it).oprt = &(*it).channel_client[0];
 				std::cout << "OPERATOR: " << (*it).oprt->user << "|" << std::endl; ///TESTER
 				(*it).channel_client.push_back(c);
 				std::string topicName = (*it).channel_name + " :" + (*it).topic;
