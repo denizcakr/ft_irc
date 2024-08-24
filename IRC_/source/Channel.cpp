@@ -4,7 +4,7 @@
 #include "Replies.hpp"
 #include <iostream>
 
-Channel::Channel(const std::string& channelName) : channel_name(channelName), topic_settable(false) {}
+Channel::Channel(const std::string& channelName) : channel_name(channelName), topic_settable(false) , channel_limit(0){}
 Channel::Channel() : topic(""){}
 
 Channel::~Channel() {}

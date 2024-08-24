@@ -32,7 +32,7 @@ int Server::Nick(std::string &s, Client &c) {// NICK <nickname>
         Utilities::writeReply(c.cliFd, ERR_ERRONEUSNICKNAME(c.user, c.nick));
         return 0;
     }
-    if(s.size() < 2){
+    if(s.size() < 1){
         Utilities::writeReply(c.cliFd, ERR_NONICKNAMEGIVEN(c.user));
         return 0;
     }
