@@ -15,23 +15,21 @@ void printChannelMembers(Channel& channel) //TESTER FUNCTION! CAN BE DELETED LAT
 
 int Server::Quit(std::string &input, Client& c)
 {
-	std::cout << "INPUT:" << input << std::endl; // :Leaving
-	std::cout << "CLIENT:" << c.user << std::endl;
+	// std::cout << "INPUT:" << input << std::endl; // :Leaving
+	// std::cout << "CLIENT:" << c.user << std::endl;
 
 	ClientIterator c_iter;
-	for (c_iter = clients.begin(); c_iter != clients.end(); ++c_iter) {
+	for (c_iter = this->clients.begin(); c_iter != this->clients.end(); ++c_iter) {
 		if (c_iter->nick == c.nick)
 			break;
 	}
-	if (c_iter == clients.end())
-		return -1; // cannot find client
+	if (c_iter == this->clients.end())
+		return -1;
 
 	for(ChannelIterator it = channels.begin(); it != channels.end(); ++it)
 	{
 		if((*it).is_member(c))
 		{
-			std::cout << "CLIENT FOUND: " << std::endl;
-
 			for (std::vector<Client>::iterator client_it = (*it).channel_client.begin(); client_it != (*it).channel_client.end(); )
 			{
 				if (client_it->nick == c.nick)
@@ -39,17 +37,7 @@ int Server::Quit(std::string &input, Client& c)
 				else
 					++client_it;
 			}
-
-			if((*it).channel_client.empty())
-			{
-				Utilities::writeReply(c.cliFd, RPL_QUIT(c.nick, input.c_str()));
-				it = channels.erase(it);
-				showRightGui(c, *it);
-				return 0;
-			}
-			(*it).oprt = &(*it).channel_client.front();
-			std::cout << "quit op : " << (*it).oprt->user << std::endl;
-			showRightGui(c, *it);
+			showRightGuiButBetter(c, *it);
 		}
 		printChannelMembers(*it);
 	}

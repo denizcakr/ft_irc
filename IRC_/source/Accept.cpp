@@ -16,7 +16,8 @@ void Server::acceptClient() {
         //     this->state = 0;
         //     return ;
         // }
-        throw Exception("Accept failed!");
+        // throw Exception("Accept failed!");
+        throw std::runtime_error("Accept failed!");
     }
     fcntl(tmp.cliFd, F_SETFL, O_NONBLOCK);
     tmp.cliPort = ntohs(cliAddr.sin_port);

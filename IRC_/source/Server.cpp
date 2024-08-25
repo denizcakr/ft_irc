@@ -39,7 +39,9 @@ void Server::run(void){
 }
 
 Client* Server::find_client(std::string &user_nick)
-{
+{   
+    if(user_nick.empty())
+        return NULL;
     for(ClientIterator it = clients.begin(); it != clients.end() ; ++it)
     {
         if(it->nick == user_nick)

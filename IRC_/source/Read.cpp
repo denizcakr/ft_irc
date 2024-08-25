@@ -21,14 +21,17 @@ void Server::readEvent() {
                     break;
                 }
                 // ^D
-                if (k[k.length() - 1] != '\n') {
-                    (*begin).buffer += k;
-                    state = 0;
-                    break;
+               if(k.length() > 0) {
+                    if (k[k.length() - 1] != '\n') {
+                        (*begin).buffer += k;
+                        state = 0;
+                        break;
+                    }
                 }
-                
                 std::vector<std::string> lines = Utilities::splitStringByNewline((*begin).buffer + buffer);
                 for(size_t i = 0; i < lines.size(); i++){
+                    if(lines[i].empty())
+                        continue;
                     if(lines[i][lines[i].size() - 1] == '\r')
                         lines[i] = lines[i].substr(0, lines[i].size() - 1);
                     std::cout << BLUE << "[ CMD ] " <<  RESET << PURPLE << "[ "<< lines[i] << " ]" << RESET << std::endl; 

@@ -99,21 +99,53 @@ std::vector<std::string> Utilities::splitStringByNewline(const std::string& str)
     return result;
 }
 
-
 void Server::showRightGui(Client &client, Channel &channel) {
+    
+    if (!channel.is_member(client)) {
+        std::cerr << "Error: Client is not a member of the channel." << std::endl;
+        return;
+    }
+    if(client.cliFd < 0 || channel.channel_client.empty())
+        return;
+
     std::string msg;
     Channel* tmp = getChannel(channel.channel_name);
+
 
     if (!tmp)
         return;
     for (std::vector<Client>::iterator it = tmp->channel_client.begin(); it != tmp->channel_client.end(); ++it) {
-        if(it->nick == tmp->oprt->nick)
+        if(it == tmp->channel_client.begin())
             msg += "@" + it->nick + " ";
         else
             msg += ' ' + it->nick + " ";
     }    
     Utilities::writeAllClient(tmp->getFds(), RPL_NAMREPLY(client.nick, tmp->channel_name, msg));
     Utilities::writeAllClient(tmp->getFds(), RPL_ENDOFNAMES(client.nick, tmp->channel_name));
+
+}
+
+void Server::showRightGuiButBetter(Client &client, Channel &channel) {
+    
+
+    if(client.cliFd < 0 || channel.channel_client.empty())
+        return;
+
+    std::string msg;
+    Channel* tmp = getChannel(channel.channel_name);
+
+
+    if (!tmp)
+        return;
+    for (std::vector<Client>::iterator it = tmp->channel_client.begin(); it != tmp->channel_client.end(); ++it) {
+        if(it == tmp->channel_client.begin())
+            msg += "@" + it->nick + " ";
+        else
+            msg += ' ' + it->nick + " ";
+    }    
+    Utilities::writeAllClient(tmp->getFds(), RPL_NAMREPLY(client.nick, tmp->channel_name, msg));
+    Utilities::writeAllClient(tmp->getFds(), RPL_ENDOFNAMES(client.nick, tmp->channel_name));
+
 }
 
 std::vector<std::string> Utilities::parseCmd(std::string& cmd){

@@ -79,6 +79,7 @@ class Server
         int Kick(std::string &input, Client& c);
 
         void showRightGui(Client &client, Channel &channel);//graphical user interface
+        void showRightGuiButBetter(Client &client, Channel &channel);
         Channel* getChannel(const std::string &name);
         void sendMessageToChannel(Client& c, std::string& message, Channel& channel);
         Client* find_client(std::string &nick);
@@ -87,5 +88,7 @@ class Server
         void kickClient(ClientIterator &);
         int isChannelExist(std::string const&);
         int isClientInChannel(Client &c, std::string channelName);//notice
+
+
 
 };
