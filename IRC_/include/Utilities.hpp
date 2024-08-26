@@ -37,6 +37,7 @@ class Utilities{
         static std::vector<std::string> splitString(const std::string& input, char delimiter);
         static std::vector<std::string> parseCmd(std::string& cmd);
         static std::string infoMessage(void);
+        static void printChannelMembers(Channel& channel);
 
     template<typename Iterator>
     static std::string joinStrings(Iterator begin, Iterator end, const std::string& delimiter)

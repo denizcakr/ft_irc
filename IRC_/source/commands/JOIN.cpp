@@ -1,33 +1,7 @@
 #include "Server.hpp"
 #include "Channel.hpp"
 #include "Client.hpp"
-/*
-	RFC
-	ERR_NEEDMOREPARAMS (461)	present
-	ERR_NOSUCHCHANNEL (403)		present
-	ERR_BADCHANNELKEY (475)		present
-	ERR_CHANNELISFULL (471)		present
-	RPL_TOPIC (332) 			will be added
-	ERR_INVITEONLYCHAN (473)	
-	ERR_BANNEDFROMCHAN (474)	no need
-	ERR_BADCHANMASK (476)		no need
-	ERR_TOOMANYCHANNELS (405)
-	RPL_TOPICWHOTIME (333)
-	RPL_NAMREPLY (353)
-	RPL_ENDOFNAMES (366)
-*/
-/*
-	Operators:
-		1- ONLY OPERATOR CAN OP
-		2- ONLY OPERATOR CAN DEOP
-		3- ONLY OPERATOR CAN SET KEY OR REMOVE KEY
-		4- ONLY OPERATOR CAN SET LIMIT OR REMOVE LIMIT
-		5- ONLY OPERATOR CAN SET TOPIC OR REMOVE TOPIC
-		6- ONLY OPERATOR CAN SET INVITEONLY MOD OR REMOVE INVITEONLY MOD / KICK
-	UPDATE!!
-		-> TOPIC
-		-> INVITEONLY OR KICK
- */
+
 
 bool findChannel(std::string &name, std::vector<Channel> channel){
 	for(ChannelIterator it = channel.begin(); it != channel.end(); ++it){
@@ -92,11 +66,7 @@ int Server::Join(std::string &cmd, Client& c)
 					}
 				}
 
-				// it->_opUser = it->channel_client[0].nick;
-				// std::cout << "OPERATOR: " << it->oprt->nick << "|" << std::endl; ///TESTER
 				it->channel_client.push_back(c);
-				// (*it).oprt = &(*it).channel_client[0];
-				it->oprt = (it->channel_client.empty()) ? NULL : &it->channel_client[0];
 				std::string topicName = it->channel_name + " :" + it->topic;
 				Utilities::writeReply(c.cliFd, RPL_JOIN(c.nick, c.ipAddr, ch_name));
 				this->showRightGui(c, *it);
@@ -105,20 +75,15 @@ int Server::Join(std::string &cmd, Client& c)
 				if (!fds.empty() && !it->topic.empty()) {
 					Utilities::writeAllMessage(fds, RPL_TOPIC(c.nick, c.ipAddr, it->channel_name, it->topic));
 				}
-				// if(!(*it).topic.empty()){
-				// 	Utilities::writeReply(c.cliFd, RPL_TOPIC(c.nick, c.ipAddr, (*it).channel_name, (*it).topic));
-				// 	std::cout << "annen4 " << std::endl;
-				// 	return 0;
-				// }
 				else
 					Utilities::writeReply(c.cliFd, RPL_NOTOPIC(c.nick, it->channel_name));
 			}
+			Utilities::printChannelMembers(*it);
 		}
 	}
 	else {
 		Channel a(ch_name);
 		a.channel_client.push_back(c);
-		a.oprt = &c;
 		this->channels.push_back(a);
 		Utilities::writeReply(c.cliFd, RPL_JOIN(c.nick, c.ipAddr, ch_name));
 		this->showRightGui(c, this->channels.back());

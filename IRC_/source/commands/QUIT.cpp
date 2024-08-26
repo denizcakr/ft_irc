@@ -5,13 +5,6 @@
 #include "Channel.hpp"
 #include <algorithm>
 
-void printChannelMembers(Channel& channel) //TESTER FUNCTION! CAN BE DELETED LATER
-{
-	for(std::vector<Client>::const_iterator it = channel.channel_client.begin(); it != channel.channel_client.end(); ++it) {
-		const Client& client = *it;
-		std::cout << "Channel: " << channel.channel_name << ", User: " << client.user << ", Nickname: " << client.nick << std::endl;
-	}
-}
 
 int Server::Quit(std::string &input, Client& c)
 {
@@ -39,7 +32,7 @@ int Server::Quit(std::string &input, Client& c)
 			}
 			showRightGuiButBetter(c, *it);
 		}
-		printChannelMembers(*it);
+		Utilities::printChannelMembers(*it);
 	}
 	Utilities::writeReply(c.cliFd, RPL_QUIT(c.nick, input.c_str()));
 	kickClient(c_iter);

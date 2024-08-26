@@ -1,16 +1,6 @@
 #include "Server.hpp"
 #include "Client.hpp"
 
-/*
-    RFC
-    
-    ->ERR_NICKNAMEINUSE ++
-    ->ERR_ERRONEUSNICKNAME ++
-    ->ERR_NONICKNAMEGIVEN
-    ->ERR_NICKCOLLISION 
-    ->ERR_NICKNAMEEMPTY ++
-
-*/
 int Server::isNickExist(std::string s) {
     for(std::vector<Client>::iterator it = this->clients.begin() ; it != this->clients.end(); ++it) {
         if(it->nick == s)

@@ -4,11 +4,6 @@
 #include "Client.hpp"
 #include "Channel.hpp"
 
-/*
-ERR_NEEDMOREPARAMS (461)
-ERR_NOSUCHCHANNEL (403)
-ERR_NOTONCHANNEL (442)
-*/
 
 int Server::Part(std::string &input, Client& c)
 {

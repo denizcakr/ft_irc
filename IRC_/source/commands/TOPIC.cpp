@@ -28,7 +28,6 @@ int Server::Topic(std::string &input, Client& c)
 	std::string topicContent;
 	if (params.size() > 1) {
 		topicContent = Utilities::joinStrings(params.begin() + 1, params.end(), " ");
-		std::cout << "TOPIC CONTENT: " << topicContent << std::endl;
 		if (!topicContent.empty() && topicContent[0] == ':') {
 			topicContent.erase(0, 1);
 		}
@@ -42,28 +41,26 @@ int Server::Topic(std::string &input, Client& c)
 			} */
 			if((*it).topic_settable == false)
 			{
-				std::cout << "it op: "<<(*it).oprt->user << std::endl;
-				std::cout << "c op: "<< c.user << std::endl;
-				std::cout << "chclie op: "<< (*it).channel_client[0].user << std::endl;
 				if((*it).channel_client[0].user == c.user)
 				{
 					//Utilities::writeReply(c.cliFd, RPL_TOPIC(c.nick, c.ipAddr, channelName, topicContent));
 					(*it).topic = topicContent;
-					std::cout <<"topic:" << it->topic << std::endl;
+					std::cout <<"TOPIC : " << it->topic << std::endl;
 					std::vector<int> fds = it->getFds();
 					if (!fds.empty()) {
 						Utilities::writeAllMessage(fds, RPL_TOPIC(c.nick, c.ipAddr, channelName, topicContent));
 					}
 				}
-				else
+				else {
 					Utilities::writeReply(c.cliFd, ERR_TOPICNOTSETTABLE(c.nick, channelName));
+				}
 				return 0;
 			}
 			else if ((*it).topic_settable == true)
 			{
 				//Utilities::writeReply(c.cliFd, RPL_TOPIC(c.nick, c.ipAddr, channelName, topicContent));
 				(*it).topic = topicContent;
-				std::cout <<"topic:" << it->topic << std::endl;
+				std::cout <<"TOPIC : " << it->topic << std::endl;
 				std::vector<int> fds = it->getFds();
 				if (!fds.empty()) {
 					Utilities::writeAllMessage(fds, RPL_TOPIC(c.nick, c.ipAddr, channelName, topicContent));
@@ -71,8 +68,9 @@ int Server::Topic(std::string &input, Client& c)
 				return 0;
 			}
 		}
-		else{ ///checkle
+		else { ///checkle
 			Utilities::writeReply(c.cliFd, ERR_NOTONCHANNEL(c.nick, channelName));
+			return 0;
 		}
 	}
 	// Kanal bulunamadı

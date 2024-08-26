@@ -9,18 +9,6 @@
 	l - set the user limit to channel;
 	k - set a channel key (password).
  */
-// /MODE #mychannel +o alice // give operator privileges to alice		+DONE
-// /MODE #mychannel -o alice // take operator privileges from alice		+DONE
-// /MODE #mychannel +l 10 // set the user limit to 10					+DONE
-// /MODE #mychannel -l // remove the user limit							+DONE
-// /MODE #mychannel +k mypassword // set the channel key to "password"	+DONE
-// /MODE #mychannel -k // remove the channel key						+DONE
-// /MODE #mychannel -t // topic settable by anyone						
-// /MODE #mychannel +t // topic settable by channel operator only		
-
-// /MODE #mychannel +i // invite only
-// /MODE #mychannel -i // remove invite only
-// /MODE #mychannel kick
 
 int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 {
@@ -51,15 +39,12 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 		return 0;
 	}
 
-	for(size_t i = 0; i < cmd.size(); i++) {
-		std::cout << "CMD " << cmd[i] << std::endl;
-	}
 	std::string channel = cmd[0];
 	std::string mode = cmd[1];
 
 	Channel *ch = NULL;
 	ch = getChannel(channel);
-	std::cout << "ch-> " << ch << std::endl;
+
 	if (ch == NULL)
 	{
 		Utilities::writeReply(c.cliFd, ERR_NOSUCHCHANNEL(c.nick, "channel"));
@@ -72,17 +57,10 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 		return 0;
 	}
 
-
-	std::cout << "MODE: " << mode << std::endl; //
 	if (!mode.empty())
 	{
 		if(mode[1] == 'o')
 		{
-			if (ch->oprt == NULL)
-			{
-				Utilities::writeReply(c.cliFd, ERR_CHANOPRIVSNEEDED(c.nick, channel));
-				return 0;
-			}
 			if(mode[0] == '+')
 			{
 				if(cmd.size() < 3)
@@ -102,7 +80,6 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 					Utilities::writeReply(c.cliFd, ERR_USERNOTINCHANNEL(c.nick, user_nick, channel));
 					return 0;
 				}
-				// ch->oprt = newOprt;
 				std::vector<Client>::iterator it= ch->channel_client.begin();
 				for(; it != ch->channel_client.end(); ++it){
 					if((*it).user == newOprt->user)
@@ -116,34 +93,33 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 						ch->channel_client.erase(it);
 						//insert it at the 0th index
 						ch->channel_client.insert(ch->channel_client.begin(), found_value);
-						ch->oprt = &ch->channel_client[0];
 					}
 				}
 
-				std::cout << "+o NEW OPERATOR: " << newOprt->user << "|" << std::endl; ///TESTER
+				std::cout << YELLOW << "+o NEW OPERATOR: " << newOprt->user << RESET << std::endl; ///TESTER
 				Utilities::writeReply(c.cliFd, RPL_MODE(c.nick, channel, "+o " + user_nick, "O"));
 				showRightGui(*newOprt, *ch);
 			}
-			else if(mode[0] == '-')
+			else if(mode[0] == '-')//check
 			{
-				std::cout << "-o CURRENT MODE OPERATOR " << ch->oprt->user << "|" << std::endl; /////TESTER
-				for (size_t i = 0; i < ch->channel_client.size(); i++)
-				{
-					if (ch->channel_client[i].user != c.user)
-					{
-						ch->oprt = &ch->channel_client[i];
-						std::cout << "AFTER -o MODE OPERATOR " << ch->oprt->user << "|" << std::endl; ///TESTER
-						Utilities::writeReply(c.cliFd, RPL_MODE(c.nick, channel, "+o " + ch->oprt->user, "O"));
-						showRightGui(*(ch->oprt), *ch);
-						break; //the first user which is not the operator will be the operator.
-					}
+				if(ch->channel_client.size() > 1){
+					ClientIterator it = ch->channel_client.begin();
+					Client found_value = *it;
+					ch->channel_client.erase(it);
+					ch->channel_client.insert(ch->channel_client.end(), found_value);	
+					std::cout << YELLOW << "+o NEW OPERATOR: " << ch->channel_client[0].nick << RESET << std::endl; ///TESTER
+					showRightGui(c, *ch);
+				}
+				
+				else{
+					Utilities::writeReply(c.cliFd, "You are the only one in that channel!");
 				}
 			}
 		}
 
 		else if(mode[1] == 't')
 		{
-			if (ch->oprt == NULL)
+			if (ch->channel_client.size() == 0)
 			{
 				Utilities::writeReply(c.cliFd, ERR_CHANOPRIVSNEEDED(c.nick, channel));
 				return 0;
@@ -151,13 +127,11 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 			if(mode[0] == '+')
 			{
 				ch->topic_settable = true;
-				std::cout << "TOPIC SETTABLE: " << ch->topic_settable << std::endl; ///TESTER
 				Utilities::writeReply(c.cliFd, RPL_TOPICSETTABLE(c.nick, ch->channel_name));
 			}
 			else if(mode[0] == '-')
 			{
 				ch->topic_settable = false;
-				std::cout << "TOPIC SETTABLE: " << ch->topic_settable << std::endl; ///TESTER
 				Utilities::writeReply(c.cliFd, RPL_TOPICNOTSETTABLE(c.nick, ch->channel_name));
 			}
 		}
@@ -218,3 +192,4 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 	}
 	return 0;
 }
+

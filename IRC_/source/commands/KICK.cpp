@@ -27,7 +27,7 @@ int Server::Kick(std::string &input, Client& c)
         return 0;
     }
 
-    if (ch->oprt == NULL || c.user != ch->oprt->user)
+    if (ch->channel_client.empty() || c.user != ch->channel_client[0].user)
     {
         Utilities::writeReply(c.cliFd, ERR_CHANOPRIVSNEEDED(c.nick, channelName));
         return 0;
@@ -40,7 +40,7 @@ int Server::Kick(std::string &input, Client& c)
         {
             userFound = true;
             std::string msg = "";
-            Utilities::writeReply(it2->cliFd, RPL_KICK(ch->oprt->nick, channelName, userToKick, msg));
+            Utilities::writeReply(it2->cliFd, RPL_KICK(ch->channel_client[0].nick, channelName, userToKick, msg));
             Utilities::writeReply(it2->cliFd, RPL_ENDOFNAMES(it2->nick, channelName));
             ch->channel_client.erase(it2);
             showRightGui(c, *ch);

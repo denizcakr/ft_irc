@@ -14,7 +14,7 @@ class Channel
 		std::vector<Client> channel_client;
 		
 	//Channel Modes
-		Client* oprt;
+
 		bool mode;
 		std::string topic;
 		std::string _opUser;

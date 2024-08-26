@@ -187,6 +187,19 @@ int Server::isChannelExist(std::string const& channelName)
     return 0;
 }
 
+void Utilities::printChannelMembers(Channel& channel) //TESTER FUNCTION! CAN BE DELETED LATER
+{
+	std::cout << YELLOW << "< CHANNEL INFO >" << RESET << std::endl;
+	for(std::vector<Client>::const_iterator it = channel.channel_client.begin(); it != channel.channel_client.end(); ++it) {
+		const Client& client = *it;
+		std::cout << CYAN << "Channel :  " << channel.channel_name << std::endl;
+		std::cout << "User : " << client.user << std::endl;
+		std::cout << "Nickname : " << client.nick << RESET <<std::endl;
+        std::cout << std::endl;
+        std::cout << YELLOW << "OPERATOR : " << channel.channel_client[0].user << RESET << std::endl;
+	}
+}
+
 std::string Utilities::infoMessage(void){
     std::string msg;
 
