@@ -13,8 +13,6 @@ class Channel
 		std::string channel_name;
 		std::vector<Client> channel_client;
 		
-	//Channel Modes
-
 		bool mode;
 		std::string topic;
 		std::string _opUser;

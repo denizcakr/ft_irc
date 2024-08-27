@@ -8,8 +8,6 @@
 
 int Server::Quit(std::string &input, Client& c)
 {
-	// std::cout << "INPUT:" << input << std::endl; // :Leaving
-	// std::cout << "CLIENT:" << c.user << std::endl;
 
 	ClientIterator c_iter;
 	for (c_iter = this->clients.begin(); c_iter != this->clients.end(); ++c_iter) {

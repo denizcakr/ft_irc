@@ -45,7 +45,7 @@ class Server
         fd_set writeFdsSup;
 
     private:
-        // create socket
+
         void createSocket(void);
         void serverAddrSocket(void);
         void socketListen(void) const;
@@ -88,6 +88,8 @@ class Server
         void kickClient(ClientIterator &);
         int isChannelExist(std::string const&);
         int isClientInChannel(Client &c, std::string channelName);//notice
+
+        int isUserExist(std::string s);
 
 
 

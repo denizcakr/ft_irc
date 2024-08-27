@@ -1,26 +1,24 @@
-# Derleyici ve bayraklar
 NAME = ircserv
 CC = c++
 FLAGS = -Wall -Werror -Wextra -std=c++98 -Wshadow -O3
 
-# Dizinler
 SRC_DIR = source
 CMD_DIR = $(SRC_DIR)/commands
 INC_DIR = include
 
-# Kaynak dosyaları
 SRCS = $(wildcard $(SRC_DIR)/*.cpp) $(wildcard $(CMD_DIR)/*.cpp)
 
-# Varsayılan hedef
 all: $(NAME)
 
-# Programı oluştur
 $(NAME): $(SRCS)
 	$(CC) $(FLAGS) -I$(INC_DIR) $^ -o $@
 
-# Temizlik
 clean:
 	rm -f $(NAME)
+
+fclean: clean
+	@rm -f $(NAME)
+	@echo "$(NAME): $(RED)$(NAME) was deleted$(RESET)"
 
 run: clean all
 	@if [ -f $(NAME) ]; then \
@@ -30,7 +28,6 @@ run: clean all
 		echo "Executable $(NAME) not found!"; \
 	fi
 
-# Yeniden derleme
 re: clean all
 
 .PHONY: all clean re run

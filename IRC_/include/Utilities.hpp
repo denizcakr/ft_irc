@@ -38,6 +38,7 @@ class Utilities{
         static std::vector<std::string> parseCmd(std::string& cmd);
         static std::string infoMessage(void);
         static void printChannelMembers(Channel& channel);
+        static bool checkChannel(std::string& s);
 
     template<typename Iterator>
     static std::string joinStrings(Iterator begin, Iterator end, const std::string& delimiter)

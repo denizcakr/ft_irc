@@ -5,7 +5,6 @@
 
 int Server::Pass(std::string &input, Client& c){
 
-    // std::cout << "input " << input << std::endl;
     if(input.empty()){
         Utilities::writeReply(c.cliFd, ERR_NEEDMOREPARAMS(c.nick, "PASS"));
         return 0;

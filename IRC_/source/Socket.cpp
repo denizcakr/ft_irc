@@ -7,7 +7,6 @@ void Server::createSocket(void)
     this->server_fd = socket(AF_INET, SOCK_STREAM, 0);
     if ((int)(this->server_fd) < 0)
     {
-        // throw Exception("Socket is not created!");
         throw std::runtime_error("Socket is not created!");
 
     }
@@ -23,7 +22,6 @@ void Server::createSocket(void)
     int opt = 1;
 
     if (setsockopt(this->server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0){
-        // throw Exception("Socket is not optimized!");
         throw std::runtime_error("Socket is not optimized!");
 
     }
@@ -42,7 +40,6 @@ void Server::serverAddrSocket(void) {
 
     if (bind(this->server_fd, (sockaddr *)&this->addr, sizeof(this->addr)) < 0)
     {
-        // throw Exception("Socket is not bound!");
         throw std::runtime_error("Socket is not bound!");
 
     }
@@ -59,7 +56,6 @@ void Server::socketListen(void) const{
 
     if (listen(this->server_fd, 128) < 0)
     {
-        // throw Exception("Server socket can not hear you!");
         throw std::runtime_error("Server socket cannot hear you!");
 
     }

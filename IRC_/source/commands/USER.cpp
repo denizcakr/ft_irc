@@ -3,12 +3,13 @@
 #include "Replies.hpp"
 #include "Utilities.hpp"
 
-/*
-	RFC
-	->ERR_NEEDMOREPARAMS (461) ++
-	->ERR_ALREADYREGISTERED  ++
-
-*/
+int Server::isUserExist(std::string s) {
+    for(std::vector<Client>::iterator it = this->clients.begin() ; it != this->clients.end(); ++it) {
+        if(it->user == s)
+            return 1;
+    }
+    return 0;
+}
 
 int checkOnlyTabOrSpaces(std::string &input) {
 	int a = 0;
@@ -21,6 +22,11 @@ int checkOnlyTabOrSpaces(std::string &input) {
 
 int Server::User(std::string &input, Client& c)
 {
+
+	if(isUserExist(input)){
+		Utilities::writeReply(c.cliFd, ERR_ALREADYREGISTRED(c.user));
+		return 0;
+	}
 
 	if(input.size() > USERLEN) {
 		input = input.substr(0, USERLEN);

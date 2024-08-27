@@ -19,7 +19,7 @@ std::vector<int>    Channel::getFds() const {
 
 Channel* Server::getChannel(const std::string &name) {
 	for (std::vector<Channel>::iterator it = this->channels.begin(); it != this->channels.end(); ++it) {
-		//std::cout << "CHANNEL NAMEEEEE: " << (*it).channel_name << std::endl;
+
 		if (name == it->channel_name) {
 			return &(*it); //it returns the channel address
 		}

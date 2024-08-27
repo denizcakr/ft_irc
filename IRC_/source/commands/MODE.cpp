@@ -3,12 +3,6 @@
 #include "Utilities.hpp"
 #include "Replies.hpp"
 
-//Parameters: <channel> {[+|-]|o|p|s|i|t|n|b|v} [<limit>] [<user>] [<ban mask>]
-/*	o - give/take channel operator privileges;
-	t - topic settable by channel operator only flag;
-	l - set the user limit to channel;
-	k - set a channel key (password).
- */
 
 int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 {
@@ -96,18 +90,18 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 					}
 				}
 
-				std::cout << YELLOW << "+o NEW OPERATOR: " << newOprt->user << RESET << std::endl; ///TESTER
+				std::cout << YELLOW << "+o NEW OPERATOR: " << newOprt->user << RESET << std::endl;
 				Utilities::writeReply(c.cliFd, RPL_MODE(c.nick, channel, "+o " + user_nick, "O"));
 				showRightGui(*newOprt, *ch);
 			}
-			else if(mode[0] == '-')//check
+			else if(mode[0] == '-')
 			{
 				if(ch->channel_client.size() > 1){
 					ClientIterator it = ch->channel_client.begin();
 					Client found_value = *it;
 					ch->channel_client.erase(it);
 					ch->channel_client.insert(ch->channel_client.end(), found_value);	
-					std::cout << YELLOW << "+o NEW OPERATOR: " << ch->channel_client[0].nick << RESET << std::endl; ///TESTER
+					std::cout << YELLOW << "+o NEW OPERATOR: " << ch->channel_client[0].nick << RESET << std::endl;
 					showRightGui(c, *ch);
 				}
 				

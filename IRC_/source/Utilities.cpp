@@ -187,7 +187,17 @@ int Server::isChannelExist(std::string const& channelName)
     return 0;
 }
 
-void Utilities::printChannelMembers(Channel& channel) //TESTER FUNCTION! CAN BE DELETED LATER
+bool Utilities::checkChannel(std::string& s) {
+    if(s.size() < 2 || s.size() > 50)
+        return false;
+    for(int i = 0; s[i]; i++) {
+        if(s[i] == ' ' || s[i] == 7 || s[i] == ',')
+            return false;
+    }
+    return true;
+}
+
+void Utilities::printChannelMembers(Channel& channel)
 {
 	std::cout << YELLOW << "< CHANNEL INFO >" << RESET << std::endl;
 	for(std::vector<Client>::const_iterator it = channel.channel_client.begin(); it != channel.channel_client.end(); ++it) {

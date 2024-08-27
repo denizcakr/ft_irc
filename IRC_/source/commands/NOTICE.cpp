@@ -15,10 +15,6 @@ int Server::isClientInChannel(Client &c, std::string channelName){
 }
 
 int Server::Notice(std::string &arg, Client& c){
-    /*
-        NOTICE #a hello
-        NOTICE eyms hello
-    */
     std::vector<std::string> param = Utilities::parseCmd(arg);
     
     for(ClientIterator it = clients.begin(); it != clients.end(); ++it){

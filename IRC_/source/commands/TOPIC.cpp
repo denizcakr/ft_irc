@@ -4,17 +4,6 @@
 #include "Replies.hpp"
 #include "Channel.hpp"
 
-/*
-
-ERR_NEEDMOREPARAMS (461)
-ERR_NOSUCHCHANNEL (403)
-ERR_NOTONCHANNEL (442)
-ERR_CHANOPRIVSNEEDED (482)
-RPL_NOTOPIC (331)
-RPL_TOPIC (332)
-RPL_TOPICWHOTIME (333)
-
-*/
 
 int Server::Topic(std::string &input, Client& c)
 {
@@ -36,14 +25,11 @@ int Server::Topic(std::string &input, Client& c)
 	{
 		if ((*it).channel_name == channelName)
 		{
-			/* if((*it).topic.empty()){///check
-				Utilities::writeReply(c.cliFd, RPL_NOTOPIC(c.nick, channelName));
-			} */
+
 			if((*it).topic_settable == false)
 			{
 				if((*it).channel_client[0].user == c.user)
 				{
-					//Utilities::writeReply(c.cliFd, RPL_TOPIC(c.nick, c.ipAddr, channelName, topicContent));
 					(*it).topic = topicContent;
 					std::cout <<"TOPIC : " << it->topic << std::endl;
 					std::vector<int> fds = it->getFds();
@@ -58,7 +44,6 @@ int Server::Topic(std::string &input, Client& c)
 			}
 			else if ((*it).topic_settable == true)
 			{
-				//Utilities::writeReply(c.cliFd, RPL_TOPIC(c.nick, c.ipAddr, channelName, topicContent));
 				(*it).topic = topicContent;
 				std::cout <<"TOPIC : " << it->topic << std::endl;
 				std::vector<int> fds = it->getFds();
@@ -68,12 +53,12 @@ int Server::Topic(std::string &input, Client& c)
 				return 0;
 			}
 		}
-		else { ///checkle
+		else {
 			Utilities::writeReply(c.cliFd, ERR_NOTONCHANNEL(c.nick, channelName));
 			return 0;
 		}
 	}
-	// Kanal bulunamadı
+	// cannot find channel
 	Utilities::writeReply(c.cliFd, ERR_NOSUCHCHANNEL(c.nick, channelName));
 	return -1;
 }

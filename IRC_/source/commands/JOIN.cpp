@@ -11,14 +11,7 @@ bool findChannel(std::string &name, std::vector<Channel> channel){
 	return false;
 }
 
-/* void printChannelMembers(Channel& channel) //TESTER FUNCTION! CAN BE DELETED LATER
-{
-	for(std::vector<Client>::const_iterator it = channel.channel_client.begin(); it != channel.channel_client.end(); ++it) {
-		const Client& client = *it;
-		std::cout << "Channel: " << channel.channel_name << ", User: " << client.user << ", Nickname: " << client.nick << std::endl;
-	}
-}
- */
+
 int Server::Join(std::string &cmd, Client& c)
 {
 	std::vector<std::string> splitResult = Utilities::splitFromFirstSpace(cmd);
@@ -33,13 +26,17 @@ int Server::Join(std::string &cmd, Client& c)
 		Utilities::writeReply(c.cliFd, "ERROR: You must enter a username and a nickname first!\n");
         return 0;
 	}
+
+	if(!Utilities::checkChannel(ch_name)) {
+    	Utilities::writeReply(c.cliFd, ERR_NOSUCHCHANNEL(c.getPrefix(), ch_name));
+        return 0;
+    }
+
 	if(findChannel(ch_name, this->channels))
 	{
 		for(ChannelIterator it = this->channels.begin(); it != this->channels.end(); ++it)
 		{
-			// printChannelMembers(*it);
-			/* std::cout << "CH:" << (*it).channel_key << "|"<< std::endl;  ///TESTER
-			std::cout << "CHk:" << ch_key << "|" << std::endl;  ///TESTER */
+		
 			if(ch_name == it->channel_name)
 			{
 				if(it->is_member(c)){
@@ -70,7 +67,7 @@ int Server::Join(std::string &cmd, Client& c)
 				std::string topicName = it->channel_name + " :" + it->topic;
 				Utilities::writeReply(c.cliFd, RPL_JOIN(c.nick, c.ipAddr, ch_name));
 				this->showRightGui(c, *it);
-				std::cout << "topic::  " << it->topic << std::endl;
+				std::cout << "TOPIC :  " << it->topic << std::endl;
 				std::vector<int> fds = it->getFds();
 				if (!fds.empty() && !it->topic.empty()) {
 					Utilities::writeAllMessage(fds, RPL_TOPIC(c.nick, c.ipAddr, it->channel_name, it->topic));
