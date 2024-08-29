@@ -1,9 +1,9 @@
 // #include "../include/bot.hpp"
 #include "bot.hpp"
 
-Bot::Bot(const std::string &server, int port) : Server(server), Port(port), userBot("Bot"), botNick("Bot")
+Bot::Bot(int port, std::string pass) : Port(port), Pass(pass), userBot("Bot"), botNick("Bot")
 {
-	std::cout << "Bot created with nick: " << this->botNick << " user: " << this->userBot << " server: " << this->Server << " port: " << this->Port << std::endl;
+	std::cout << "Bot created with nick: " << this->botNick << " user: " << this->userBot << " Password: " << this->Pass << " port: " << this->Port << std::endl;
 	this->socketBot();
 	this->execBot();
 }
@@ -17,14 +17,16 @@ void Bot::socketBot(void)
 	}
 	else
 		std::cout << "Bot Socket is Created :)" << std::endl;
-	if (fcntl(this->bot_fd, F_SETFL, O_NONBLOCK) < 0)
+	/* if (fcntl(this->bot_fd, F_SETFL, O_NONBLOCK) < 0)
 	{
 		close(this->bot_fd);
 		throw std::runtime_error("Failed to set socket to non-blocking mode");
-	}
+	} */
 
-	server_addr.sin_family = AF_INET;
-	server_addr.sin_port = htons(Port);
+	sockaddr_in server_addr;
+    memset(&server_addr, 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(Port);
 
 	if (inet_pton(AF_INET, "127.0.0.1", &server_addr.sin_addr) <= 0)
 	{
@@ -34,7 +36,9 @@ void Bot::socketBot(void)
 
 	if (connect(this->bot_fd, (struct sockaddr*)&server_addr, sizeof(server_addr)) == -1)
 	{
+		std::cerr << "Bot Connection To The Server Failed! Error: " << strerror(errno) << std::endl;
 		throw std::runtime_error("Bot Connection To The Server Failed!");
+		close(this->bot_fd);
 	}
 	else
 		std::cout << "Bot Connection To The Server Successfull :)" << std::endl;
@@ -42,6 +46,7 @@ void Bot::socketBot(void)
 
 void Bot::execBot(void)
 {
+	std::cout << "Bot Executing!" << std::endl;
 	while (1)
 	{
 		std::string msgTmp;
@@ -59,7 +64,7 @@ void Bot::execBot(void)
 				buffer[readed - 1] = '\0';
 			else
 				buffer[readed] = '\0';
-			std::string msgTmp = buffer;
+			msgTmp = buffer;
 		}
 		std::string cliMsg(msgTmp);
 		if(cliMsg.empty())
@@ -85,15 +90,4 @@ Bot::~Bot()
 {
 	close(this->bot_fd);
 	std::cout << "X Bot Destroyed X" << std::endl;
-}
-
-int main (int argc, char *argv[])
-{
-	if(argc != 3)
-	{
-		std::cerr << "Usage: " << argv[0] << " <server> <port>" << std::endl;
-		return 1;
-	}
-	Bot bot(argv[1], std::stoi(argv[2]));
-	return 0;
 }

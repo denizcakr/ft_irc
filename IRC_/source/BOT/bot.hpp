@@ -9,18 +9,18 @@
 #include <exception>
 #include <cerrno>
 #include <cstring>
+#include <cstdlib>
 
 class Bot
 {
 	private:
-		std::string Server;
 		int Port; //unsidgned short??
+		std::string Pass;
 		std::string userBot;
 		std::string botNick;
 		int bot_fd;
-		struct sockaddr_in server_addr;
 	public:
-		Bot(const std::string &server, int port);
+		Bot(int port, std::string pass);
 		~Bot();
 		void socketBot(void);
 		void execBot(void);
