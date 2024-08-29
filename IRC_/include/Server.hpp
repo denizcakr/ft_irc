@@ -77,6 +77,7 @@ class Server
         int Part(std::string &input, Client& c);
         int Quit(std::string &input, Client& c);
         int Kick(std::string &input, Client& c);
+        // int Bot(std::string &input, Client& c);
 
         void showRightGui(Client &client, Channel &channel);//graphical user interface
         void showRightGuiButBetter(Client &client, Channel &channel);

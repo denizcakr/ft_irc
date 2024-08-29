@@ -2,7 +2,6 @@
 #include "Channel.hpp"
 #include "Client.hpp"
 
-
 bool findChannel(std::string &name, std::vector<Channel> channel){
 	for(ChannelIterator it = channel.begin(); it != channel.end(); ++it){
 		if(name == it->channel_name)
@@ -10,7 +9,6 @@ bool findChannel(std::string &name, std::vector<Channel> channel){
 	}
 	return false;
 }
-
 
 int Server::Join(std::string &cmd, Client& c)
 {
@@ -24,13 +22,13 @@ int Server::Join(std::string &cmd, Client& c)
 	
 	if(c.user.empty() && c.nick.empty()){
 		Utilities::writeReply(c.cliFd, "ERROR: You must enter a username and a nickname first!\n");
-        return 0;
+		return 0;
 	}
 
 	if(!Utilities::checkChannel(ch_name)) {
-    	Utilities::writeReply(c.cliFd, ERR_NOSUCHCHANNEL(c.getPrefix(), ch_name));
-        return 0;
-    }
+		Utilities::writeReply(c.cliFd, ERR_NOSUCHCHANNEL(c.getPrefix(), ch_name));
+		return 0;
+	}
 
 	if(findChannel(ch_name, this->channels))
 	{
@@ -62,7 +60,6 @@ int Server::Join(std::string &cmd, Client& c)
 						}
 					}
 				}
-
 				it->channel_client.push_back(c);
 				std::string topicName = it->channel_name + " :" + it->topic;
 				Utilities::writeReply(c.cliFd, RPL_JOIN(c.nick, c.ipAddr, ch_name));

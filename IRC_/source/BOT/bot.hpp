@@ -10,6 +10,7 @@
 #include <cerrno>
 #include <cstring>
 #include <cstdlib>
+#include <vector>
 
 class Bot
 {
@@ -22,6 +23,8 @@ class Bot
 	public:
 		Bot(int port, std::string pass);
 		~Bot();
+		// int getSocketFd() const;
+		std::vector<std::string> fromFirstSpace(const std::string& input);
 		void socketBot(void);
 		void execBot(void);
 		void Analyzator(const std::string &message);

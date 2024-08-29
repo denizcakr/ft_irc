@@ -3,9 +3,33 @@
 
 Bot::Bot(int port, std::string pass) : Port(port), Pass(pass), userBot("Bot"), botNick("Bot")
 {
-	std::cout << "Bot created with nick: " << this->botNick << " user: " << this->userBot << " Password: " << this->Pass << " port: " << this->Port << std::endl;
+	std::cout << "Bot created with nick: -" << this->botNick << "-, user: -" << this->userBot << "-, password: -" << this->Pass << "-, port: -" << this->Port << "-" << std::endl;
 	this->socketBot();
 	this->execBot();
+}
+
+/* int Bot::getSocketFd() const
+{
+	return this->bot_fd;
+} */
+
+std::vector<std::string> Bot::fromFirstSpace(const std::string& input)
+{
+    std::vector<std::string> result;
+    size_t spacePos = input.find(' ');
+    std::string temp = input;
+    if (input[input.size()-1] == '\n') {
+        temp = input.substr(0, input.size() - 1);
+    }
+    if (spacePos != std::string::npos) {
+        result.push_back(temp.substr(0, spacePos));
+        result.push_back(temp.substr(spacePos + 1));
+    } else {
+        // If no space is found, the whole string is the first part, and the second part is empty.
+        result.push_back(temp);
+        result.push_back("");
+    }
+    return result;
 }
 
 void Bot::socketBot(void)
@@ -24,9 +48,9 @@ void Bot::socketBot(void)
 	} */
 
 	sockaddr_in server_addr;
-    memset(&server_addr, 0, sizeof(server_addr));
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(Port);
+	memset(&server_addr, 0, sizeof(server_addr));
+	server_addr.sin_family = AF_INET;
+	server_addr.sin_port = htons(Port);
 
 	if (inet_pton(AF_INET, "127.0.0.1", &server_addr.sin_addr) <= 0)
 	{
@@ -46,6 +70,7 @@ void Bot::socketBot(void)
 
 void Bot::execBot(void)
 {
+	int flag = 0;
 	std::cout << "Bot Executing!" << std::endl;
 	while (1)
 	{
@@ -65,6 +90,18 @@ void Bot::execBot(void)
 			else
 				buffer[readed] = '\0';
 			msgTmp = buffer;
+			std::cout << "Bot Received: " << msgTmp << std::endl;
+			if(!flag)
+			{
+				std::string login = "PASS 123\nUSER " + this->userBot + " 0 * :Bot\n" + "NICK " + this->botNick + "\n";
+				size_t ret = write(this->bot_fd, login.c_str(), login.size());
+				if((int)ret < 0)
+				{
+					std::cerr << "Bot Login Failed!" << std::endl;
+					break;
+				}
+				flag = 1;
+			}
 		}
 		std::string cliMsg(msgTmp);
 		if(cliMsg.empty())
@@ -75,14 +112,19 @@ void Bot::execBot(void)
 
 void Bot::Analyzator(const std::string &message)
 {
+	std::string target = fromFirstSpace(message)[0];
+	std::cout << "Bot Target: " << target << std::endl;
+	std::cout << "Bot Analyzing: " << message << std::endl;
 	if(message.find("PING") != std::string::npos)
 	{
-		std::string pong = "PONG " + message.substr(5) + "\r\n";
+		std::cout << "Bot Ponging!" << std::endl;
+		std::string pong = "PRIVMSG usr1 PONG \r\n";
 		send(this->bot_fd, pong.c_str(), pong.size(), 0);
 	}
-	if(message.find("PRIVMSG") != std::string::npos)
+	else if(message.find("PRIVMSG") != std::string::npos)
 	{
-		
+		std::string user = "PRIVMSG usr1 Wassup Mate!\r\n";
+		send(this->bot_fd, user.c_str(), user.size(), 0);
 	}
 }
 

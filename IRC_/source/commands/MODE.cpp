@@ -3,7 +3,6 @@
 #include "Utilities.hpp"
 #include "Replies.hpp"
 
-
 int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 {
 	std::string tmp;
@@ -100,7 +99,7 @@ int Server::Mode(std::string &input, Client& c) // input = channel +o username!
 					ClientIterator it = ch->channel_client.begin();
 					Client found_value = *it;
 					ch->channel_client.erase(it);
-					ch->channel_client.insert(ch->channel_client.end(), found_value);	
+					ch->channel_client.insert(ch->channel_client.end(), found_value);
 					std::cout << YELLOW << "+o NEW OPERATOR: " << ch->channel_client[0].nick << RESET << std::endl;
 					showRightGui(c, *ch);
 				}

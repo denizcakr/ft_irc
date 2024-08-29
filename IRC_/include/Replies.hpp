@@ -40,12 +40,14 @@
 #define ERR_NONICKNAMEGIVEN(source)					": 431 " + source + " " + ":No nickname given" + "\r\n"								//NICK
 #define ERR_NICKNAMEEMPTY(source)					": 433 " + source + " " + source  + " :Nickname cannot empty" + "\r\n"              //NICK
 #define RPL_NOTOPIC(nick, channel)					": 331 " + nick + " " + channel + " :No topic is set" + "\r\n"                      //TOPIC
-#define RPL_TOPICSETTABLE(nick, channel)				": 331 " + nick + " " + channel + " :Topic is settable now." + "\r\n"                      //TOPIC
+#define RPL_TOPICSETTABLE(nick, channel)			": 331 " + nick + " " + channel + " :Topic is settable now." + "\r\n"                      //TOPIC
 #define RPL_TOPICNOTSETTABLE(nick, channel)			": 331 " + nick + " " + channel + " :Topic is not settable anymore!" + "\r\n"                      //TOPIC
 #define ERR_TOPICNOTSETTABLE(nick, channel)			": 331 " + nick + " " + channel + " :Topic is not settable for participants, settable only by channel operator!" + "\r\n"                      //TOPIC
 #define ERR_ALREADYREGISTRED(source)				": 462 " + source + " :Already registered"+ "\r\n"
 #define ERR_NOSUCHNICK(source)						": 401 " + source + " :No such nick/channel" + "\r\n"                             //PRIVMSG
+// #define ERR_NOSUCHUSER(source)						": 402 " + source + " :No such user" + "\r\n"                                     //BOT
 #define ERR_CANNOTSENDTOCHAN(source)				": 404 " + source + " :Cannot send to channel" + "\r\n"                           //PRIVMSG
+// #define ERR_CANNOTSENDTOBOT(source)				    ": 405 " + source + " :Cannot send to Bot" + "\r\n"                           //PRIVMSG
 #define ERR_NOTEXTTOSEND(source)                    ": 412 " + source + " :No text to send" + "\r\n"
 #define ERR_NORECIPIENT(source)                     ": 411 " + source + " :No recipient given" + "\r\n"                 //PRIVMSG 
 #define ERR_USERNOTINCHANNEL(source, user, channel)	": 441 " + source + " " + user + " " + channel + " :They aren't on that channel" + "\r\n" //PRIVMSG

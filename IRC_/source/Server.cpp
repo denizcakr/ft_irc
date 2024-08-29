@@ -83,7 +83,7 @@ void Server::cmds_initialize(void)
     cmds["KICK"] = &Server::Kick;
     cmds["PART"] = &Server::Part;
     cmds["QUIT"] = &Server::Quit;
-
+    // cmds["BOT"] = &Server::Bot;
 }
 
 Server::~Server()
