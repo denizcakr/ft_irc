@@ -113,18 +113,40 @@ void Bot::execBot(void)
 void Bot::Analyzator(const std::string &message)
 {
 	std::string target = fromFirstSpace(message)[0];
+	target = target.substr(1);
 	std::cout << "Bot Target: " << target << std::endl;
-	std::cout << "Bot Analyzing: " << message << std::endl;
+	std::cout << "INCOMIN INPUT: " << message << std::endl;
 	if(message.find("PING") != std::string::npos)
 	{
 		std::cout << "Bot Ponging!" << std::endl;
-		std::string pong = "PRIVMSG usr1 PONG \r\n";
-		send(this->bot_fd, pong.c_str(), pong.size(), 0);
+		// std::string pong = "PRIVMSG usr1 PONG \r\n";
+		std::string msg = "PRIVMSG " + target + " PONG" + "\r\n";
+		send(this->bot_fd, msg.c_str(), msg.size(), 0);
 	}
 	else if(message.find("PRIVMSG") != std::string::npos)
 	{
-		std::string user = "PRIVMSG usr1 Wassup Mate!\r\n";
-		send(this->bot_fd, user.c_str(), user.size(), 0);
+		if(message.find("Hello") != std::string::npos)
+		{
+			std::string msg = "PRIVMSG " + target + " Wassup Mate!" + "\r\n";
+			send(this->bot_fd, msg.c_str(), msg.size(), 0);
+		}
+		if(message.find("Sassy") != std::string::npos)
+		{
+			std::string msg = "PRIVMSG " + target + " Wadiyatalkinabeet!" + "\r\n";
+			send(this->bot_fd, msg.c_str(), msg.size(), 0);
+		}
+		/* if(message.find("Date") != std::string::npos)
+		{
+			std::time_t currentTime = std::time(0);
+			char* dt = std::ctime(&currentTime);
+			std::string msg = "PRIVMSG " + target + (std::string)dt + "\r\n";
+			send(this->bot_fd, msg.c_str(), msg.size(), 0);
+		} */
+		if(message.find("Bye") != std::string::npos)
+		{
+			std::string msg = "PRIVMSG " + target + " See ya later!" + "\r\n";
+			send(this->bot_fd, msg.c_str(), msg.size(), 0);
+		}
 	}
 }
 
