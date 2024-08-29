@@ -118,8 +118,6 @@ void Bot::Analyzator(const std::string &message)
 	std::cout << "INCOMIN INPUT: " << message << std::endl;
 	if(message.find("PING") != std::string::npos)
 	{
-		std::cout << "Bot Ponging!" << std::endl;
-		// std::string pong = "PRIVMSG usr1 PONG \r\n";
 		std::string msg = "PRIVMSG " + target + " PONG" + "\r\n";
 		send(this->bot_fd, msg.c_str(), msg.size(), 0);
 	}
@@ -135,13 +133,14 @@ void Bot::Analyzator(const std::string &message)
 			std::string msg = "PRIVMSG " + target + " Wadiyatalkinabeet!" + "\r\n";
 			send(this->bot_fd, msg.c_str(), msg.size(), 0);
 		}
-		/* if(message.find("Date") != std::string::npos)
+		if(message.find("Date") != std::string::npos)
 		{
 			std::time_t currentTime = std::time(0);
 			char* dt = std::ctime(&currentTime);
-			std::string msg = "PRIVMSG " + target + (std::string)dt + "\r\n";
+			std::cout << "Current Date: " << dt << std::endl;
+			std::string msg = "PRIVMSG " + target + " " + (std::string)dt + "\r\n";
 			send(this->bot_fd, msg.c_str(), msg.size(), 0);
-		} */
+		}
 		if(message.find("Bye") != std::string::npos)
 		{
 			std::string msg = "PRIVMSG " + target + " See ya later!" + "\r\n";
