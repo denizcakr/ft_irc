@@ -34,8 +34,15 @@ int Server::Kick(std::string &input, Client& c)
     }
 
     bool userFound = false;
+
+    if(userToKick == c.nick){
+        Utilities::writeReply(c.cliFd, "You cannot kick yourself!\n");
+        return 0;
+    }
+
     for (ClientIterator it2 = ch->channel_client.begin(); it2 != ch->channel_client.end(); ++it2)
     {
+
         if (it2->nick == userToKick)
         {
             userFound = true;

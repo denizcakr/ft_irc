@@ -20,7 +20,7 @@ int Server::Join(std::string &cmd, Client& c)
 		ch_key = splitResult[1];
 	}
 	
-	if(c.user.empty() && c.nick.empty()){
+	if(c.user.empty() || c.nick.empty()){
 		Utilities::writeReply(c.cliFd, "ERROR: You must enter a username and a nickname first!\n");
 		return 0;
 	}
